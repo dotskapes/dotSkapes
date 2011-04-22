@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/scripts/ext/resources/css/ext-all.css" />
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/ext/adapter/ext/ext-base.js"></script>
+<script src="/{{=request.application}}/static/scripts/ext/ext-all.js" type="text/javascript"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/OpenLayers/OpenLayers.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/GeoExt/lib/GeoExt.js"></script>
+<script language="javascript" type="text/javascript" src="/{{=request.application}}/static/scripts/edit_area/edit_area_full.js"></script>
+<script type="text/javascript">
+    var geoserver_url = '{{=geoserver.url}}';
+    var app = '{{=request.application}}';
+</script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/hs_base.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/map_panel.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/tool_panel.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side_panel.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/data_panel.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/dev_window.js"></script>
+
+<script type="text/javascript">
+    window.addEventListener ('load', function () {
+
+	
+    if (!('console' in window)) {
+	console = {
+	    log: function () {},
+	    err: function () {},
+	};
+    }
+
+    var mapTab = new hs.map.Panel ({
+	title: 'Map',
+	region: 'center',
+    });
+
+    var diseasePages = new hs.data.Panel ({
+	title: 'Data',
+	region: 'center',
+	layout: 'border',
+    });
+
+    {{if side_bar:}}
+
+    var saved_maps = new hs.side.MapPanel ({{response.write (maps_saved, escape = False)}});
+    saved_maps.linkMap (mapTab);
+
+    var tool_list = new hs.side.ToolPanel ({{response.write (tool_list, escape = False)}});
+
+    var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
+
+    var saved_analyses = new hs.side.AnalysisPanel ({{response.write (tool_saved_analyses, escape = False)}});
+
+    {{ else: }}
+
+    var tool_list = null;
+    var saved_results = null;
+    var saved_analyses = null;
+
+    {{ pass }}
+
+    {{ if dev_tools: }}
+    var devtools = new hs.side.DevPanel ({{response.write (in_dev, escape = False)}});
+    {{ pass }}
+
+    var sidePanel = new Ext.Panel ({
+        title: 'Controls',
+	//collapsible: true,
+	width: 250,
+	region: 'west',
+        items: [
+	    {{ if not side_bar: }}{
+		xtype: 'panel',
+		html: '<div style="text-align: center;"><a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or <a href="{{=URL (a=request.application, c='default', f='user', args=['login'])}}">Login</a> to activate this panel</div>',
+		border: false,
+		padding: 10,
+            },{{else:}}
+	    {
+		xtype: 'panel',
+		html: '<div><a href="{{=URL (a=request.application, c='default', f='user', args=['logout'])}}">Logout</a></div>',
+		border: false,
+		padding: 10,
+            },
+            {{pass}}
+            {{ if side_bar: }}saved_maps,
+            {{ if dev_tools: }}devtools,{{pass}}
+            tool_list,
+            saved_results,
+            saved_analyses,{{pass}}
+        ],
+    });
+
+    var toolTab = new hs.tool.Panel (saved_results, saved_analyses);
+
+    /*var mapTab = new Ext.Panel ({
+	title: 'Map',
+	region: 'center',
+    });*/
+
+    var tabPanel = new Ext.TabPanel ({
+        activeTab: 0,
+	layoutOnChange: true,
+	region: 'center',
+	items: [
+	    mapTab,
+            diseasePages,
+            toolTab,
+        ],
+    });
+
+    {{if side_bar:}}
+    saved_analyses.setToolPanel (toolTab, tabPanel, 2);
+    tool_list.setToolPanel (toolTab, tabPanel, 2);    
+    {{pass}}
+    {{ if dev_tools: }}
+    devtools.setToolPanel (toolTab, tabPanel, 2);
+    devtools.setToolSide (tool_list);
+    tool_list.setDevSide (devtools);
+    {{pass}}
+
+    win = new Ext.Window({
+        title: 'Healthscapes v0.3',
+        layoutOnChange: true,
+        //collapsible: false,
+        maximizable: true,
+        maximized:   true,
+        titleCollapse: true,
+        layout: 'border',
+        id: 'main_window',
+        items:  [
+	    sidePanel,
+            tabPanel, 
+        ],
+    });
+    win.show ();
+    win.toBack();
+    win.tools.close.hide();
+    win.tools.restore.hide();
+
+    }, false);
+</script>
+</head>
+<body>
+</body>
+</html>

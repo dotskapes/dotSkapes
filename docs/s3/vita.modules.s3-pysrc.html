@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>vita.modules.s3</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >S3</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;vita ::
+        Package&nbsp;modules ::
+        Package&nbsp;s3
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="vita.modules.s3-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="vita.modules.s3-module.html">Package vita.modules.s3</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment"># -*- coding: utf-8 -*-</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring">""" S3 Framework Extensions for web2py</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-docstring">    This package is loaded in models/000_1st_run.py as "s3base",</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-docstring">    this namespace can be used to access all S3 classes, e.g.::</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">        s3base.S3Resource()</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring">    @see: U{B{I{S3 Developer Guidelines}} &lt;http://eden.sahanafoundation.org/wiki/DeveloperGuidelinesS3&gt;}</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-docstring">    @requires: U{B{I{gluon}} &lt;http://web2py.com&gt;}</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-docstring">    @author: Fran Boon &lt;francisboon[at]gmail.com&gt;</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-docstring">    @author: Dominic K&#246;nig &lt;dominic[at]aidiq.com&gt;</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">    @copyright: 2009-2010 (c) Sahana Software Foundation</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-docstring">    @license: MIT</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-docstring">    Permission is hereby granted, free of charge, to any person</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-docstring">    obtaining a copy of this software and associated documentation</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt class="py-docstring">    files (the "Software"), to deal in the Software without</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"><tt class="py-docstring">    restriction, including without limitation the rights to use,</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"><tt class="py-docstring">    copy, modify, merge, publish, distribute, sublicense, and/or sell</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"><tt class="py-docstring">    copies of the Software, and to permit persons to whom the</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt class="py-docstring">    Software is furnished to do so, subject to the following</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"><tt class="py-docstring">    conditions:</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line"><tt class="py-docstring">    The above copyright notice and this permission notice shall be</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"><tt class="py-docstring">    included in all copies or substantial portions of the Software.</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"><tt class="py-docstring">    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt class="py-docstring">    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"><tt class="py-docstring">    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"><tt class="py-docstring">    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line"><tt class="py-docstring">    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line"><tt class="py-docstring">    WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line"><tt class="py-docstring">    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line"><tt class="py-docstring">    OTHER DEALINGS IN THE SOFTWARE.</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"><tt class="py-comment"># Import all names from the S3 modules that shall be accessible</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line"><tt class="py-comment"># under the s3base namespace:</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"><tt class="py-comment"># Basic Tools</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Module vita.modules.s3.s3tools=vita.modules.s3.s3tools-module.html"><a title="vita.modules.s3.s3tools" class="py-name" href="#" onclick="return doclink('link-0', 's3tools', 'link-0');">s3tools</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line"> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line"><tt class="py-comment"># Deployment Settings</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Module vita.modules.s3.s3cfg=vita.modules.s3.s3cfg-module.html"><a title="vita.modules.s3.s3cfg" class="py-name" href="#" onclick="return doclink('link-1', 's3cfg', 'link-1');">s3cfg</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"><tt class="py-comment"># Authentication, Authorization, Accounting</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Module vita.modules.s3.s3aaa=vita.modules.s3.s3aaa-module.html"><a title="vita.modules.s3.s3aaa" class="py-name" href="#" onclick="return doclink('link-2', 's3aaa', 'link-2');">s3aaa</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line"> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line"><tt class="py-comment"># Utilities, Validators and Widgets</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line"><tt class="py-comment"># These names are also imported into the global namespace in</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line"><tt class="py-comment"># 00_db.py in order to access them without the s3base prefix:</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-3" class="py-name" targets="Module vita.modules.s3.s3utils=vita.modules.s3.s3utils-module.html"><a title="vita.modules.s3.s3utils" class="py-name" href="#" onclick="return doclink('link-3', 's3utils', 'link-3');">s3utils</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name" targets="Module vita.modules.s3.s3validators=vita.modules.s3.s3validators-module.html"><a title="vita.modules.s3.s3validators" class="py-name" href="#" onclick="return doclink('link-4', 's3validators', 'link-4');">s3validators</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-5" class="py-name" targets="Module vita.modules.s3.s3widgets=vita.modules.s3.s3widgets-module.html"><a title="vita.modules.s3.s3widgets" class="py-name" href="#" onclick="return doclink('link-5', 's3widgets', 'link-5');">s3widgets</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line"> </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line"><tt class="py-comment"># Test framework (currently unused)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line"><tt class="py-comment">#from s3test import *</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line"> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line"><tt class="py-comment"># Resource API</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-6" class="py-name" targets="Module vita.modules.s3.s3xrc=vita.modules.s3.s3xrc-module.html"><a title="vita.modules.s3.s3xrc" class="py-name" href="#" onclick="return doclink('link-6', 's3xrc', 'link-6');">s3xrc</a></tt> <tt class="py-keyword">import</tt> <tt id="link-7" class="py-name" targets="Class vita.modules.s3.s3xrc.S3ResourceController=vita.modules.s3.s3xrc.S3ResourceController-class.html"><a title="vita.modules.s3.s3xrc.S3ResourceController" class="py-name" href="#" onclick="return doclink('link-7', 'S3ResourceController', 'link-7');">S3ResourceController</a></tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-8" class="py-name" targets="Module vita.modules.s3.s3rest=vita.modules.s3.s3rest-module.html"><a title="vita.modules.s3.s3rest" class="py-name" href="#" onclick="return doclink('link-8', 's3rest', 'link-8');">s3rest</a></tt> <tt class="py-keyword">import</tt> <tt id="link-9" class="py-name" targets="Class vita.modules.s3.s3rest.S3Resource=vita.modules.s3.s3rest.S3Resource-class.html"><a title="vita.modules.s3.s3rest.S3Resource" class="py-name" href="#" onclick="return doclink('link-9', 'S3Resource', 'link-9');">S3Resource</a></tt><tt class="py-op">,</tt> <tt id="link-10" class="py-name" targets="Class vita.modules.s3.s3rest.S3Method=vita.modules.s3.s3rest.S3Method-class.html"><a title="vita.modules.s3.s3rest.S3Method" class="py-name" href="#" onclick="return doclink('link-10', 'S3Method', 'link-10');">S3Method</a></tt> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line"> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line"><tt class="py-comment"># RESTful Methods</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-11" class="py-name" targets="Module vita.modules.s3.s3crud=vita.modules.s3.s3crud-module.html"><a title="vita.modules.s3.s3crud" class="py-name" href="#" onclick="return doclink('link-11', 's3crud', 'link-11');">s3crud</a></tt> <tt class="py-keyword">import</tt> <tt id="link-12" class="py-name" targets="Class vita.modules.s3.s3crud.S3CRUD=vita.modules.s3.s3crud.S3CRUD-class.html"><a title="vita.modules.s3.s3crud.S3CRUD" class="py-name" href="#" onclick="return doclink('link-12', 'S3CRUD', 'link-12');">S3CRUD</a></tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-13" class="py-name" targets="Module vita.modules.s3.s3search=vita.modules.s3.s3search-module.html"><a title="vita.modules.s3.s3search" class="py-name" href="#" onclick="return doclink('link-13', 's3search', 'link-13');">s3search</a></tt> <tt class="py-keyword">import</tt> <tt id="link-14" class="py-name" targets="Class vita.modules.s3.s3search.S3Search=vita.modules.s3.s3search.S3Search-class.html"><a title="vita.modules.s3.s3search.S3Search" class="py-name" href="#" onclick="return doclink('link-14', 'S3Search', 'link-14');">S3Search</a></tt><tt class="py-op">,</tt> <tt id="link-15" class="py-name" targets="Class vita.modules.s3.s3search.S3LocationSearch=vita.modules.s3.s3search.S3LocationSearch-class.html"><a title="vita.modules.s3.s3search.S3LocationSearch" class="py-name" href="#" onclick="return doclink('link-15', 'S3LocationSearch', 'link-15');">S3LocationSearch</a></tt><tt class="py-op">,</tt> <tt id="link-16" class="py-name" targets="Class vita.modules.s3.s3search.S3PersonSearch=vita.modules.s3.s3search.S3PersonSearch-class.html"><a title="vita.modules.s3.s3search.S3PersonSearch" class="py-name" href="#" onclick="return doclink('link-16', 'S3PersonSearch', 'link-16');">S3PersonSearch</a></tt><tt class="py-op">,</tt> <tt id="link-17" class="py-name" targets="Class vita.modules.s3.s3search.S3SearchSimple=vita.modules.s3.s3search.S3SearchSimple-class.html"><a title="vita.modules.s3.s3search.S3SearchSimple" class="py-name" href="#" onclick="return doclink('link-17', 'S3SearchSimple', 'link-17');">S3SearchSimple</a></tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line"> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line"><tt class="py-comment"># GIS Mapping</tt> </tt>
+<a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-18" class="py-name" targets="Module vita.modules.s3.s3gis=vita.modules.s3.s3gis-module.html"><a title="vita.modules.s3.s3gis" class="py-name" href="#" onclick="return doclink('link-18', 's3gis', 'link-18');">s3gis</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line"> </tt>
+<a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line"><tt class="py-comment"># Messaging</tt> </tt>
+<a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-19" class="py-name" targets="Module vita.modules.s3.s3msg=vita.modules.s3.s3msg-module.html"><a title="vita.modules.s3.s3msg" class="py-name" href="#" onclick="return doclink('link-19', 's3msg', 'link-19');">s3msg</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L78"></a><tt class="py-lineno">78</tt>  <tt class="py-line"> </tt>
+<a name="L79"></a><tt class="py-lineno">79</tt>  <tt class="py-line"><tt class="py-comment"># VITA Person Data Toolkit</tt> </tt>
+<a name="L80"></a><tt class="py-lineno">80</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-20" class="py-name" targets="Module vita.modules.s3.s3vita=vita.modules.s3.s3vita-module.html"><a title="vita.modules.s3.s3vita" class="py-name" href="#" onclick="return doclink('link-20', 's3vita', 'link-20');">s3vita</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L81"></a><tt class="py-lineno">81</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >S3</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Jan 17 00:32:30 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

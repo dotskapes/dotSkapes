@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>vita.modules.s3.s3export.S3Exporter</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="vita.modules.s3-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >S3</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;vita ::
+        Package&nbsp;modules ::
+        <a href="vita.modules.s3-module.html">Package&nbsp;s3</a> ::
+        <a href="vita.modules.s3.s3export-module.html">Module&nbsp;s3export</a> ::
+        Class&nbsp;S3Exporter
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="vita.modules.s3.s3export.S3Exporter-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class S3Exporter</h1><p class="nomargin-top"><span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+object --+
+         |
+        <strong class="uidshort">S3Exporter</strong>
+</pre>
+
+<hr />
+<p>Exporter toolkit</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3export.S3Exporter-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">manager</span>)</span><br />
+      Constructor</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3export.S3Exporter-class.html#xml" class="summary-sig-name">xml</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">resource</span>,
+        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">marker</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">msince</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">show_urls</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">dereference</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">template</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">as_json</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">pretty_print</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**args</span>)</span><br />
+      Export a resource as S3XML</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.xml">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3export.S3Exporter-class.html#csv" class="summary-sig-name">csv</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">resource</span>)</span><br />
+      Export resource as CSV (does not include components)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.csv">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3export.S3Exporter-class.html#pdf" class="summary-sig-name">pdf</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">resource</span>,
+        <span class="summary-sig-arg">list_fields</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Export a resource as Adobe PDF (does not include components!)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.pdf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3export.S3Exporter-class.html#xls" class="summary-sig-name">xls</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">resource</span>,
+        <span class="summary-sig-arg">list_fields</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Export a resource as Microsoft Excel spreadsheet</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.xls">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3export.S3Exporter-class.html#json" class="summary-sig-name">json</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">resource</span>,
+        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">fields</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">orderby</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Export a resource as JSON</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.json">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">manager</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Constructor</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>manager</code></strong> - the S3ResourceController</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>To Do (2.3):</strong>
+        error message completion
+      </p>
+</div></td></tr></table>
+</div>
+<a name="xml"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">xml</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">resource</span>,
+        <span class="sig-arg">start</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">marker</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">msince</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">show_urls</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">dereference</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">template</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">as_json</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">pretty_print</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.xml">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Export a resource as S3XML</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>resource</code></strong> - the resource</li>
+        <li><strong class="pname"><code>start</code></strong> - index of the first record to export (slicing)</li>
+        <li><strong class="pname"><code>limit</code></strong> - maximum number of records to export (slicing)</li>
+        <li><strong class="pname"><code>marker</code></strong> - URL of the default map marker</li>
+        <li><strong class="pname"><code>msince</code></strong> - export only records which have been modified after this datetime</li>
+        <li><strong class="pname"><code>show_urls</code></strong> - add the resource URLs as attribute to &lt;resource&gt; elements</li>
+        <li><strong class="pname"><code>dereference</code></strong> - include referenced resources</li>
+        <li><strong class="pname"><code>template</code></strong> - path to the XSLT stylesheet (if required)</li>
+        <li><strong class="pname"><code>as_json</code></strong> - represent the XML tree as JSON</li>
+        <li><strong class="pname"><code>pretty_print</code></strong> - insert newlines/indentation in the output</li>
+        <li><strong class="pname"><code>args</code></strong> - dict of arguments to pass to the XSLT stylesheet</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="csv"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">csv</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">resource</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.csv">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Export resource as CSV (does not include components)</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>resource</code></strong> - the resource to export</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        export does not include components!
+      </p>
+      <p><strong>To Do:</strong>
+        implement audit
+      </p>
+</div></td></tr></table>
+</div>
+<a name="pdf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">pdf</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">resource</span>,
+        <span class="sig-arg">list_fields</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.pdf">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Export a resource as Adobe PDF (does not include components!)</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>resource</code></strong> - the resource</li>
+        <li><strong class="pname"><code>list_fields</code></strong> - fields to include in list views</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        export does not include components!
+      </p>
+      <strong>To Do (2.3):</strong>
+      <ul class="nomargin-top">
+        <li>
+        fix error messages
+        </li>
+        <li>
+        do not redirect
+        </li>
+        <li>
+        PEP-8
+        </li>
+        <li>
+        test this!
+        </li>
+      </ul>
+      <p><strong>To Do:</strong>
+        implement audit
+      </p>
+</div></td></tr></table>
+</div>
+<a name="xls"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">xls</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">resource</span>,
+        <span class="sig-arg">list_fields</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.xls">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Export a resource as Microsoft Excel spreadsheet</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>resource</code></strong> - the resource</li>
+        <li><strong class="pname"><code>list_fields</code></strong> - fields to include in list views</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        export does not include components!
+      </p>
+      <strong>To Do (2.3):</strong>
+      <ul class="nomargin-top">
+        <li>
+        PEP-8
+        </li>
+        <li>
+        implement audit
+        </li>
+        <li>
+        use S3Resource.readable_fields
+        </li>
+        <li>
+        use separate export_fields instead of list_fields
+        </li>
+      </ul>
+</div></td></tr></table>
+</div>
+<a name="json"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">json</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">resource</span>,
+        <span class="sig-arg">start</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">fields</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">orderby</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3export-pysrc.html#S3Exporter.json">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Export a resource as JSON</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>resource</code></strong> - the resource to export</li>
+        <li><strong class="pname"><code>start</code></strong> - index of the first record to export (for slicing)</li>
+        <li><strong class="pname"><code>limit</code></strong> - maximum number of records to export (for slicing)</li>
+        <li><strong class="pname"><code>fields</code></strong> - fields to include in the export (None for all fields)</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        export does not include components!
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="vita.modules.s3-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >S3</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Jan 17 00:32:28 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>vita.modules.s3.s3aaa.AuthS3</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="vita.modules.s3-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >S3</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;vita ::
+        Package&nbsp;modules ::
+        <a href="vita.modules.s3-module.html">Package&nbsp;s3</a> ::
+        <a href="vita.modules.s3.s3aaa-module.html">Module&nbsp;s3aaa</a> ::
+        Class&nbsp;AuthS3
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="vita.modules.s3.s3aaa.AuthS3-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class AuthS3</h1><p class="nomargin-top"><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+gluon.tools.Auth --+
+                   |
+                  <strong class="uidshort">AuthS3</strong>
+</pre>
+
+<hr />
+<p>S3 extensions of the gluon.tools.Auth class</p>
+  <ul>
+    <li>
+      override: define_tables() login() register() requires_membership()
+    </li>
+    <li>
+      add: s3_has_role() s3_has_permission() s3_logged_in() 
+      s3_accessible_query() s3_register() callback s3_link_to_person()
+    </li>
+    <li>
+      language
+    </li>
+  </ul>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">environment</span>,
+        <span class="summary-sig-arg">deployment_settings</span>,
+        <span class="summary-sig-arg">db</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Initialise parent class &amp; make any necessary modifications</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#__get_migrate" class="summary-sig-name" onclick="show_private();">__get_migrate</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tablename</span>,
+        <span class="summary-sig-arg">migrate</span>=<span class="summary-sig-default">True</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.__get_migrate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#define_tables" class="summary-sig-name">define_tables</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">migrate</span>=<span class="summary-sig-default">True</span>)</span><br />
+      to be called unless tables are defined manually</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.define_tables">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#login_bare" class="summary-sig-name">login_bare</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">username</span>,
+        <span class="summary-sig-arg">password</span>)</span><br />
+      Logins user</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.login_bare">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#login" class="summary-sig-name">login</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">next</span>=<span class="summary-sig-default">DEFAULT</span>,
+        <span class="summary-sig-arg">onvalidation</span>=<span class="summary-sig-default">DEFAULT</span>,
+        <span class="summary-sig-arg">onaccept</span>=<span class="summary-sig-default">DEFAULT</span>,
+        <span class="summary-sig-arg">log</span>=<span class="summary-sig-default">DEFAULT</span>)</span><br />
+      Overrides Web2Py's login() to use custom flash styles &amp; utcnow</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.login">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#register" class="summary-sig-name">register</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">next</span>=<span class="summary-sig-default">DEFAULT</span>,
+        <span class="summary-sig-arg">onvalidation</span>=<span class="summary-sig-default">DEFAULT</span>,
+        <span class="summary-sig-arg">onaccept</span>=<span class="summary-sig-default">DEFAULT</span>,
+        <span class="summary-sig-arg">log</span>=<span class="summary-sig-default">DEFAULT</span>)</span><br />
+      Overrides Web2Py's register() to add new functionality:</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.register">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_logged_in" class="summary-sig-name">s3_logged_in</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Check whether the user is currently logged-in</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_logged_in">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_has_role" class="summary-sig-name">s3_has_role</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">role</span>)</span><br />
+      Check whether the currently logged-in user has a role</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_has_role">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_has_permission" class="summary-sig-name">s3_has_permission</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">method</span>,
+        <span class="summary-sig-arg">table</span>,
+        <span class="summary-sig-arg">record_id</span>=<span class="summary-sig-default">0</span>)</span><br />
+      S3 framework function to define whether a user can access a record in
+      manner &quot;method&quot; Designed to be called from the RESTlike 
+      controller</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_has_permission">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_accessible_query" class="summary-sig-name">s3_accessible_query</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">method</span>,
+        <span class="summary-sig-arg">table</span>)</span><br />
+      Returns a query with all accessible records for the current logged in
+      user</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_accessible_query">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_register" class="summary-sig-name">s3_register</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">form</span>)</span><br />
+      S3 framework function</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_register">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_has_membership" class="summary-sig-name">s3_has_membership</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">group_id</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">user_id</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">role</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Checks if user is member of group_id or role</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_has_membership">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#has_membership" class="summary-sig-name">has_membership</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">group_id</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">user_id</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">role</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Checks if user is member of group_id or role</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_has_membership">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_requires_membership" class="summary-sig-name">s3_requires_membership</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">role</span>)</span><br />
+      Decorator that prevents access to action if not logged in or if user 
+      logged in is not a member of group_id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_requires_membership">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#requires_membership" class="summary-sig-name">requires_membership</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">role</span>)</span><br />
+      Decorator that prevents access to action if not logged in or if user 
+      logged in is not a member of group_id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_requires_membership">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_link_to_person" class="summary-sig-name">s3_link_to_person</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">user</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Links user accounts to person registry entries</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_link_to_person">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_create_role" class="summary-sig-name">s3_create_role</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">role</span>,
+        <span class="summary-sig-arg">description</span>,
+        <span class="summary-sig-arg">*acls</span>)</span><br />
+      Back-end method to create roles with ACLs</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_create_role">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="vita.modules.s3.s3aaa.AuthS3-class.html#s3_update_acl" class="summary-sig-name">s3_update_acl</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">role</span>,
+        <span class="summary-sig-arg">c</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">t</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">oacl</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">uacl</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Back-end method to update an ACL</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_update_acl">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">environment</span>,
+        <span class="sig-arg">deployment_settings</span>,
+        <span class="sig-arg">db</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Initialise parent class &amp; make any necessary modifications</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="__get_migrate"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__get_migrate</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">tablename</span>,
+        <span class="sig-arg">migrate</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.__get_migrate">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="define_tables"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">define_tables</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">migrate</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.define_tables">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>to be called unless tables are defined manually</p>
+  <p>usages:</p>
+<pre class="literalblock">
+   # defines all needed tables and table files
+   # UUID + &quot;_auth_user.table&quot;, ...
+   auth.define_tables()
+
+   # defines all needed tables and table files
+   # &quot;myprefix_auth_user.table&quot;, ...
+   auth.define_tables(migrate=&quot;myprefix_&quot;)
+
+   # defines all needed tables without migration/table files
+   auth.define_tables(migrate=False)
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="login_bare"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">login_bare</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">username</span>,
+        <span class="sig-arg">password</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.login_bare">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Logins user</p>
+  <ul>
+    <li>
+      extended to understand session.s3.roles
+    </li>
+  </ul>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="login"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">login</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">next</span>=<span class="sig-default">DEFAULT</span>,
+        <span class="sig-arg">onvalidation</span>=<span class="sig-default">DEFAULT</span>,
+        <span class="sig-arg">onaccept</span>=<span class="sig-default">DEFAULT</span>,
+        <span class="sig-arg">log</span>=<span class="sig-default">DEFAULT</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.login">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Overrides Web2Py's login() to use custom flash styles &amp; utcnow</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>a login form</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="register"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">register</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">next</span>=<span class="sig-default">DEFAULT</span>,
+        <span class="sig-arg">onvalidation</span>=<span class="sig-default">DEFAULT</span>,
+        <span class="sig-arg">onaccept</span>=<span class="sig-default">DEFAULT</span>,
+        <span class="sig-arg">log</span>=<span class="sig-default">DEFAULT</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.register">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Overrides Web2Py's register() to add new functionality:</p>
+  <ul>
+    <li>
+      Checks whether registration is permitted
+    </li>
+    <li>
+      Custom Flash styles
+    </li>
+    <li>
+      utcnow
+    </li>
+    <li>
+      Allow form to be embedded in other pages
+    </li>
+  </ul>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>a registration form</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="s3_logged_in"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_logged_in</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_logged_in">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether the user is currently logged-in</p>
+  <ul>
+    <li>
+      tries Basic if not
+    </li>
+  </ul>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="s3_has_role"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_has_role</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">role</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_has_role">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether the currently logged-in user has a role</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>role</code></strong> - can be integer or a name</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="s3_has_permission"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_has_permission</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">method</span>,
+        <span class="sig-arg">table</span>,
+        <span class="sig-arg">record_id</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_has_permission">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>S3 framework function to define whether a user can access a record in 
+  manner &quot;method&quot; Designed to be called from the RESTlike 
+  controller</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>table</code></strong> - the table or tablename</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This is planned to be rewritten: 
+        http://eden.sahanafoundation.org/wiki/BluePrintAuthorization
+      </p>
+</div></td></tr></table>
+</div>
+<a name="s3_accessible_query"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_accessible_query</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">method</span>,
+        <span class="sig-arg">table</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_accessible_query">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns a query with all accessible records for the current logged in 
+  user</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This method does not work on GAE because it uses JOIN and IN
+      </p>
+</div></td></tr></table>
+</div>
+<a name="s3_register"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_register</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">form</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_register">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>S3 framework function</p>
+  <p>Designed to be used as an onaccept callback for register()</p>
+  <p>Whenever someone registers, it:</p>
+  <ul>
+    <li>
+      adds them to the 'Authenticated' role
+    </li>
+    <li>
+      adds their name to the Person Registry
+    </li>
+  </ul>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="s3_has_membership"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_has_membership</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">group_id</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">user_id</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">role</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_has_membership">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Checks if user is member of group_id or role</p>
+  <p>Extends Web2Py's requires_membership() to add new functionality:</p>
+  <ul>
+    <li>
+      Custom Flash style
+    </li>
+    <li>
+      Uses s3_has_role()
+    </li>
+  </ul>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="has_membership"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">has_membership</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">group_id</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">user_id</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">role</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_has_membership">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Checks if user is member of group_id or role</p>
+  <p>Extends Web2Py's requires_membership() to add new functionality:</p>
+  <ul>
+    <li>
+      Custom Flash style
+    </li>
+    <li>
+      Uses s3_has_role()
+    </li>
+  </ul>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="s3_requires_membership"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_requires_membership</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">role</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_requires_membership">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator that prevents access to action if not logged in or if user 
+  logged in is not a member of group_id. If role is provided instead of 
+  group_id then the group_id is calculated.</p>
+  <p>Extends Web2Py's requires_membership() to add new functionality:</p>
+  <ul>
+    <li>
+      Custom Flash style
+    </li>
+    <li>
+      Uses s3_has_role()
+    </li>
+    <li>
+      Administrators (id=1) are deemed to have all roles
+    </li>
+  </ul>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="requires_membership"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">requires_membership</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">role</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_requires_membership">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator that prevents access to action if not logged in or if user 
+  logged in is not a member of group_id. If role is provided instead of 
+  group_id then the group_id is calculated.</p>
+  <p>Extends Web2Py's requires_membership() to add new functionality:</p>
+  <ul>
+    <li>
+      Custom Flash style
+    </li>
+    <li>
+      Uses s3_has_role()
+    </li>
+    <li>
+      Administrators (id=1) are deemed to have all roles
+    </li>
+  </ul>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="s3_link_to_person"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_link_to_person</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">user</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_link_to_person">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Links user accounts to person registry entries</p>
+  <p>Policy for linking to pre-existing person records:</p>
+  <p>If and only if:</p>
+  <ul>
+    <li>
+      a person record with exactly the same first name and last name 
+      exists, which has a contact information record with exactly the same 
+      email address as used in the user account, and which is not linked to
+      another user account, then this person record will be linked to this 
+      user account,
+    </li>
+  </ul>
+  <p>otherwise:</p>
+  <ul>
+    <li>
+      a new person record is created, and a new email contact record with 
+      the email address from the user record is registered for that person
+    </li>
+  </ul>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="s3_create_role"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_create_role</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">role</span>,
+        <span class="sig-arg">description</span>,
+        <span class="sig-arg">*acls</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_create_role">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Back-end method to create roles with ACLs</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="s3_update_acl"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">s3_update_acl</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">role</span>,
+        <span class="sig-arg">c</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">t</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">oacl</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">uacl</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="vita.modules.s3.s3aaa-pysrc.html#AuthS3.s3_update_acl">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Back-end method to update an ACL</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="vita.modules.s3-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >S3</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Jan 17 00:32:28 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
