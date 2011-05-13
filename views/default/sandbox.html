@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/scripts/ext/resources/css/ext-all.css" />
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/ext/adapter/ext/ext-base.js"></script>
 <script src="/{{=request.application}}/static/scripts/ext/ext-all.js" type="text/javascript"></script>
+<!--<script src="/{{=request.application}}/static/scripts/ext/bootstrap.js" type="text/javascript"></script>-->
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/OpenLayers/OpenLayers.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/GeoExt/lib/GeoExt.js"></script>
 <script language="javascript" type="text/javascript" src="/{{=request.application}}/static/scripts/edit_area/edit_area_full.js"></script>
@@ -13,12 +14,11 @@
     var dev = {{if dev_tools: }}true {{else:}} false {{pass}};
 </script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/hs_base.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/scripts/grid.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/scripts/tree.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/map_panel.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/tool_panel.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side_panel.js"></script>
+<!--script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side_panel.js"></script>-->
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/data_panel.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/dev_window.js"></script>
 
 <script type="text/javascript">
@@ -37,22 +37,18 @@
 	region: 'center',
     });
 
-    var diseasePages = new hs.data.Panel ({
+    /*var diseasePages = new hs.data.Panel ({
 	title: 'Data',
 	region: 'center',
 	layout: 'border',
-    });
+    });*/
 
     {{if side_bar:}}
 
-    var saved_maps = new hs.side.MapPanel ({{response.write (maps_saved, escape = False)}});
-    saved_maps.linkMap (mapTab);
-
-    var tool_list = new hs.side.ToolPanel ({{response.write (tool_list, escape = False)}});
-
-    var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
-
-    var saved_analyses = new hs.side.AnalysisPanel ({{response.write (tool_saved_analyses, escape = False)}});
+	var tool_list = new hs.tree.Panel ({
+	    datatype: 'tools',
+	    load_user: true,
+	});
 
     {{ else: }}
 
@@ -63,12 +59,11 @@
     {{ pass }}
 
     {{ if dev_tools: }}
-    var devtools = new hs.side.DevPanel ({{response.write (in_dev, escape = False)}});
-    {{ pass }}
-
-	var findPanel = new hs.find.Panel ({
-	    title: 'Find',
+	var devtools = new hs.tree.Panel ({
+	    datatype: 'dev_tools',
+	    load_user: true,
 	});
+    {{ pass }}
 
     var sidePanel = new Ext.Panel ({
         title: 'Controls',
@@ -89,46 +84,39 @@
 		padding: 10,
             },
             {{pass}}
-            {{ if side_bar: }}saved_maps,
+            {{ if side_bar: }}
             {{ if dev_tools: }}devtools,{{pass}}
             tool_list,
-            saved_results,
-            saved_analyses,{{pass}}
+            {{pass}}
         ],
     });
 
-    var toolTab = new hs.tool.Panel (saved_results, saved_analyses);
+    //var toolTab = new hs.tool.Panel (saved_results, saved_analyses);
 
     /*var mapTab = new Ext.Panel ({
 	title: 'Map',
 	region: 'center',
     });*/
 
-    var welcomeTab = new hs.util.IFramePanel ({
-	title: 'Main',
-    }, '/{{= request.application }}/splash/');
-
     var tabPanel = new Ext.TabPanel ({
         activeTab: 0,
 	layoutOnChange: true,
 	region: 'center',
 	items: [
-	    welcomeTab,
 	    mapTab,
-            diseasePages,
-	    findPanel,
-            toolTab,
+            //diseasePages,
+            //toolTab,
         ],
     });
 
     {{if side_bar:}}
-    saved_analyses.setToolPanel (toolTab, tabPanel, 3);
-    tool_list.setToolPanel (toolTab, tabPanel, 3);    
+    //saved_analyses.setToolPanel (toolTab, tabPanel, 2);
+    //tool_list.setToolPanel (toolTab, tabPanel, 2);    
     {{pass}}
     {{ if dev_tools: }}
-    devtools.setToolPanel (toolTab, tabPanel, 3);
-    devtools.setToolSide (tool_list);
-    tool_list.setDevSide (devtools);
+    //devtools.setToolPanel (toolTab, tabPanel, 2);
+    //devtools.setToolSide (tool_list);
+    //tool_list.setDevSide (devtools);
     {{pass}}
 
     win = new Ext.Window({

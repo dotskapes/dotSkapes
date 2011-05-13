@@ -10,8 +10,8 @@ hs.map = {
 	    this.addMap = function (node) {
 		var map = mapPanel.getMap ();
 		if (!(node.filename in layers)) {
-		    /*layers[node.filename] = new OpenLayers.Layer.WMS (
-			"Brazil",
+		    layers[node.filename] = new OpenLayers.Layer.WMS (
+			"Map",
 			geoserver_url + '/wms',
 			{
 			    layers: node.filename,
@@ -23,9 +23,8 @@ hs.map = {
 			    isBaseLayer: false,
 			    displayOutsideMaxExtent: true,
 			}
-		    );*/
-		    console.log (node);
-		    layers[node.filename] = new OpenLayers.Layer.Vector (null, {
+		    );
+		    /*layers[node.filename] = new OpenLayers.Layer.Vector (null, {
 			projection: 'EPSG:4326',
 			strategies: [new OpenLayers.Strategy.Fixed()],
 			protocol: new OpenLayers.Protocol.WFS.v1_1_0 ({
@@ -33,7 +32,7 @@ hs.map = {
 			    featureType: node.filename,
 			    featurePrefix: node.prefix,
 			}),
-		    });
+		    });*/
 		}
 		map.addLayer (layers[node.filename]);
 	    };

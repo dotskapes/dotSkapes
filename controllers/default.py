@@ -6,9 +6,9 @@ def index():
     output = {}
     output.update ({'geoserver': deployment_settings.geoserver})
     if user_id:
-        output.update ({'side_bar': True, 'tool_list': load_tools (), 'tool_saved_results': load_results (user_id), 'tool_saved_analyses': load_analyses (user_id), 'maps_saved': load_maps (user_id)})
+        output.update ({'side_bar': True, 'tool_list': load_tools (user_id), 'tool_saved_results': load_results (user_id), 'tool_saved_analyses': load_analyses (user_id), 'maps_saved': load_maps (user_id)})
         if auth.has_membership ('Developer', auth.user.id):
-            output.update ({'dev_tools': True, 'in_dev': load_dev_tools (user_id)})
+            output.update ({'dev_tools': True, 'in_dev': load_dev_tools ()})
         else:
             output.update ({'dev_tools': False})
     else:

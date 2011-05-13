@@ -5,6 +5,10 @@ var hs = {
 	    return hs.geoserver.url + '/wfs?request=DescribeFeatureType&typename=' + mapname + '&version=1.1.0';
 	}
     },
+    user: {
+	admin: false,
+	dev: dev,
+    },
     application: app,
     /*SelectBox: Ext.extend (Ext.Panel, {
 	constructor: function (config) {

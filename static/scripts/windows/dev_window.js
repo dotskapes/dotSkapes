@@ -17,13 +17,19 @@ hs.win = {
 		},
 	    });
 
+	    var codeDesc = new Ext.Panel ({
+		title: 'Overview',
+		hideBorders: true,
+		autoScroll: true,		
+		buttons: [
+		    runButton,
+		],
+	    });
+
 	    var viewPanel = new Ext.Panel ({
 		title: 'View Code',
 		hideBorders: true,
 		autoScroll: true,
-		buttons: [
-		    runButton,
-		],
 		listeners: {
 		    show: function () {
 			if (dirtyFlag) {
@@ -41,11 +47,26 @@ hs.win = {
 	    var showCode = function () {
 		dirtyFlag = false;
 		var populateView = function (data) {
+		    var code = JSON.parse (data.responseText);
 		    viewPanel.add ({
-			html: data.responseText,
+			html: code.text,
 		    });
+
+		    codeDesc.add ({
+			html: '<b>Name:</b> ' + code.name,
+		    });
+		    codeDesc.add ({
+			html: '<b>Type:</b> ' + code.type,
+		    });
+		    codeDesc.add ({
+			html: '<b>Description:</b> ' + code.desc,
+		    });
+
+		    codeDesc.doLayout ();
 		    viewPanel.doLayout ();
 		};
+
+		var mode = '';
 		
 		Ext.Ajax.request ({
 		    method: 'GET',
@@ -155,6 +176,7 @@ hs.win = {
 		});
 
 		items = [
+		    codeDesc,
 		    viewPanel,
 		    editPanel,
 		    pubPanel,
@@ -163,8 +185,40 @@ hs.win = {
 
 	    else {
 		items = [
+		    codeDesc,
 		    viewPanel,
 		];
+		if (hs.user.dev) {
+		    var forkButton = new Ext.Button ({
+			text: 'Fork',
+			handler: function () {
+			    Ext.Ajax.request ({
+				method: 'POST',
+				url: '/' + hs.application + '/tool/dev_fork',
+				success: function (data) {
+				    var new_tool = JSON.parse (data.responseText);
+				    devSide.appendChild (new_tool.name,
+							 new_tool.id,
+							 new_tool.type);
+				    devSide.doLayout ();
+				},
+				params: {
+				    id: id,
+				},
+			    });
+			},
+		    });
+
+		    var forkPanel = new Ext.Panel ({
+			title: 'Fork',
+			height: 500,
+			buttons: [
+			    forkButton,
+			],
+		    });
+		
+		    items.push (forkPanel);
+		}
 	    }
 
 	    var mainPanel = new Ext.TabPanel ({

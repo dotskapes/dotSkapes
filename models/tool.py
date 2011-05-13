@@ -9,6 +9,36 @@ from os import getcwd
 #from os import pipe, write, fork, close, waitpid, dup2, execvp
 
 # The tools available
+
+tool_model = [
+    DM_Field (
+        Field ('name', 'string', required = True), 
+        DM_Settings (), 
+        DisplaySettings (title = True, name = 'Name')),
+    DM_Field (
+        Field ('filename', 'string', default = None), 
+        DM_Settings (privilaged = True), 
+        DisplaySettings ()),
+    DM_Field (
+        Field ('pytool', 'boolean', default = True), 
+        DM_Settings (), 
+        DisplaySettings (visible = False)),
+    DM_Field (Field ('description', 'string'), 
+              DM_Settings (), 
+              DisplaySettings ()),
+    DM_Field (
+        Field ('current', 'boolean', default = True), 
+        DM_Settings (privilaged = True), 
+        DisplaySettings ()),
+    DM_Field (Field ('prev', 'integer', default = -1), 
+              DM_Settings (privilaged = True), 
+              DisplaySettings ())
+]
+
+dm.define_datatype ('tools', *tool_model)
+
+dm.define_datatype ('dev_tools', *tool_model)
+
 db.define_table ('tool_list',
                  Field ('name', 'string', required = True),
                  Field ('filename', 'string', default = None),
@@ -16,7 +46,13 @@ db.define_table ('tool_list',
                  Field ('description', 'string'),
                  Field ('user_id', 'integer', default = None),
                  Field ('public', 'boolean', default = False),
+                 Field ('current', 'boolean', default = True),
+                 Field ('prev', 'integer', default = -1),
 )
+
+db.define_table ('saved_tools',
+                 Field ('user_id', 'integer', default = None),
+                 Field ('json', 'string'))
 
 # All the results run tools
 db.define_table ('tool_results',
@@ -49,6 +85,7 @@ def get_code (filename):
 
 def get_tool(id):
     row = db (db.tool_list.id == id).select ()[0]
+    #row = dm.get ('tools', id)
     if row.pytool:
         name = 'applications.' + request.application + '.tool.' + row.filename
         mod = __import__ (name, globals (), locals (), ['cargs'], 0)
@@ -118,21 +155,24 @@ def load_analyses (userid = None):
         result.append ({'tool': r.tool, 'filename': r.filename, 'data': r.json})
     return result
 
+'''def load_tools (userid = None):
+    if userid is None:
+        raise HTTP (400)
+    result = db (db.saved_tools.user_id == userid).select ()
+    if len (result) == 0:
+        db.saved_maps.insert (user_id = userid, json = '{}')
+        return '{}'
+    else:
+        return result[0].json'''
+
 def load_tools (userid = None):
-    tmp_pop_tools ()
-    rows = db (db.tool_list.public == True).select (db.tool_list.ALL)
+    rows = db (db.tool_list.public == True).select ()
     result = []
     for r in rows:
         result.append ({'id': r.id, 'name': r.name, 'desc': r.description})
     return json.dumps (result)
 
-def load_dev_tools (userid=None):
-    rows = db ((db.tool_list.public == False) & (db.tool_list.user_id == auth.user.id)).select (db.tool_list.ALL)
-    result = []
-    for r in rows:
-        result.append ({'id': r.id, 'name': r.name, 'desc': r.description})
-    return json.dumps (result)
-    
+   
 
 def call_py (m):
     connection = deployment_settings.postgis.connection ()
@@ -274,6 +314,52 @@ def tool_ext (pytool):
     else:
         ext = '.r'
     return ext
+
+def tool_type (tool_data):
+    if tool_data['pytool']:
+        return 'Python'
+    else:
+        return 'R'
+
+def create_tool (name, desc, tool_type):
+    pytool = (tool_type.lower () == 'python')
+    if pytool:
+        ext = '.py'
+    else:
+        ext = '.r'
+    filename = str (uuid4 ().int)
+    path = tool_path () + '/' + filename + ext
+    file = open (path, 'w')
+    if pytool:
+        file.write ('''# Add parameters here. Each parameter is of the form (param_name, param_title, param_type)\ncargs = []\n\n# Implement tool function here. Parameters are accessible as attr[param_name].\n# The return type should be the MIME type of the result.\n# An IO Stream attr[\'file\'] is provided to store the result.\ndef ctool (**attr):\n    pass''')
+    else:
+        file.write ('''# Add R code here. use the function HS_RequestParam (key, name, type)\n# Use this function to insert parameters from the main applciation to your tool\n''')
+    file.close ()
+    kwargs = dict (name = name, pytool = pytool, description = desc, filename = filename)
+    id = dm.insert ('dev_tools', **kwargs)
+    return {'id': id, 'name': name, 'desc': desc}
+
+def load_dev_tools ():
+    #row = dm.load ('dev_tools')
+    rows = db ((db.tool_list.public == False) & (db.tool_list.user_id == auth.user.id)).select (db.tool_list.ALL)
+    result = []
+    for r in rows:
+        result.append ({'id': str (r['id']), 'name': str (r['name']), 'desc': str (r['description'])})
+    return result
+
+def read_tool (tool_data):
+    file = open (tool_path () + tool_data['filename'] + tool_ext (tool_data['pytool']), 'r')
+
+    buffer = file.read ()
+    file.close ()
+    buffer = buffer.replace (',', ',&#8203;')
+    buffer = buffer.replace (' ', '&nbsp;')
+    buffer = buffer.replace ('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
+    buffer = buffer.replace ('\n', '<br />\n')
+
+    t_type = tool_type (tool_data)
+    
+    return {'name': tool_data['name'], 'text': buffer, 'type': t_type, 'desc': tool_data['description']}
     
 def tmp_pop_tools ():
     pass

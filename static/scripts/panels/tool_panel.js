@@ -171,7 +171,7 @@ hs.tool = {
 			Ext.MessageBox.prompt ('Save', 'Filename', function (b, text) {
 			    var vals = getValues ();
 			    console.log ("Tool", tool_ob);
-			    vals.tool = JSON.stringify (tool_ob);
+			    vals.tool = JSON.stringify (tool_ob.getValue ());
 			    vals.filename = text;
 			    Ext.Ajax.request ({
 				method: 'GET',
@@ -180,7 +180,7 @@ hs.tool = {
 				    var result = JSON.parse (data.responseText);
 				    if (!('err' in result)) {
 					vals = JSON.stringify (getValues ());
-					savedAnalyses.appendChild (text, JSON.stringify (tool_ob), vals);
+					savedAnalyses.appendChild (text, JSON.stringify (tool_ob.getValue ()), vals);
 				    }
 				    else
 					Ext.MessageBox.alert ('Error', result['err']);
@@ -381,7 +381,7 @@ hs.tool = {
 		config = {};
 
 	    Ext.apply (config, {
-		title: 'Run Tools',
+		title: 'Analyzer',
 		layout: 'border',
 		items: [
 		    leftPanel,

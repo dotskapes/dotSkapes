@@ -4,10 +4,26 @@ from uuid import uuid4
 from geo import enum
 from geo.load import loadMap
 
-from re import match
+from re import match, sub
+
+
+def dev():
+    require_role (dev_role)
+    if request.args[0] == 'create':
+        name = require_alphanumeric (request.vars.get ('name'))
+        desc = require_alphanumeric (request.vars.get ('desc'))
+        tool_type = require_alphanumeric (request.vars.get ('type'))
+        return json.dumps (create_tool (name, desc, tool_type))
+    if request.args[0] == 'read':
+        lookup_id = require_int (request.vars.get ('id'))
+        result = dm.get ('dev_tools', lookup_id)
+        return json.dumps (read_tool (result))
 
 def user():
     return str (auth.user.id)
+
+def tools():
+    return load_all_tools ()
 
 def args():
     if not auth.user:
@@ -64,7 +80,10 @@ def get_result():
             raise HTTP (400, 'Permission Denied')
     file = open ('applications/' + request.application + '/tool/results/' + result.file_id, 'r')
     response.headers['Content-Type'] = result.type
-    return file.read ()
+    buffer = file.read ()
+    buffer = sub ('width="[^"]+"', '', buffer, 1)
+    buffer = sub ('height="[^"]+"', '', buffer, 1)
+    return buffer
 
 def result_perm():
     if not auth.user:
@@ -144,15 +163,15 @@ def create():
     if not auth.user:
         raise HTTP (400, "Permission Denied")
     name = request.vars.get ('name')
-    #description = request.vars.get ('desc')
-    description = "None"
-    pytool = (request.vars.get ('type') == 'python')
+    description = request.vars.get ('desc')
+    pytool = (request.vars.get ('type').lower () == 'python')
     if pytool:
         ext = '.py'
     else:
         ext = '.r'
-    path = 'applications/' + request.application + '/tool/' +  name
-    try:
+    filename = str (uuid4 ().int)
+    path = tool_path () + '/' + filename + ext
+    '''try:
         file = open (path + '.py')
         return json.dumps ({'err': 'Cannot create file'})
     except:
@@ -161,9 +180,9 @@ def create():
         file = open (path + '.r')
         return json.dumps ({'err': 'Cannot create file'})
     except:
-        pass
+        pass'''
 
-    file = open (path + ext, 'w')
+    file = open (path, 'w')
 
     if pytool:
         file.write ('''# Add parameters here. Each parameter is of the form (param_name, param_title, param_type)\ncargs = []\n\n# Implement tool function here. Parameters are accessible as attr[param_name].\n# The return type should be the MIME type of the result.\n# An IO Stream attr[\'file\'] is provided to store the result.\ndef ctool (**attr):\n    pass''')
@@ -171,25 +190,43 @@ def create():
         file.write ('''# Add R code here. use the function HS_RequestParam (key, name, type)\n# Use this function to insert parameters from the main applciation to your tool\n''')
     
     file.close ()
-    id = db.tool_list.insert (name = name, pytool = pytool, description = description, filename = name, user_id = auth.user.id)    
+    id = db.tool_list.insert (name = name, pytool = pytool, description = description, filename = filename, user_id = auth.user.id)    
     return json.dumps ({'id': id, 'name': name, 'type': pytool})
+
+def delete_results():
+    if not auth.has_membership (admin_role, auth.user.id):
+        raise HTTP (400)
+    db.tool_results.truncate ()
+
+def delete_tools():
+    if not auth.has_membership (admin_role, auth.user.id):
+        raise HTTP (400)
+    db.tool_list.truncate ()
+
+def dev_fork():
+    if not auth.user:
+        raise HTTP (400)
+    lookup_id = int (request.vars.get ('id'))
+    result = db (db.tool_list.id == lookup_id).select ()[0]
+    if not result.public and not auth.has_membership (dev_role, auth.user.id):
+        raise HTTP (400)
+    
+    data = read_tool (result)
+    request.vars['name'] = data['name']
+    request.vars['type'] = data['type']
+    request.vars['desc'] = data['desc']
+    new_tool = json.loads (create ())
+    request.vars['text'] = dev_code ()
+    request.vars['id'] = new_tool['id']
+    dev_save ()
+    db (db.tool_list.id == new_tool['id']).update (prev = lookup_id)
+    return json.dumps (new_tool)
 
 def read():
     lookup_id = int (request.vars.get ('id'))
     result = db (db.tool_list.id == lookup_id).select ()[0]
-    if not result.public:
-        if not auth.user:
-            raise HTTP (400)
-        if auth.user.id != result.user_id:
-            raise HTTP (400)
-    file = open (tool_path () + result.filename + tool_ext (result.pytool), 'r')
-    buffer = file.read ()
-    file.close ()
-    buffer = buffer.replace (',', ',&#8203;')
-    buffer = buffer.replace (' ', '&nbsp;')
-    buffer = buffer.replace ('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
-    buffer = buffer.replace ('\n', '<br />\n')
-    return buffer    
+    #result = dm.get (lookup_id)
+    return json.dumps (read_tool (result))
 
 def dev_code():
     if not auth.user:
@@ -231,4 +268,4 @@ def dev_delete():
 def publish():
     lookup_id = int (request.vars.get ('id'))
     db (db.tool_list.id == lookup_id).update (public = True);
-
+    

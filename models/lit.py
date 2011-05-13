@@ -18,7 +18,7 @@ def tmp_create_lit ():
     db.keycount.truncate ()
     m_key = db.keyword.insert (kw ='malaria')
     p_key = db.keyword.insert (kw = 'precipitation')
-    s_key = db.keyword.insert (kw = 'spearfish')
+    s_key = db.keyword.insert (kw = 'tiger_roads')
     m = db.disease.insert (d = 'malaria')
     db.keycount.insert (kw_id = m_key, d_id = m, count = 100)
     db.keycount.insert (kw_id = p_key, d_id = m, count = 67)
