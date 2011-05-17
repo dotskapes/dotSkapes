@@ -229,13 +229,12 @@ class DataManager:
                 ref_table = table_ref.table_ref
             self.__define_word_table (ref_table)
             db[ref_table].insert (ref = self.__gloabl_id (datatype, user_id, id))
-        
 
     def load_keyworded (self, datatype, kw):
         lookup_tables = db (db.datatypes.name == datatype).select ().first ()
         table = db (db[lookup_tables.key_table].kw == kw).select ().first () 
         if table is None:
-            return DM_List ()
+            return DM_List (self.__fields[datatype])
         else:
             ref_table = table.table_ref
             self.__define_word_table (ref_table)

@@ -45,12 +45,24 @@ def load():
             INNER JOIN keyword
             ON keyword.id = counts.kw_id;
             ''' % (kw,))
+
+            lookup = set ()
+            def reducer (item):
+                if item['id'] in lookup:
+                    return False
+                else:
+                    lookup.add (item['id'])
+                    return True
+
             rList = dm.load_keyworded (data_type, kw)
+            for item in rList:
+                lookup.add (item['id'])
+
             for r in result:
                 val = r[0]
                 next = dm.load_keyworded (data_type, val)
-                for n in next:
-                    rList.append (n)
+                filtered = filter (reducer, next)
+                rList += filtered
             return rList.json ()
     else:
         return dm.load_public (data_type).json ()
