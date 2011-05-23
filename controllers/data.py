@@ -1,38 +1,15 @@
-def boolean (val):
-    if isinstance (val, str):
-        lower = val.lower ()
-        if lower == 'false':
-            return False
-        elif lower == 'f':
-            return False
-        elif lower == 'true':
-            return True
-        elif lower == 't':
-            return True
-    elif isinstance (val, int):
-        if val == 0:
-            return False
-        elif val == 1:
-            return True
-    elif isinstance (val, float):
-        if val == 0.0:
-            return False
-        elif val == 1.0:
-            return True
-    else:
-        if val is None:
-            return False
-    raise RuntimeError ('Cast to boolean failed: Could not convert ' +
-                        str (val) + ' to a boolean')
-
+def save():
+    datatype = require_alphanumeric (request.args[0])
+    lookup_id = require_int (request.vars.get ('id'))
+    dm.link (datatype, lookup_id)
 
 def load():
-    data_type = require_alphanumeric (request.args[0])
+    datatype = require_alphanumeric (request.args[0])
     if len (request.args) > 1 and request.args[1]:
         kw = require_alphanumeric (request.args[1])
         rec = boolean (request.vars.get ('recommend'))
         if not rec:
-            return dm.load_keyworded (data_type, kw).json ()
+            return '{data: ' + dm.global_load (datatype, [kw]).json () + '}'
         else:
             result = db.executesql ('''
             SELECT keyword.kw, counts.count 
@@ -65,4 +42,9 @@ def load():
                 rList += filtered
             return rList.json ()
     else:
-        return dm.load_public (data_type).json ()
+        return '{data: ' + dm.global_load (datatype).json () + '}'
+
+def unlink():
+    datatype = require_alphanumeric (request.args[0])
+    lookup_id = require_int (request.vars.get ('id'))
+    dm.unlink (datatype, lookup_id)

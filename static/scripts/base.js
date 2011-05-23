@@ -1,8 +1,8 @@
 var hs = {
     geoserver: {
 	url: geoserver_url,
-	describe: function (mapname) {
-	    return hs.geoserver.url + '/wfs?request=DescribeFeatureType&typename=' + mapname + '&version=1.1.0';
+	describe: function (map) {
+	    return hs.geoserver.url + '/wfs?request=DescribeFeatureType&typename=' + map.prefix + ':' + map.filename + '&version=1.1.0';
 	}
     },
     user: {

@@ -12,12 +12,14 @@
     var app = '{{=request.application}}';
     var dev = {{if dev_tools: }}true {{else:}} false {{pass}};
 </script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/hs_base.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/scripts/grid.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/map_panel.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/tool_panel.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side_panel.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/data_panel.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/base.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/scripts/data.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/grid.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/tree.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/map.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/tool.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/data.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/dev_window.js"></script>
 
@@ -37,7 +39,7 @@
 	region: 'center',
     });
 
-    var diseasePages = new hs.data.Panel ({
+    var diseasePages = new hs.info.Panel ({
 	title: 'Data',
 	region: 'center',
 	layout: 'border',
@@ -45,14 +47,22 @@
 
     {{if side_bar:}}
 
+    //var saved_maps = new hs.side.MapPanel ({{response.write (maps_saved, escape = False)}});
     var saved_maps = new hs.side.MapPanel ({{response.write (maps_saved, escape = False)}});
     saved_maps.linkMap (mapTab);
 
-    var tool_list = new hs.side.ToolPanel ({{response.write (tool_list, escape = False)}});
+    //var tool_list = new hs.side.ToolPanel ({{response.write (tool_list, escape = False)}});
+	var tool_list = new hs.tree.Panel ({{response.write (tool_list, escape = False)}}, {
+	    datatype: 'tools'
+	});
 
-    var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
+    //var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
+	var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
 
-    var saved_analyses = new hs.side.AnalysisPanel ({{response.write (tool_saved_analyses, escape = False)}});
+    //var saved_analyses = new hs.side.AnalysisPanel ({{response.write (tool_saved_analyses, escape = False)}});
+	var saved_analyses = new hs.tree.Panel ({{response.write (tool_saved_analyses, escape = False)}}, {
+	    datatype: 'analyses',
+	});
 
     {{ else: }}
 
@@ -64,11 +74,19 @@
 
     {{ if dev_tools: }}
     var devtools = new hs.side.DevPanel ({{response.write (in_dev, escape = False)}});
+	/*var devtools = new hs.tree.Panel ({{response.write (in_dev, escape = False)}}, {
+	    datatype: 'dev_tools',
+	    title: 'Development Tools',
+	    enableDD: false,
+	    enableDrop: false,
+	    enableDrag: true,
+	    ddGroup: 'tools',
+	});*/
     {{ pass }}
 
-	var findPanel = new hs.find.Panel ({
-	    title: 'Find',
-	});
+    var findPanel = new hs.find.Panel ({
+	title: 'Find',
+    });
 
     var sidePanel = new Ext.Panel ({
         title: 'Controls',
@@ -108,6 +126,8 @@
 	title: 'Main',
     }, '/{{= request.application }}/splash/');
 
+    
+
     var tabPanel = new Ext.TabPanel ({
         activeTab: 0,
 	layoutOnChange: true,
@@ -122,13 +142,13 @@
     });
 
     {{if side_bar:}}
-    saved_analyses.setToolPanel (toolTab, tabPanel, 3);
-    tool_list.setToolPanel (toolTab, tabPanel, 3);    
+    //saved_analyses.setToolPanel (toolTab, tabPanel, 4);
+    //tool_list.setToolPanel (toolTab, tabPanel, 4);    
     {{pass}}
     {{ if dev_tools: }}
-    devtools.setToolPanel (toolTab, tabPanel, 3);
-    devtools.setToolSide (tool_list);
-    tool_list.setDevSide (devtools);
+    devtools.setToolPanel (toolTab, tabPanel, 4);
+    //devtools.setToolSide (tool_list);
+    //tool_list.setDevSide (devtools);
     {{pass}}
 
     win = new Ext.Window({

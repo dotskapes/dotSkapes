@@ -1,21 +1,12 @@
-dm.define_datatype ('maps', 
-    DM_Field (
-        Field ('name', 'string', required = True),
-        DM_Settings (), 
-        DisplaySettings (title = True, name = 'Name')),
-    DM_Field (
-        Field ('prefix', 'string', default = ''),
-        DM_Settings (), 
-        DisplaySettings (visible = False)),
-    DM_Field (
-        Field ('filename', 'string', required = True),
-        DM_Settings (), 
-        DisplaySettings (visible = False)),
-    DM_Field (
-        Field ('type', 'string', required = True),
-        DM_Settings (), 
-        DisplaySettings (visible = False)),   
+map_model = DM_TableModel (DM_Field ('name', 'string', required = True, title = True, text = 'Name'),
+                           DM_Field ('prefix', 'string', default = '', visible = False),
+                           DM_Field ('filename', 'string', required = True, visible = False),
+                           DM_Field ('src', 'string', required = True, visible = True),
+                           DM_Field ('styles', 'string', default = '', visible = False),
+                           name = 'Maps',
 )
+
+dm.define_datatype ('maps', map_model)
 
 db.define_table ('saved_maps',
                  Field ('user_id', 'integer', default = None),

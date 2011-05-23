@@ -26,12 +26,12 @@ def sync():
                 else:
                     p = '',
                     f = id.string
-                id = dm.insert ('maps', prefix = p, filename = f, name = text, type = 'geoserver', public = True)
+                id = dm.insert ('maps', prefix = p, filename = f, name = text, src = path, public = True)
                 keywords = l.findAll (name = 'keyword')
                 kw = []
                 for k in keywords:
                     kw.append (k.string)
-                dm.add_keyword ('maps', id, *kw)
+                dm.keywords ('maps', id, kw)
         return 'Ok'
 
 def maps():

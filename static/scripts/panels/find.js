@@ -6,8 +6,9 @@ hs.find = {
 
 	    var Filter = Ext.extend (Ext.Button, {
 		constructor: function (name, g) {
+		    var text = hs.data.fields [name].text;
 		    Filter.superclass.constructor.call (this, {
-			text: name,
+			text: text,
 			enableToggle: true,
 			toggleGroup: 'filter',
 			handler: function () {
@@ -21,6 +22,9 @@ hs.find = {
 		region: 'center',
 		datatype: 'maps',
 		load_public: true,
+		selModel: new Ext.grid.RowSelectionModel({
+		    singleSelect:true
+		}),
 		viewConfig: {
 		    forceFit: true,
 		},
@@ -66,7 +70,8 @@ hs.find = {
 		items: [
 		    new Filter ('maps', dataGrid),
 		    new Filter ('tools', dataGrid),
-		    new Filter ('dev_tools', dataGrid),
+		    new Filter ('results', dataGrid),
+		    new Filter ('analyses', dataGrid),
 		],
 	    });
 

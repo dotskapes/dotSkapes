@@ -1,53 +1,29 @@
-hs.grid = {
-    fields: {
-	{{ for key, val in data.iteritems (): }}
-	{{= key }}: [
-	    {{ for field in val: }}
-	    {{ if not field.is_privilaged (): }}
-	    {
-		{{ if not field.display_settings.name: }}
-		name: '{{= field.name () }}',
-		{{ pass }}
-		key: '{{= field.name () }}',
-		{{ for k, v in field.display_settings.iteritems (): }}
-		{{ if type (v) == bool: }}
-		{{= k }}: {{= str(v).lower () }},
-		{{ elif type (v) == str: }}
-		{{= k }}: '{{= v }}',
-		{{ elif type (v) == int or type (v) == float: }}
-		{{= k }}: {{= v }},
-		{{ pass }}
-		{{ pass }}
-	    },
-	    {{ pass }}
-	    {{ pass }}
-	],
-	{{pass}}
-    },
-};
+hs.grid = {};
 
 hs.grid.getFields = function (name) {
-    var fields = hs.grid.fields[name];
+    var fields = hs.data.fields[name].fields;
     var columnList = [];
-    for (var i = 0; i < fields.length; i ++) {
-	columnList.push (fields[i].key);
+    //for (var i = 0; i < fields.length; i ++) {
+    for (key in fields) {
+	columnList.push (key);
     }
-    console.log (columnList);
     return columnList;
 };
 
 hs.grid.model = function (name) {
-    var fields = hs.grid.fields[name];
+    var fields = hs.data.fields[name].fields;
     var columnList = [];
-    for (var i = 0; i < fields.length; i ++) {
-	var key = fields[i];
+    //for (var i = 0; i < fields.length; i ++) {
+    for (key in fields) {
+	if (fields[key].visible == false)
+	    continue;
 	var val = {
-	    header: key.name,
-	    dataIndex: key.key,
+	    header: fields[key].text,
+	    dataIndex: key,
 	    //id: name + '_' + key.name,
 	    //width: 100,
 	};
-	if (key.title)
+	if (fields[key].title)
 	    columnList.unshift (val);
 	else
 	    columnList.push (val);
@@ -70,7 +46,7 @@ hs.grid.Panel = Ext.extend (Ext.grid.GridPanel, {
 	var load = function () {
 	    colModel = hs.grid.model (current_name);
 
-	    if (config.load_public) {	    
+	    if ('load_public' in config) {	    
 		store = new Ext.data.JsonStore ({
 		    root: 'data',
 		    autoLoad: true,
@@ -81,10 +57,12 @@ hs.grid.Panel = Ext.extend (Ext.grid.GridPanel, {
 	};
 
 	this.reload = function (name) {
+	    thisPanel.getView ().dragZone.removeFromGroup (current_name);
 	    if (name)
 		current_name = name;
 	    load ();
 	    thisPanel.reconfigure (store, colModel);
+	    thisPanel.getView ().dragZone.addToGroup (current_name);
 	};
 
 	this.keyword = function (kw) {
@@ -98,8 +76,13 @@ hs.grid.Panel = Ext.extend (Ext.grid.GridPanel, {
 	};
 
 	load ();
-	config.colModel = colModel
-	config.store = store;
+
+	Ext.apply (config, {
+	    colModel: colModel,
+	    store: store,
+	    enableDrag: true,
+	    ddGroup: current_name,
+	});
 
 	hs.grid.Panel.superclass.constructor.call (this, config);
     },

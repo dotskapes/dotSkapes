@@ -1,4 +1,4 @@
-hs.data = {
+hs.info = {
     NPRPanel: Ext.extend (Ext.Panel, {
 	constructor: function (config) {
 	    if (!config)
@@ -41,7 +41,7 @@ hs.data = {
 		width: 400,
 		padding: 10,
 	    });
-	    hs.data.NPRPanel.superclass.constructor.call (this, config);
+	    hs.info.NPRPanel.superclass.constructor.call (this, config);
 	},
     }),
     WikiPanel: Ext.extend (hs.util.IFramePanel, {
@@ -90,7 +90,7 @@ hs.data = {
 		    },
 		},
 	    });
-	    hs.data.WikiPanel.superclass.constructor.call (this, config);
+	    hs.info.WikiPanel.superclass.constructor.call (this, config);
 	},
     }),
     LitPanel: Ext.extend (Ext.Panel, {
@@ -164,15 +164,7 @@ hs.data = {
 	    };
 
 	    var addMapNode = function (ob) {
-		root.appendChild (new hs.tree.MapNode ({
-		    filename: ob.filename,
-		    name: ob.name,
-		    type: ob.type,
-		    //text: ob.name,
-		    //leaf: true,
-		    //cls: 'file',
-		    //id: ob.id,
-		}));
+		root.appendChild (new hs.tree.Node ('maps', ob));
 	    };
 
 	    var root = new Ext.tree.AsyncTreeNode({
@@ -225,7 +217,7 @@ hs.data = {
 		],
 	    });
 
-	    hs.data.LitPanel.superclass.constructor.call (this, config);
+	    hs.info.LitPanel.superclass.constructor.call (this, config);
 	},
     }),
     MapPanel: Ext.extend (Ext.tree.TreePanel, {
@@ -255,7 +247,7 @@ hs.data = {
 	    var addMaps = function (data) {
 		var maps = JSON.parse (data.responseText);
 		for (var i = 0; i < maps.length; i ++) {
-		    root.appendChild (new hs.tree.MapNode (maps[i]));
+		    root.appendChild (new hs.tree.Node ('maps', maps[i]));
 		}
 		thisPanel.doLayout ();
 	    };
@@ -264,17 +256,17 @@ hs.data = {
 		method: 'GET',
 		url: '/' + hs.application + '/geodata/maps',
 		success: addMaps,
-	    });
+	    })
 
-	    hs.data.MapPanel.superclass.constructor.call (this, config);
+	    hs.info.MapPanel.superclass.constructor.call (this, config);
 	},
     }),
     Panel: Ext.extend (Ext.Panel, {
 	constructor: function (config) {
 
-	    var nprPanel = new hs.data.NPRPanel ();
+	    var nprPanel = new hs.info.NPRPanel ();
 
-	    var wikiPanel = new hs.data.WikiPanel ();
+	    var wikiPanel = new hs.info.WikiPanel ();
 
 	    var selectBox = new Ext.form.ComboBox ({
 		region: 'north',
@@ -282,7 +274,7 @@ hs.data = {
 		//emptyText: 'malaria',
 	    });
 
-	    var litPanel = new hs.data.LitPanel ();
+	    var litPanel = new hs.info.LitPanel ();
 
 	    litPanel.populate ('malaria');
 	    wikiPanel.populate('malaria');
@@ -298,7 +290,7 @@ hs.data = {
 		],
 	    });
 	    
-	    var dataMapsPanel = new hs.data.MapPanel ();
+	    var dataMapsPanel = new hs.info.MapPanel ();
 	    
 	    var tabsPanel = new Ext.TabPanel ({    
 		region: 'center',
@@ -401,7 +393,7 @@ hs.data = {
 		    tabsPanel,
 		],
 	    });
-	    hs.data.Panel.superclass.constructor.call (this, config);
+	    hs.info.Panel.superclass.constructor.call (this, config);
 	},
     }),
 };

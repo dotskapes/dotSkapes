@@ -1,4 +1,11 @@
 {{extend 'splash/layout.html' }}
+
+<script type="text/javascript">
+    window.addEventListener ('load', function (event) {
+	console.log (top);
+    }, false);
+</script>
+
     <div id='banner'></div>
     
     <div id='header'>
@@ -22,7 +29,8 @@
     
     <div id='feature'>
     
-        <a href="/{{= request.application }}/splash/find.html">
+        <!--<a href="/{{= request.application }}/splash/find.html">-->
+	<a href="#" id="find">
         <div class='box'>
         <h2>Find</h2>
         </div>

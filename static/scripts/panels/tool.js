@@ -36,9 +36,9 @@ hs.tool = {
 		
 		Ext.Ajax.request ({
 		    method: 'GET',
-		    url: '/' + hs.application + '/tool/args',
+		    url: '/' + hs.application + '/tool/tool/args',
 		    success: showParams,
-		    params: {'tool': toolid},
+		    params: {'id': toolid},
 		});
 	    };
 
@@ -128,7 +128,7 @@ hs.tool = {
 		}
 		else {
 		    docOb =  {
-			html: '<iframe style="margin: 0px; padding: 0px; border: none;" width="' + (resultPanel.getInnerWidth () - 25)  + '" height="' + (resultPanel.getInnerHeight () - 25)  + '" src="/' + hs.application + '/tool/get_result?id=' + result_id + '"></iframe>',
+			html: '<iframe style="margin: 0px; padding: 0px; border: none;" width="' + (resultPanel.getInnerWidth () - 25)  + '" height="' + (resultPanel.getInnerHeight () - 25)  + '" src="/' + hs.application + '/tool/result/load?id=' + result_id + '"></iframe>',
 		    };
 		}
 
@@ -147,11 +147,11 @@ hs.tool = {
 		    click: function () {
 			resultMask.show ();
 			var vals = getValues ();
-			vals.tool = tool_ob.id;
+			vals.id = tool_ob.id;
 
 			Ext.Ajax.request ({
 			    method: 'GET',
-			    url: '/' + hs.application + '/tool/call',
+			    url: '/' + hs.application + '/tool/tool/run',
 			    success: showResult,
 			    failure: function (data) {
 				console.log ('Bad Param');
@@ -171,11 +171,11 @@ hs.tool = {
 			Ext.MessageBox.prompt ('Save', 'Filename', function (b, text) {
 			    var vals = getValues ();
 			    console.log ("Tool", tool_ob);
-			    vals.tool = JSON.stringify (tool_ob.getValue ());
-			    vals.filename = text;
+			    vals.id = tool_ob.id; //JSON.stringify (tool_ob.getValue ());
+			    vals.name = text;
 			    Ext.Ajax.request ({
 				method: 'GET',
-				url: '/' + hs.application + '/tool/save_analysis',
+				url: '/' + hs.application + '/tool/analysis/save',
 				success: function (data) {
 				    var result = JSON.parse (data.responseText);
 				    if (!('err' in result)) {
@@ -202,7 +202,7 @@ hs.tool = {
 		    Ext.MessageBox.prompt ('Save', 'Filename', function (b, text) {
 			Ext.Ajax.request ({
 			    method: 'GET',
-			    url: '/' + hs.application + '/tool/save_result',
+			    url: '/' + hs.application + '/tool/result/save',
 			    success: function (data) {
 				var result = JSON.parse (data.responseText);
 				if (!('err' in result))
@@ -212,7 +212,7 @@ hs.tool = {
 			    },
 			    params: {
 				id: result_id,
-				filename: text,
+				name: text,
 			    },
 			});
 		    });
@@ -291,7 +291,7 @@ hs.tool = {
 		listeners: {
 		    render: function () {
 			this.dropTarget = new Ext.dd.DropTarget (this.body, {
-			    ddGroup: 'tool',
+			    ddGroup: 'tools',
 			    notifyDrop: function (source, event, data) {
 				var node = data.node;
 				dropTool (node);
@@ -394,7 +394,7 @@ hs.tool = {
     }),
     Agg: {
 	Window: Ext.extend (Ext.Window, {
-	    constructor: function (mapname, config) {
+	    constructor: function (map_ob, config) {
 		var method = 'mean'
 		var groups = [];
 		var thisWindow = this;
@@ -422,7 +422,7 @@ hs.tool = {
 		}
 		
 		var store = new GeoExt.data.AttributeStore ({
-		    url: hs.geoserver.describe (mapname)
+		    url: hs.geoserver.describe (map_ob)
 		});
 		store.load ();
 		
@@ -740,7 +740,7 @@ hs.tool = {
 		    }
 		    this.setValue (map_ob.name);
 		    store = new GeoExt.data.AttributeStore ({
-			url: hs.geoserver.describe (map_ob.filename)
+			url: hs.geoserver.describe (map_ob)
 		    });
 		    store.load ();
 		};
@@ -756,7 +756,7 @@ hs.tool = {
 		    listeners: {
 			render: function () {
 			    this.dropZone = new Ext.dd.DropTarget (thisField.getEl (), {
-				ddGroup:'layers',
+				ddGroup:'maps',
 				notifyDrop: function (source, event, data) {
 				    var node = data.node;
 				    thisField.setField (node.getValue ());
@@ -849,7 +849,7 @@ hs.tool = {
 		    var preset = JSON.parse (ob);
 		    map = preset.map;
 		    data = JSON.parse (preset.data);
-		    w = new hs.tool.Agg.Window (map.id);
+		    w = new hs.tool.Agg.Window (map);
 		    w.setField (data);
 		    w.show ();
 		    w.hide ();
@@ -864,7 +864,7 @@ hs.tool = {
 			if (!map)
 			    return;
 			if (!w)
-			    w = new hs.tool.Agg.Window (map.filename);
+			    w = new hs.tool.Agg.Window (map);
 			w.show ();
 		    },
 		});
