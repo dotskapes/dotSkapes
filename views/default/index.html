@@ -21,7 +21,10 @@
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/data.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/dev_window.js"></script>
+
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/base.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/dev.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/result.js"></script>
 
 <script type="text/javascript">
     window.addEventListener ('load', function () {
@@ -51,10 +54,7 @@
     var saved_maps = new hs.side.MapPanel ({{response.write (maps_saved, escape = False)}});
     saved_maps.linkMap (mapTab);
 
-    //var tool_list = new hs.side.ToolPanel ({{response.write (tool_list, escape = False)}});
-	var tool_list = new hs.tree.Panel ({{response.write (tool_list, escape = False)}}, {
-	    datatype: 'tools'
-	});
+    var tool_list = new hs.side.ToolPanel ({{response.write (tool_list, escape = False)}});
 
     //var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
 	var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
@@ -143,7 +143,7 @@
 
     {{if side_bar:}}
     //saved_analyses.setToolPanel (toolTab, tabPanel, 4);
-    //tool_list.setToolPanel (toolTab, tabPanel, 4);    
+    tool_list.setToolPanel (toolTab, tabPanel, 4);    
     {{pass}}
     {{ if dev_tools: }}
     devtools.setToolPanel (toolTab, tabPanel, 4);
