@@ -9,7 +9,7 @@ from os import getcwd
 tool_model = DM_TableModel (
     DM_Field ('name', 'string', required = True, title = True, text = 'Name'), 
     DM_Field ('filename', 'string', default = None, protected = True),
-    DM_Field ('type', 'string', default = 'Python', visible = True), 
+    DM_Field ('type_t', 'string', default = 'Python', visible = True), 
     DM_Field ('description', 'string'),
     name = 'Tools',
 )
@@ -19,7 +19,7 @@ dm.dup ('tools', 'dev_tools')
 
 dm.define_datatype ('results', DM_TableModel (
         DM_Field ('filename', 'string', required = True, protected = True),
-        DM_Field ('type', 'string', required = True, text = 'Type'),
+        DM_Field ('type_t', 'string', required = True, text = 'type_t'),
         DM_Field ('name', 'string', title = True, text = 'Name'),
         name = 'Results')
 )
@@ -131,25 +131,25 @@ def call_py (m):
     for t in m['args']:
         key = t[0]
         label = t[1]
-        tType = t[2]
+        ttype_t = t[2]
         val = request.vars.get (key)
-        if tType == 'poly_map':
+        if ttype_t == 'poly_map':
             mapname = json.loads (val)['filename']
             #removePrefix = match ('^\w+\:(\w+)$', mapname)
             #if not removePrefix:
             #    raise HTTP (400)
             #mapname = removePrefix.group (1)
             attr[key] = loadMap (mapname, enum.POLYGON, enum.POSTGRES, connection=connection)
-        elif tType == 'point_map':
+        elif ttype_t == 'point_map':
             mapname = json.loads (val)['filename']
             #removePrefix = match ('^\w+\:(\w+)$', mapname)
             #if not removePrefix:
             #    raise HTTP (400)
             #mapname = removePrefix.group (1)
             attr[key] = loadMap (mapname, enum.POINT, enum.POSTGRES, connection=connection)
-        elif tType == 'agg':
+        elif ttype_t == 'agg':
             attr[key] = recursiveJSON (val)
-        elif tType == 'text':
+        elif ttype_t == 'text':
             if len (val) > 0:
                 attr[key] = val
             else:
@@ -157,7 +157,7 @@ def call_py (m):
         else:
             attr[key] = val
     try:
-        r_type = mod.ctool (**attr)
+        r_type_t = mod.ctool (**attr)
     except Exception as ex:
         return {'err': str (ex)}
     attr['file'].close ()
@@ -165,7 +165,7 @@ def call_py (m):
         user_id = auth.user.id
     else:
         user_id = None
-    lookup_id = dm.insert ('results', filename = file_id, type = r_type)
+    lookup_id = dm.insert ('results', filename = file_id, type_t = r_type)
     return dm.get ('results', lookup_id)
 
 def call_r (m):
@@ -188,20 +188,20 @@ def call_r (m):
     for i, t in enumerate (m['args']):
         key = t[0]
         label = t[1]
-        tType = t[2]
+        ttype_t = t[2]
         val = request.vars.get (key)
         if i > 0:
             func += 'else '
-        if tType == 'poly_map' or tType == 'point_map':
+        if ttype_t == 'poly_map' or ttype_t == 'point_map':
             mapname = json.loads (val)['filename']
             removePrefix = match ('^\w+\:(\w+)$', mapname)
             if not removePrefix:
                 raise HTTP (400, "Bad")
             mapname = removePrefix.group (1)
             func += "if (key == '" + key  + "') readOGR (dsn = 'PG:" + postgresString () + "', layer = '" + str (mapname)  + "')\n"
-        elif tType == 'text' or  tType == 'attr':
+        elif ttype_t == 'text' or  ttype_t == 'attr':
             func += "if (key == '" + key  + "')\n  '" + val + "'\n"
-        elif tType == 'number':
+        elif ttype_t == 'number':
             func += "if (key == '" + key  + "')\n  " + str (float (val)) + "\n"
             
     func += "}\n"
@@ -220,40 +220,8 @@ def call_r (m):
     #proc.communicate ('dev.off ()')
     #proc.communicate ('\x04')
 
-    lookup_id = dm.insert ('results', filename = result_id, type = 'image/svg+xml')
+    lookup_id = dm.insert ('results', filename = result_id, type_t = 'image/svg+xml')
     return dm.get ('results', lookup_id)
-
-    """file.write ("library ('sp', lib.loc = c ('/home/zack/R-2.12.1/library'))\n")
-    file.write ("library ('rgdal', lib.loc = c ('/home/zack/R-2.12.1/library'))\n")
-    file.write ("library (sp)\n")
-    file.write ("svg (filename = '" + getcwd () + '/' + result_path  + "')\n")
-    file.write ("HS_RequestParam = function (key, name, type, ...) {\n")
-
-    for i, t in enumerate (m['args']):
-        key = t[0]
-        label = t[1]
-        tType = t[2]
-        val = request.vars.get (key)
-        if i > 0:
-            file.write ('else ')
-        if tType == 'poly_map' or tType == 'point_map':
-            mapname = json.loads (val)['id']
-            if not match ('^\w*$', mapname):
-                raise HTTP (400)
-            file.write ("if (key == '" + key  + "') readOGR (dsn = 'PG:" + postgresString () + "', layer = '" + str (mapname)  + "')\n")
-        elif tType == 'text':
-            file.write ("if (key == '" + key  + "')\n  '" + val + "'\n")
-            
-    file.write ("}\n")
-    
-    file.write (code)
-    file.write ("q ()\n")
-
-    file.close ()
-    
-    result = subprocess.check_call (['R-2.12.1', '--no-save', '--silent', '--file='+file_path])
-    lookup_id = db.tool_results.insert (file_id = result_id, type = 'image/svg+xml', toolid = m['id'])
-    return json.dumps ({'id': lookup_id, 'type': 'image/svg+xml', 'wait': result})"""
 
 # Dev Functions
 
@@ -267,7 +235,7 @@ def dev_create_tool (name, desc, tool_type):
     else:
         file.write ('''# Add R code here. use the function HS_RequestParam (key, name, type)\n# Use this function to insert parameters from the main applciation to your tool\n''')
     file.close ()
-    kwargs = dict (name = name, type = tool_type, description = desc, filename = filename)
+    kwargs = dict (name = name, type_t = tool_type, description = desc, filename = filename)
     id = dm.insert ('dev_tools', **kwargs)
     dm.link ('dev_tools', id)
     return dm.get ('dev_tools', id)

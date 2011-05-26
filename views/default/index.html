@@ -19,7 +19,7 @@
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/map.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/tool.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/data.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/info.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js"></script>
 
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/base.js"></script>
@@ -43,7 +43,7 @@
     });
 
     var diseasePages = new hs.info.Panel ({
-	title: 'Data',
+	title: 'Info',
 	region: 'center',
 	layout: 'border',
     });
@@ -59,10 +59,10 @@
     //var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
 	var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
 
-    //var saved_analyses = new hs.side.AnalysisPanel ({{response.write (tool_saved_analyses, escape = False)}});
-	var saved_analyses = new hs.tree.Panel ({{response.write (tool_saved_analyses, escape = False)}}, {
+    var saved_analyses = new hs.side.AnalysisPanel ({{response.write (tool_saved_analyses, escape = False)}});
+	/*var saved_analyses = new hs.tree.Panel ({{response.write (tool_saved_analyses, escape = False)}}, {
 	    datatype: 'analyses',
-	});
+	});*/
 
     {{ else: }}
 
@@ -142,7 +142,7 @@
     });
 
     {{if side_bar:}}
-    //saved_analyses.setToolPanel (toolTab, tabPanel, 4);
+    saved_analyses.setToolPanel (toolTab, tabPanel, 4);
     tool_list.setToolPanel (toolTab, tabPanel, 4);    
     {{pass}}
     {{ if dev_tools: }}

@@ -121,4 +121,42 @@ hs.side = {
 	    hs.side.ResultPanel.superclass.constructor.call (this, data, config);
 	},
     }),
+    AnalysisPanel: Ext.extend (hs.tree.Panel, {
+	constructor: function (data, config) {
+	    if (!config)
+		config = {};
+
+	    var toolPanel;
+	    var tabPanel;
+	    var toolnum;
+
+	    this.setToolPanel = function (panel, tab, tn) {
+		toolPanel = panel;
+		tabPanel = tab;
+		toolnum = tn;
+	    };
+
+	    Ext.apply (config, {
+		datatype: 'analyses',
+		listeners: {
+		    dblclick: function (node, e) {
+			tabPanel.setActiveTab (toolnum);
+			var data = JSON.parse (node.json);
+			var addParams = function () {
+			    if  (!toolPanel.paramReady) {
+				setTimeout (addParams, 100);
+				return;
+			    }
+			    for (key in data) {
+				toolPanel.setField (key, data[key]);
+			    }
+			};
+			toolPanel.dropTool (JSON.parse (node.tool));
+			setTimeout (addParams, 25);
+		    },
+		},
+	    });
+	    hs.side.AnalysisPanel.superclass.constructor.call (this, data, config);
+	},
+    }),
 };

@@ -2,12 +2,25 @@ hs.map = {
     Panel: Ext.extend (Ext.Panel, {
 	constructor: function (config) {
 	    var mapPanel;
+	    var toolbar;
 	    var thisPanel = this;
 	    var layers = {};
 	    var select = {};
 	    var control = {};
 	    if (!config)
 		config = {};
+
+	    var selectControl;
+	    var selectLayer = new OpenLayers.Layer.Vector("Selection", {styleMap: 
+									new OpenLayers.Style(OpenLayers.Feature.Vector.style["select"])
+								       });
+	    
+	    /*var defaultStyle = new OpenLayers.StyleMap ({
+		pointRadius: 2,
+		fillColor: '#ee9900',
+		fillOpacity: .4,
+		strokeColor: '#ee9900',
+	    });*/
 
 	    this.addMap = function (node) {
 		var map = mapPanel.getMap ();
@@ -20,16 +33,15 @@ hs.map = {
 			    transparent: true,
 			    format: "image/png",
 			    projection: 'EPSG:9000913',
+			    //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
+			    styles: null,
 			},
 			{
-			    srsName: 'EPSG:900913',
 			    isBaseLayer: false,
 			    displayOutsideMaxExtent: true,
 			}
 		    );
-		    select[node.filename] = new OpenLayers.Layer.Vector("Selection", {styleMap: 
-									   new OpenLayers.Style(OpenLayers.Feature.Vector.style["select"])
-									  });
+
 		    control[node.filename] = new OpenLayers.Control.GetFeature({
 			protocol: OpenLayers.Protocol.WFS.fromWMSLayer(layers[node.filename], {
 			    srsName: 'EPSG:900913',
@@ -43,14 +55,14 @@ hs.map = {
 			box: true,
 			hover: false,
 			multipleKey: "shiftKey",
-			toggleKey: "ctrlKey"
+			toggleKey: "shiftKey"
 		    });
 
 		    control[node.filename].events.register("featureselected", this, function(e) {
-			select[node.filename].addFeatures([e.feature]);
+			selectLayer.addFeatures([e.feature]);
 		    });
 		    control[node.filename].events.register("featureunselected", this, function(e) {
-			select[node.filename].removeFeatures([e.feature]);
+			selectLayer.removeFeatures([e.feature]);
 		    });
 
 		    map.addControl (control[node.filename]);
@@ -63,19 +75,20 @@ hs.map = {
 			    featureType: node.filename,
 			    featurePrefix: node.prefix,
 			}),
+			styleMap: defaultStyle,
 		    });*/
 		}
-		control[node.filename].activate ();
+		selectControl = control[node.filename];
+		//control[node.filename].activate ();
 		map.addLayer (layers[node.filename]);
-		map.addLayer (select[node.filename]);
-
+		//map.addLayer (select[node.filename]);
 	    };
 
 	    this.removeMap = function (node) {
 		var map = mapPanel.getMap ();
 		map.removeLayer (layers[node.filename]);
-		map.removeLayer (select[node.filename]);
-		control[node.filename].deactivate ();
+		//map.removeLayer (select[node.filename]);
+		//control[node.filename].deactivate ();
 	    };
 
 	    Ext.apply (config, {
@@ -85,7 +98,33 @@ hs.map = {
 			mapPanel = new hs.map.MapPanel ({
 			    region: 'center',
 			});
+
+			var map = mapPanel.getMap ();
+
+			toolbar = new Ext.Toolbar ({
+			    region: 'north',
+			    height: 30,
+			    items: [
+				new Ext.Button ({
+				    text: "Select Subset",
+				    enableToggle: true,
+				    listeners: {
+					toggle: function (b, toggle) {
+					    if (toggle) {
+						map.addLayer (selectLayer);
+						selectControl.activate ();
+					    }
+					    else {
+						map.removeLayer (selectLayer);
+						selectControl.deactivate ();
+					    }
+					},
+				    },
+				}),
+			    ],
+			});
 			thisPanel.add (mapPanel);
+			thisPanel.add (toolbar);
 		    },
 		},
 	    });

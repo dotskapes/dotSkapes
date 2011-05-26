@@ -84,9 +84,9 @@ def analysis():
         name = require_text (request.vars.get ('name'))
         tool_data = dm.get ('tools', lookup_id)
         data = format_analysis (request.vars, lookup_id)
-        id = dm.insert ('analyses', tool = lookup_id, name = name, json = data)
+        id = dm.insert ('analyses', tool = dm.get ('tools', lookup_id).json (), name = name, json = data)
         dm.link ('analyses', id)
-        return json.dumps ({'id': id})    
+        return dm.get ('analyses', id).json ()
     elif request.args[0] == 'load':
         raise NotImplementedError ()
     elif request.args[0] == 'publish':

@@ -9,7 +9,7 @@ db.define_table('disease',
 db.define_table('keycount',
     Field('kw_id', db.keyword),
     Field('d_id', db.disease),
-    Field('count','integer'),
+    Field('counts','integer'),
 )
 
 def add_keyword (*argv):
@@ -46,13 +46,13 @@ def add_keyword (*argv):
         print "Adding: " + key + " (" + str (kw_id) + ")"
         if len (result3) == 0:
             result3 = db.executesql ('''
-                INSERT INTO keycount (kw_id, d_id, count)
+                INSERT INTO keycount (kw_id, d_id, counts)
                 VALUES (%d, %d, %d)
             ''' % (kw_id, d_id, val))
         else:
             result3 = db.executesql ('''
                 UPDATE keycount 
-                SET count = %d
+                SET counts = %d
                 WHERE kw_id = %d AND d_id = %d
             ''' % (val, kw_id, d_id))
     return

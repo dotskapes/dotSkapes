@@ -89,6 +89,7 @@ class DM_Field (attr_dict):
     def __init__ (self, name, field_type, **attr):
         self.name = name
         self.type = field_type
+        self.lookup_id = 'f_' + self.name
         attr_dict.__init__ (self, **attr)
 
     #def __deepcopy__ (self, memo):
@@ -96,11 +97,11 @@ class DM_Field (attr_dict):
 
     def toField (self):
         if self.type == 'table':
-            return Field (self.name, 'string', default = None)
+            return Field (self.lookup_id, 'string', default = None)
         kw = {}
         cond_assign (kw, self, 'default')
         cond_assign (kw, self, 'required')
-        return Field (self.name, self.type, **kw)
+        return Field (self.lookup_id, self.type, **kw)
 
     def display (self):
         kw = {}
@@ -125,6 +126,9 @@ class DM_TableModel (dict):
             if not item.private and not item.protected:
                 self.publicList.append (item)
         dict.__init__ (self, values) 
+        
+    def map_key (self, key):
+        return 'f_' + key
 
     def __deepcopy__ (self, memo):
         return DM_TableModel (*self, name = self.name)
@@ -232,32 +236,36 @@ class DM_Table:
         for item in self.model:
             if values.has_key (item.name):
                 if item.type == 'table':
-                    data[item.name] = values[item.name].name
+                    data[self.model.map_key (item.name)] = values[item.name].name
                 else:
-                    data[item.name] = values[item.name]
+                    data[self.model.map_key (item.name)] = values[item.name]
         return db[self.name].insert (**data)
 
     def update (self, entry_id, **values):
         if not self.ex:
             self.create (self.model)
-        db (db[self.name].id == entry_id).update (**values)
+        data = {}
+        for v in values:
+            data[self.model.map_key (v)] = values[v]
+        db (db[self.name].id == entry_id).update (**data)
 
     def __load (self, entry):
         val = DM_Entry (self.model)
         for field in self.model:
             key = field.name
+            lookup_id = self.model.map_key (key)
             if field.type == 'table':
         #for key, value in entry.iteritems ():
             #if self.model[key].type == 'table':
-                if entry[key] is None:
-                    val[key] = DM_Table (writeback = (self.name, entry['id'], key), model = field.model)
+                if entry[lookup_id] is None:
+                    val[key] = DM_Table (writeback = (self.name, entry['id'], lookup_id), model = field.model)
                 else:
                     if field.model:
-                        val[key] = DM_Table (name = entry[key], model = field.model)
+                        val[key] = DM_Table (name = entry[lookup_id], model = field.model)
                     else:
-                        val[key] = DM_Table (name = entry[key])
+                        val[key] = DM_Table (name = entry[lookup_id])
             else:
-                val[key] = entry[key]
+                val[key] = entry[lookup_id]
         val['id'] = entry['id']
         return val
 
@@ -266,7 +274,7 @@ class DM_Table:
             self.create (self.model)
         query = None
         for key, value in kw.iteritems ():
-            next = (db[self.name][key] == value)
+            next = (db[self.name][self.model.map_key (key)] == value)
             if query:
                 query = query & next
             else:

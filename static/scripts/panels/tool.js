@@ -170,7 +170,6 @@ hs.tool = {
 		    click: function () {
 			Ext.MessageBox.prompt ('Save', 'Filename', function (b, text) {
 			    var vals = getValues ();
-			    console.log ("Tool", tool_ob);
 			    vals.id = tool_ob.id; //JSON.stringify (tool_ob.getValue ());
 			    vals.name = text;
 			    Ext.Ajax.request ({
@@ -179,8 +178,14 @@ hs.tool = {
 				success: function (data) {
 				    var result = JSON.parse (data.responseText);
 				    if (!('err' in result)) {
-					vals = JSON.stringify (getValues ());
-					savedAnalyses.appendChild (text, JSON.stringify (tool_ob.getValue ()), vals);
+					savedAnalyses.addChild (result);
+					/*vals = JSON.stringify (getValues ());
+					savedAnalyses.addChild ({
+					    name: text,
+					    tool: JSON.stringify (tool_ob.getValue ()),
+					    json: vals,
+					});*/
+					//savedAnalyses.appendChild (text, JSON.stringify (tool_ob.getValue ()), vals);
 				    }
 				    else
 					Ext.MessageBox.alert ('Error', result['err']);
@@ -205,8 +210,10 @@ hs.tool = {
 			    url: '/' + hs.application + '/tool/result/save',
 			    success: function (data) {
 				var result = JSON.parse (data.responseText);
-				if (!('err' in result))
-				    savedResults.appendChild (text, result['id']);
+				if (!('err' in result)) {
+				    savedResults.addChild (result);
+				    //savedResults.appendChild (text, result['id']);
+				}
 				else
 				    Ext.MessageBox.alert ('Error', result['err']);
 			    },
