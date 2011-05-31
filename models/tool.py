@@ -82,6 +82,7 @@ def clean_filename (filename):
 def get_module (filename):
     filename = sub ('.py', '', filename)
     name = 'applications.' + request.application + '.tool.' + filename
+    m = __import__ ('applications.' + request.application + '.tool', globals (), locals (), ['ctool'], 0)
     m = __import__ (name, globals (), locals (), ['ctool'], 0)
     reload (m)
     return m
@@ -134,19 +135,19 @@ def call_py (m):
         ttype = t[2]
         val = request.vars.get (key)
         if ttype == 'poly_map':
-            mapname = json.loads (val)['filename']
-            #removePrefix = match ('^\w+\:(\w+)$', mapname)
-            #if not removePrefix:
-            #    raise HTTP (400)
-            #mapname = removePrefix.group (1)
-            attr[key] = loadMap (mapname, enum.POLYGON, enum.POSTGRES, connection=connection)
+            # Fix this later. Send only id in request
+            ob = json.loads (val)
+            map_data = dm.get ('maps', ob['id'])
+            
+            mapname = map_data.prefix + ':' + map_data.filename #json.loads (val)['filename']
+            attr[key] = loadMap (mapname, enum.POLYGON, enum.GEOSERVER, location = map_data.src)
         elif ttype == 'point_map':
-            mapname = json.loads (val)['filename']
-            #removePrefix = match ('^\w+\:(\w+)$', mapname)
-            #if not removePrefix:
-            #    raise HTTP (400)
-            #mapname = removePrefix.group (1)
-            attr[key] = loadMap (mapname, enum.POINT, enum.POSTGRES, connection=connection)
+            # Fix this later. Send only id in request
+            ob = json.loads (val)
+            map_data = dm.get ('maps', ob['id'])
+            
+            mapname = map_data.prefix + ':' + map_data.filename #json.loads (val)['filename']
+            attr[key] = loadMap (mapname, enum.POINT, enum.GEOSERVER, location = map_data.src)
         elif ttype == 'agg':
             attr[key] = recursiveJSON (val)
         elif ttype == 'text':
@@ -159,7 +160,7 @@ def call_py (m):
     try:
         r_type = mod.ctool (**attr)
     except Exception as ex:
-        return {'err': str (ex)}
+        return attr_dict (err = str (ex))
     attr['file'].close ()
     if auth.user:
         user_id = auth.user.id
@@ -192,13 +193,19 @@ def call_r (m):
         val = request.vars.get (key)
         if i > 0:
             func += 'else '
-        if ttype == 'poly_map' or ttype == 'point_map':
-            mapname = json.loads (val)['filename']
-            removePrefix = match ('^\w+\:(\w+)$', mapname)
-            if not removePrefix:
-                raise HTTP (400, "Bad")
-            mapname = removePrefix.group (1)
-            func += "if (key == '" + key  + "') readOGR (dsn = 'PG:" + postgresString () + "', layer = '" + str (mapname)  + "')\n"
+        if ttype == 'poly_map' or ttype == 'point_map' or ttype == 'map':
+            ob = json.loads (val)
+            mapname = ob['filename']
+            #removePrefix = match ('^\w+\:(\w+)$', mapname)
+            #if not removePrefix:
+            #    raise HTTP (400, "Bad")
+            #mapname = removePrefix.group (1)
+            #func += "if (key == '" + key  + "') readOGR (dsn = 'PG:" + deployment_settings.postgis.string () + "', layer = '" + str (mapname)  + "')\n"
+            tmp_file_path = getcwd () + '/applications/' + request.application + '/tool/tmp/' + uuid4 ().hex + '.json'
+            tmp_file = open (tmp_file_path, 'w')
+            tmp_file.write (geodata_json (ob['id']))
+            tmp_file.close ()
+            func += "if (key == '" + key  + "') readOGR (dsn = '" + tmp_file_path + "', layer = 'OGRGeoJSON')\n"
         elif ttype == 'text' or  ttype == 'attr':
             func += "if (key == '" + key  + "')\n  '" + val + "'\n"
         elif ttype == 'number':
@@ -216,8 +223,7 @@ def call_r (m):
     out = proc.communicate (setup + func + code + '\ndev.off ()\n')
     if proc.returncode != 0:
         output = out[0].split ('\n')
-        d = attr_dict (err = output[len (output) - 3])
-        return d
+        return attr_dict (err = output[len (output) - 3])
     #proc.communicate (func)
     #proc.communicate ('dev.off ()')
     #proc.communicate ('\x04')

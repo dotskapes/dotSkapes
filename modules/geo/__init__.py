@@ -144,11 +144,11 @@ tr.odd {
 
 
 class Polygon (Spatial):
-    def __init__ (self, geom, data):
+    def __init__ (self, geom, data, invertProj = False):
         Spatial.__init__ (self, data)
         self.simplePolygons = []
         for s in geom:
-            self.simplePolygons.append (SimplePolygon (s))
+            self.simplePolygons.append (SimplePolygon (s, invertProj))
         self.features = []
         self.db = None
     
@@ -219,13 +219,18 @@ class Polygon (Spatial):
 
 
 class SimplePolygon:
-    def __init__ (self, coords):
+    def __init__ (self, coords, invertProj = False):
         self.color = None
         self.x = []
         self.y = []
-        for pair in coords:
-            self.x.append (pair[0])
-            self.y.append (pair[1])
+        if not invertProj:
+            for pair in coords:
+                self.x.append (pair[0])
+                self.y.append (pair[1])
+        else:
+            for pair in coords:
+                self.x.append (pair[1])
+                self.y.append (pair[0])
         self.bound = BoundingBox ((min (self.x), min (self.y)), (max (self.x), max (self.y)))
 
     def geometry (self):
@@ -252,10 +257,14 @@ class SimplePolygon:
 
 
 class Point (Spatial):
-    def __init__ (self, geom, data = []):
+    def __init__ (self, geom, data = [], invertProj = False):
         Spatial.__init__ (self, data)
-        self.x = geom[0]
-        self.y = geom[1]
+        if not invertProj:
+            self.x = geom[0]
+            self.y = geom[1]
+        else:
+            self.x = geom[1]
+            self.y = geom[0]
 
 
 class Line (Spatial):

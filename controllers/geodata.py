@@ -55,19 +55,6 @@ def read():
         entry_list.append (result)
     return json.dumps ({'features': entry_list})
 
-'''def gml():
-    lookup_id = require_int (request.vars.get ('id'))
-    data = dm.get ('maps', lookup_id)
-    map_data = urlopen (data.src + '/ows', urlencode ({
-                'service': 'wfs',
-                'version': '1.1.0',
-                'request': 'GetFeature',
-                'typename': data.prefix + ':' + data.filename,
-                'outputformat': 'JSON',
-                })
-             )
-    return map_data.read ()'''
-
 def columns():
     lookup_id = require_int (request.vars.get ('id'))
     data = dm.get ('maps', lookup_id)
@@ -175,3 +162,7 @@ def save_maps():
     name = request.vars.get ('name')
     subset = request.vars.get ('subset')'''
 
+def describe_tmp():
+    lookup_id = request.vars.get ('id')
+    data = dm.get ('maps', lookup_id)
+    return urlopen (data.src + '/wfs?request=DescribeFeatureType&typename=' + data.prefix + ':' + data.filename + '&version=1.1.0').read ()

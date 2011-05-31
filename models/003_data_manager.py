@@ -49,6 +49,9 @@ class attr_dict (dict):
         else:
             self[key] = default
 
+    def json (self):
+        return json.dumps (self)
+
 
 class DM_List (list):
     def __init__ (self, *args):

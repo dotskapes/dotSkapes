@@ -7,6 +7,7 @@ class Key:
 
 SHP = Key ('SHP')
 POSTGRES = Key ('POSTGRES')
+GEOSERVER = Key ('GEOSERVER')
 
 POLYGON = Key ('POLYGON')
 POINT = Key ('POINT')

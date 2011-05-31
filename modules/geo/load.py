@@ -2,8 +2,12 @@ from re import findall
 import psycopg2
 from . import Polygon, Point, Map
 import enum
+import simplejson as json
 
-def loadMap (mapName, geomType, mapType, connection = None):
+from urllib import urlencode
+from urllib2 import urlopen
+
+def loadMap (mapName, geomType, mapType, connection = None, location = None):
     if mapType == enum.SHP:
         raise NotImplementedError ()
     elif mapType == enum.POSTGRES:
@@ -34,7 +38,29 @@ def loadMap (mapName, geomType, mapType, connection = None):
             elif geomType == enum.POINT:
                 s = Point (geom[0][0], values)
             shapes.append (s)
-            
+        return shapes
+    elif mapType == enum.GEOSERVER:
+        map_data = urlopen (location + '/wfs', urlencode ({
+                    'service': 'wfs',
+                    'version': '1.1.0',
+                    'request': 'GetFeature',
+                    'typename': mapName,
+                    'outputformat': 'JSON',
+                    })
+               )
+        map_ob = json.loads (map_data.read ())
+        shapes = Map (name = mapName)
+        for feature in map_ob['features']:
+            if geomType == enum.POLYGON:
+                geomList = []
+                for item in feature['geometry']['coordinates']:
+                    for ob in item:
+                        geomList.append (ob)
+                    #s = Polygon (feature['geometry']['coordinates'][0], feature['properties'])
+                    s = Polygon (geomList, feature['properties'], True)
+            elif geomType == enum.POINT:
+                s = Point (feature['geometry']['coordinates'], feature['properties'], True)
+            shapes.append (s)
         return shapes
 
 

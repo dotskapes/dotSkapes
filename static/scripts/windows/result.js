@@ -8,7 +8,7 @@ hs.win.Result = Ext.extend (Ext.Window, {
 	var result_id = node.id;
 	var title = node.name;
 
-	var pubURL = 'Public URL: ' + window.location.host + '/healthscapes/tool/get_result?id=' + result_id;
+	var pubURL = 'Public URL: ' + window.location.host + '/healthscapes/tool/result/load?id=' + result_id;
 		
 	function togglePerm  () {
 	    if (perm) {

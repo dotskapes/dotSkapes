@@ -28,7 +28,6 @@ hs.map = {
 		if (!(node.filename in layers)) {
 		    layers[node.filename] = new OpenLayers.Layer.WMS (
 			"Map",
-			//geoserver_url + '/ows',
 			'/' + hs.application + '/geoserver/wms',
 			{
 			    ID: node.id,
@@ -109,7 +108,7 @@ hs.map = {
 			toolbar = new Ext.Toolbar ({
 			    region: 'north',
 			    height: 30,
-			    items: [
+			    /*items: [
 				new Ext.Button ({
 				    text: "Select Subset",
 				    enableToggle: true,
@@ -126,7 +125,7 @@ hs.map = {
 					},
 				    },
 				}),
-			    ],
+			    ],*/
 			});
 
 			attrPanel = new hs.map.AttrPanel (mapPanel.getMap (), {
