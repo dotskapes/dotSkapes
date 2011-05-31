@@ -151,24 +151,30 @@
     //tool_list.setDevSide (devtools);
     {{pass}}
 
-    win = new Ext.Window({
+    win = new Ext.Viewport ({
         title: 'Healthscapes v0.3',
-        layoutOnChange: true,
+        //layoutOnChange: true,
         //collapsible: false,
-        maximizable: true,
-        maximized:   true,
+        //maximizable: true,
+        //maximized:   true,
         titleCollapse: true,
         layout: 'border',
         id: 'main_window',
         items:  [
+	    {
+		title: 'Healthscapes v0.3',
+		height: 'autoHeight',
+		region: 'north',
+		border: false,
+	    },
 	    sidePanel,
             tabPanel, 
         ],
     });
-    win.show ();
-    win.toBack();
-    win.tools.close.hide();
-    win.tools.restore.hide();
+    //win.show ();
+    //win.toBack();
+    //win.tools.close.hide();
+    //win.tools.restore.hide();
 
     }, false);
 </script>

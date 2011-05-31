@@ -1,4 +1,6 @@
 from re import match
+from gluon.contrib.login_methods.email_auth import email_auth
+#from gluon.contrib.login_methods.gae_google_account import GaeGoogleAccount
 
 from gluon.tools import *
 auth = Auth(globals(), db)                     
@@ -11,15 +13,18 @@ auth.settings.registration_requires_approval = False
 auth.settings.register_next = URL (a = request.application, c = 'default',  f = 'register')
 auth.settings.login_next = URL (a = request.application, c = 'default',  f = 'index.html')
 
-table = auth.settings.table_group
-if not db(db[table].id > 0).count():
-    admin_role = auth.add_group ("Administrator", "System Administrator - can access & make changes to any data")
-    dev_role = auth.add_group ("Developer", "Developer - Users with development privileges")
-    auth_role = auth.add_group ("Authenticated", "Authenticated - all logged-in users")
-else:
+auth.settings.login_methods.append(
+    email_auth("smtp.gmail.com:587", "@gmail.com"))
+#auth.settings.login_form = GaeGoogleAccount ()
+
+try:
     admin_role = auth.id_group ("Administrator")
     dev_role = auth.id_group ("Developer")
     auth_role = auth.id_group ("Authenticated")
+except:
+    admin_role = None
+    dev_role = None
+    auth_role = None
 
 def require_logged_in ():
     if not auth.user:
@@ -41,6 +46,20 @@ def require_role (role):
     if not auth.has_membership (role, auth.user.id):
         raise HTTP (401, "Permission Denied")
     return auth.user.id
+
+def check_logged_in ():
+    if not auth.user:
+        return False
+    return True
+
+def check_role (role):
+    if not auth.user:
+        False
+    if auth.has_membership (admin_role, auth.user.id):
+        return True
+    if not auth.has_membership (role, auth.user.id):
+        return False
+    return True
 
 def require_val (input):
     if not input:

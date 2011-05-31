@@ -28,7 +28,6 @@ hs.grid.model = function (name) {
 	else
 	    columnList.push (val);
     }
-    console.log (columnList);
     return new Ext.grid.ColumnModel ({
 	columns: columnList,
     });

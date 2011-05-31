@@ -3,6 +3,7 @@ hs.map = {
 	constructor: function (config) {
 	    var mapPanel;
 	    var toolbar;
+	    var attrPanel;
 	    var thisPanel = this;
 	    var layers = {};
 	    var select = {};
@@ -27,8 +28,10 @@ hs.map = {
 		if (!(node.filename in layers)) {
 		    layers[node.filename] = new OpenLayers.Layer.WMS (
 			"Map",
-			geoserver_url + '/ows',
+			//geoserver_url + '/ows',
+			'/' + hs.application + '/geoserver/wms',
 			{
+			    ID: node.id,
 			    layers: node.prefix + ':' + node.filename,
 			    transparent: true,
 			    format: "image/png",
@@ -44,6 +47,7 @@ hs.map = {
 
 		    control[node.filename] = new OpenLayers.Control.GetFeature({
 			protocol: OpenLayers.Protocol.WFS.fromWMSLayer(layers[node.filename], {
+			    ID: node.id,
 			    srsName: 'EPSG:900913',
 			}),
 			/*protocol: new OpenLayers.Protocol.WFS.v1_1_0 ({
@@ -82,6 +86,7 @@ hs.map = {
 		//control[node.filename].activate ();
 		map.addLayer (layers[node.filename]);
 		//map.addLayer (select[node.filename]);
+		attrPanel.loadMap (node);
 	    };
 
 	    this.removeMap = function (node) {
@@ -90,7 +95,7 @@ hs.map = {
 		//map.removeLayer (select[node.filename]);
 		//control[node.filename].deactivate ();
 	    };
-
+	    
 	    Ext.apply (config, {
 		layout: 'border',
 		listeners: {
@@ -123,8 +128,18 @@ hs.map = {
 				}),
 			    ],
 			});
+
+			attrPanel = new hs.map.AttrPanel (mapPanel.getMap (), {
+			    height: 200,
+			    region: 'south',
+			    viewConfig: {
+				forceFit: true,
+			    },
+			});
+
 			thisPanel.add (mapPanel);
 			thisPanel.add (toolbar);
+			thisPanel.add (attrPanel);
 		    },
 		},
 	    });
@@ -164,6 +179,91 @@ hs.map = {
 		},
 	    });
 	    hs.map.MapPanel.superclass.constructor.call (this, config);
+	},
+    }),
+    AttrPanel: Ext.extend (Ext.grid.GridPanel, {
+	constructor: function (map, config) {
+	    var thisPanel = this;
+	    var current_map;
+
+	    if (!config)
+		config = {};
+
+	    var setNewModel = function (data) {
+		var cols = JSON.parse (data.responseText);
+		var fields = []
+		var colList = []
+		for (var i = 0; i < cols.columns.length; i ++) {
+		    colList.push (cols.columns[i]);
+		    fields.push (cols.columns[i].header);
+		}
+
+		var colModel = new Ext.grid.ColumnModel ({
+		    defaults: {
+			sortable: true,
+		    },
+		    columns: colList,
+		});
+
+		var store = new Ext.data.JsonStore ({
+		    root: 'features',
+		    autoLoad: true,
+		    fields: fields,
+		    url: '/' + hs.application + '/geodata/read?id=' + cols.id,
+		});
+		thisPanel.reconfigure (store, colModel);
+	    };
+
+	    var requestCols = function (map_id) {
+		Ext.Ajax.request ({
+		    method: 'GET',
+		    url: '/' + hs.application + '/geodata/columns',
+		    success: setNewModel,
+		    params: {
+			id: map_id,
+		    },
+		});
+	    }
+
+	    this.loadMap = function (map_ob) {
+		current_map = map_ob;
+		requestCols (map_ob.id);
+	    };
+
+	    var overlays = {};
+
+	    Ext.apply (config, {
+		title: 'Attributes',
+		collapsible: true,
+		colModel: new Ext.grid.ColumnModel ({}),
+		sm: new Ext.grid.RowSelectionModel ({
+		    listeners: {
+			rowselect: function (model, id, record) {
+			    overlays[record.id] = new OpenLayers.Layer.Vector ("Overlay", {
+				strategies: [new OpenLayers.Strategy.Fixed ()],
+				protocol: new OpenLayers.Protocol.HTTP ({
+				    url: '/' + hs.application + '/geoserver/wfs',
+				    format: new OpenLayers.Format.GML (),
+				    params: {
+					outputformat: 'GML2',
+					id: current_map.id,
+					request: 'GetFeature',
+					featureID: record.id,
+					srsName: 'EPSG:900913',
+				    },
+				}),
+			    });
+			    map.addLayer (overlays[record.id]);
+			},
+			rowdeselect: function (model, id, record) {
+			    map.removeLayer (overlays[record.id]);
+			}
+		    },
+		}),
+		store: [],
+	    });
+	    
+	    hs.map.AttrPanel.superclass.constructor.call (this, config);
 	},
     }),
 };
