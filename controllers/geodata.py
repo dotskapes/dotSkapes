@@ -114,3 +114,7 @@ def save_maps():
     name = request.vars.get ('name')
     subset = request.vars.get ('subset')'''
 
+def describe_tmp():
+    lookup_id = request.vars.get ('id')
+    data = dm.get ('maps', lookup_id)
+    return urlopen (data.src + '/wfs?request=DescribeFeatureType&typename=' + data.prefix + ':' + data.filename + '&version=1.1.0').read ()

@@ -27,8 +27,9 @@ hs.map = {
 		if (!(node.filename in layers)) {
 		    layers[node.filename] = new OpenLayers.Layer.WMS (
 			"Map",
-			geoserver_url + '/ows',
+			'/' + hs.application + '/geoserver/wms',
 			{
+			    ID: node.id,
 			    layers: node.prefix + ':' + node.filename,
 			    transparent: true,
 			    format: "image/png",
@@ -43,9 +44,9 @@ hs.map = {
 		    );
 
 		    control[node.filename] = new OpenLayers.Control.GetFeature({
-			protocol: OpenLayers.Protocol.WFS.fromWMSLayer(layers[node.filename], {
-			    srsName: 'EPSG:900913',
-			}),
+			    protocol: OpenLayers.Protocol.WFS.fromWMSLayer(layers[node.filename], {
+				    srsName: 'EPSG:900913',
+				}),
 			/*protocol: new OpenLayers.Protocol.WFS.v1_1_0 ({
 			    url: geoserver_url + '/ows',
 			    featureType: node.filename,
@@ -104,7 +105,7 @@ hs.map = {
 			toolbar = new Ext.Toolbar ({
 			    region: 'north',
 			    height: 30,
-			    items: [
+			    /*items: [
 				new Ext.Button ({
 				    text: "Select Subset",
 				    enableToggle: true,
@@ -121,7 +122,7 @@ hs.map = {
 					},
 				    },
 				}),
-			    ],
+			    ],*/
 			});
 			thisPanel.add (mapPanel);
 			thisPanel.add (toolbar);
