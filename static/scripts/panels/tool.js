@@ -89,9 +89,11 @@ hs.tool = {
 			}
 			field = new hs.tool.params.ComboBox ({
 			    fieldLabel: label,
-		    name: key,
+			    name: key,
 			    width: 160,
 			    store: store,
+			    mode: 'local',
+			    triggerAction: 'all',
 			});
 		    }
 		    else {
@@ -573,6 +575,8 @@ hs.tool = {
 		    var fieldMethod = new hs.tool.params.ComboBox ({
 			store: [['MEAN', 'Mean'], ['SUM', 'Sum'], ['COUNT', 'Count'], ['MIN', 'min'], ['MAX', 'MAX']],
 			emptyText: 'Aggregation Method',
+			mode: 'local',
+			triggerAction: 'all',
 		    });
 
 		    var addAttr = function (attrName, source) {
@@ -815,6 +819,7 @@ hs.tool = {
 		    displayField: 'name',
 		    valueField: 'name',
 		    mode: 'local',
+		    triggerAction: 'all',
 		    store: store,
 		    listeners: {
 			beforequery: function (event) {

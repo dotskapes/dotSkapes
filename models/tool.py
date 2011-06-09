@@ -4,7 +4,7 @@ from re import match, findall, sub
 
 from tempfile import NamedTemporaryFile
 import subprocess
-from os import getcwd
+from os import getcwd, remove
 
 tool_model = DM_TableModel (
     DM_Field ('name', 'string', required = True, title = True, text = 'Name'), 
@@ -99,7 +99,9 @@ def get_tool(id):
         mod = get_module (row.filename)
         return dict (python = True, args = mod.cargs, filename = row.filename, id = id)
     else:
-        vars = findall ('HS_RequestParam\s*\(([^\)]+)\)', get_code (row.filename))
+        code_block = get_code (row.filename)
+        code_block = sub ('#[^\n]*\n', '', code_block)
+        vars = findall ('user_param\s*\(([^\)]+)\)', code_block)
         params = []
         for string in vars:
             t = []
@@ -185,7 +187,8 @@ def call_r (m):
     setup += "library ('rgdal')\n"
     setup += "svg (filename = '" + getcwd () + '/' + result_path  + "')\n"
 
-    func = 'HS_RequestParam = function (key, name, type, ...) {\n'
+    files_to_delete = []
+    func = 'user_param = function (key, name, type, ...) {\n'
     for i, t in enumerate (m['args']):
         key = t[0]
         label = t[1]
@@ -196,13 +199,13 @@ def call_r (m):
         if ttype == 'poly_map' or ttype == 'point_map' or ttype == 'map':
             ob = json.loads (val)
             mapname = ob['filename']
-            #removePrefix = match ('^\w+\:(\w+)$', mapname)
-            #if not removePrefix:
-            #    raise HTTP (400, "Bad")
-            #mapname = removePrefix.group (1)
-            #func += "if (key == '" + key  + "') readOGR (dsn = 'PG:" + deployment_settings.postgis.string () + "', layer = '" + str (mapname)  + "')\n"
-            tmp_file_path = getcwd () + '/applications/' + request.application + '/tool/tmp/' + uuid4 ().hex + '.json'
+            '''tmp_file_path = getcwd () + '/applications/' + request.application + '/tool/tmp/' + uuid4 ().hex + '.json'
             tmp_file = open (tmp_file_path, 'w')
+            tmp_file.write (geodata_json (ob['id']))
+            tmpfile.close ()'''
+            tmp_file = NamedTemporaryFile (dir = getcwd () + '/applications/' + request.application + '/tool/tmp',  mode='w', suffix = '.json', delete = False)
+            files_to_delete.append (tmp_file)
+            tmp_file_path = tmp_file.name
             tmp_file.write (geodata_json (ob['id']))
             tmp_file.close ()
             func += "if (key == '" + key  + "') readOGR (dsn = '" + tmp_file_path + "', layer = 'OGRGeoJSON')\n"
@@ -221,13 +224,12 @@ def call_r (m):
 
     proc = subprocess.Popen (['R', '--no-save', '--silent'], stdin = subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     out = proc.communicate (setup + func + code + '\ndev.off ()\n')
+    for f in files_to_delete:
+        remove (f.name)
     if proc.returncode != 0:
-        output = out[0].split ('\n')
-        return attr_dict (err = output[len (output) - 3])
-    #proc.communicate (func)
-    #proc.communicate ('dev.off ()')
-    #proc.communicate ('\x04')
-
+        #output = sub ('\n', '<br />', out[0])
+        #return attr_dict (err = output)
+        return attr_dict (err = "An Error Occurred")
     lookup_id = dm.insert ('results', filename = result_id, type = 'image/svg+xml')
     return dm.get ('results', lookup_id)
 
@@ -241,7 +243,7 @@ def dev_create_tool (name, desc, tool_type):
     if pytool:
         file.write ('''# Add parameters here. Each parameter is of the form (param_name, param_title, param_type)\ncargs = []\n\n# Implement tool function here. Parameters are accessible as attr[param_name].\n# The return type should be the MIME type of the result.\n# An IO Stream attr[\'file\'] is provided to store the result.\ndef ctool (**attr):\n    pass''')
     else:
-        file.write ('''# Add R code here. use the function HS_RequestParam (key, name, type)\n# Use this function to insert parameters from the main applciation to your tool\n''')
+        file.write ('''# Add R code here. Use the function user_param (key, name, type)\n# Use this function to insert parameters from the main applciation to your tool\n''')
     file.close ()
     kwargs = dict (name = name, type = tool_type, description = desc, filename = filename)
     id = dm.insert ('dev_tools', **kwargs)

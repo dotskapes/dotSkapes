@@ -8,6 +8,7 @@ auth = Auth(globals(), db)
 auth.define_tables()                          
 
 auth.settings.create_user_groups = False
+auth.settings.actions_disabled = ['register', 'request_reset_password']
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.register_next = URL (a = request.application, c = 'default',  f = 'register')
@@ -80,3 +81,15 @@ def require_int (input):
     if not match ('^[0-9]*$', input):
         raise HTTP (400, 'Bad Character In Request')
     return int (input)
+
+def require_decimal (input):
+    if not match ('^-?[0-9]*\.?[0-9]*$', input):
+        raise HTTP (400, 'Bad Character In Request')
+    return int (input)
+
+def require_color (input):
+    from savage.graphics.color import hex_to_color
+    if not match ('^(0x)?[0-9a-fA-F]{6}$', input):
+        raise HTTP (400, 'Bad Character In Request')
+    return hex_to_color (input)
+    

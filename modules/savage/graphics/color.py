@@ -6,7 +6,33 @@ class ColorMap:
 
     def index (self, val):
         val = float (val)
-        return self.base.interpolate (self.bound, val / self.num)
+        return self.base.interpolate (self.bound, val / (self.num - 1))
+
+    def __iter__ (self):
+        return ColorMapIter (self)
+
+class ColorMapIter:
+    def __init__ (self, cm):
+        self.current = 0
+        self.cm = cm
+    
+    def __iter__ (self):
+        return self
+
+    def next (self):
+        if self.current == self.cm.num:
+            raise StopIteration ()
+        r_val = self.cm.index (self.current)
+        self.current += 1
+        return r_val
+
+
+def color_to_css (c):
+    r = hex (int (c.red * 255)) + '0'
+    g = hex (int (c.green * 255)) + '0'
+    b = hex (int (c.blue * 255)) + '0'
+    return '#' + r[2:4] + g[2:4] + b[2:4]
+
 
 def hex_to_color (hex):
     hex = str (hex)

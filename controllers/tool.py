@@ -76,6 +76,7 @@ def result():
         perm = boolean (require_int (request.vars.get ('perm')))
         lookup_id = int (request.vars.get ('id'))
         dm.update ('results', lookup_id, public = perm)
+        return str (perm)
 
 def analysis():
     if request.args[0] == 'save':

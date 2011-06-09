@@ -2,6 +2,9 @@ from urllib import urlencode
 from urllib2 import urlopen
 from BeautifulSoup import BeautifulStoneSoup
 
+db.define_table ('tmp_styles', 
+                 Field ('style_data', 'string', required = True))
+
 def sync_geoserver (path):
     file = urlopen (path + '/wms?SERVICE=WMS&REQUEST=GetCapabilities')
     buffer = file.read ()
@@ -28,3 +31,66 @@ def sync_geoserver (path):
             for k in keywords:
                 kw.append (k.string)
             dm.keywords ('maps', id, kw)
+
+def load_fields (data):
+    map_data = urlopen (data.src + '/ows', urlencode ({
+                'service': 'wfs',
+                'version': '1.1.0',
+                'request': 'DescribeFeatureType',
+                'typename': data.prefix + ':' + data.filename,
+                #'outputformat': 'json',
+                })
+             )
+    doc = BeautifulStoneSoup (map_data.read ())
+    elements = doc.find ('xsd:complextype')
+    tags = elements.findAll ('xsd:element')
+    names = []
+    for t in tags:
+        if match ('^gml:', t['type']):
+            continue
+        names.append (str (t['name']))
+    return names
+
+def load_map (data):
+    map_data = urlopen (data.src + '/wfs', urlencode ({
+                'service': 'wfs',
+                'version': '1.1.0',
+                'request': 'GetFeature',
+                'typename': data.prefix + ':' + data.filename,
+                'outputformat': 'JSON',
+                })
+            )
+    return map_data.read ()
+
+def load_map_attributes (data):
+    map_data = urlopen (data.src + '/ows', urlencode ({
+                'service': 'wfs',
+                'version': '1.1.0',
+                'request': 'GetFeature',
+                'typename': data.prefix + ':' + data.filename,
+                'outputformat': 'json',
+                })
+             )
+    #return map_data.read ()
+    entry_list = []
+    for ob in json.loads (map_data.read ())['features']:
+        result = {'id': ob['id']}
+        result.update (ob['properties'])
+        #result.update ({'geom': ob['geometry']['coordinates'], 'id': ob['id']})
+        entry_list.append (result)
+    return {'features': entry_list}
+
+def gen_choropleth (map_index, sort_field, low_color, high_color):
+    from savage.graphics.color import ColorMap, color_to_css
+    key = map_index.src + map_index.filename + sort_field + color_to_css (low_color) + color_to_css (high_color)
+    def create_choro ():
+        attr = load_map_attributes (map_index)
+        data_list = []
+        for item in attr['features']:
+            data_list.append ((item['id'], item[sort_field]))
+            data_list.sort (key = lambda x: x[0])
+            cm = ColorMap (low_color, high_color, len (data_list))
+        choro = json.dumps ({'layer': map_index.prefix + ':' + map_index.filename, 'filter': zip (map (lambda x: x[0], data_list), map (color_to_css, cm))})
+        return urlopen ('http://127.0.0.1:' + str (deployment_settings.web2py.port) + '/' + request.application + '/geoserver/xsd/choropleth', choro).read ()
+    return cache.ram (key, create_choro, time_expire = 20);
+    

@@ -11,6 +11,19 @@ var hs = {
 	dev: dev,
     },
     application: app,
+    url: function (controller, func, args, params) {
+	if (!args)
+	    args = [];
+	var pstring = '';
+	if (params) {
+	    var plist = [];
+	    for (key in params) {
+		plist.push (key + '=' + params['key']);
+	    }
+	    pstring = plist.join ('&');
+	}
+	return '/' + hs.application + '/' + controller + '/' + func + args.join ('/') + pstring;
+    },
     /*SelectBox: Ext.extend (Ext.Panel, {
 	constructor: function (config) {
 	    if (!config)

@@ -28,8 +28,7 @@
 
 <script type="text/javascript">
     window.addEventListener ('load', function () {
-
-	
+   
     if (!('console' in window)) {
 	console = {
 	    log: function () {},
@@ -175,6 +174,11 @@
     //win.toBack();
     //win.tools.close.hide();
     //win.tools.restore.hide();
+
+    searchFindTab = function (term) {
+	tabPanel.setActiveTab (3);
+        findPanel.search (term);
+    };
 
     }, false);
 </script>
