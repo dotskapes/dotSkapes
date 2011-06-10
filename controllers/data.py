@@ -12,8 +12,8 @@ def load():
             return '{data: ' + dm.global_load (datatype, [kw]).json () + '}'
         else:
             result = db.executesql ('''
-            SELECT keyword.kw, counts.count 
-            FROM (SELECT keycount.kw_id, keycount.count 
+            SELECT keyword.kw, counts.counts 
+            FROM (SELECT keycount.kw_id, keycount.counts 
                FROM (SELECT id 
                   FROM disease 
                   WHERE d = '%s') AS diseases
@@ -31,16 +31,16 @@ def load():
                     lookup.add (item['id'])
                     return True
 
-            rList = dm.load_keyworded (data_type, kw)
+            rList = dm.load_keyworded (datatype, kw)
             for item in rList:
                 lookup.add (item['id'])
 
             for r in result:
                 val = r[0]
-                next = dm.load_keyworded (data_type, val)
+                next = dm.load_keyworded (datatype, val)
                 filtered = filter (reducer, next)
                 rList += filtered
-            return rList.json ()
+            return '{data:' + rList.json () + '}'
     else:
         return '{data: ' + dm.global_load (datatype).json () + '}'
 
