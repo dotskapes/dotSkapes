@@ -12,16 +12,6 @@ def index():
     response.title = 'Healthscapes'
     return(output)
 
-def register():
-    if auth.user:
-        table = auth.settings.table_user_name
-        if db(db[table].id > 0).count() == 1:
-            auth.add_membership (admin_role, auth.user.id)
-            auth.add_membership (dev_role, auth.user.id)
-        else:
-            auth.add_membership (auth_role, auth.user.id)
-    redirect (URL (a = request.application, c = 'default',  f = 'index.html'))
-
 def user():
     """
     exposes:

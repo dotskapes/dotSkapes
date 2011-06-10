@@ -4,7 +4,9 @@ hs.map = {
 	    var mapPanel;
 	    var toolbar;
 	    var attrPanel;
+	    var sidePanel;
 	    var thisPanel = this;
+	    var activeLayers = {};
 	    var layers = {};
 	    var select = {};
 	    var control = {};
@@ -22,19 +24,27 @@ hs.map = {
 		fillOpacity: .4,
 		strokeColor: '#ee9900',
 	    });*/
+	    
+	    this.getVisibleLayers = function () {
+		var nodeList = [];
+		for (key in activeLayers) {
+		    nodeList.push (activeLayers[key]);
+		}
+		return nodeList;
+	    };
 
 	    this.addMap = function (node) {
 		var map = mapPanel.getMap ();
 		if (!(node.filename in layers)) {
 		    layers[node.filename] = new OpenLayers.Layer.WMS (
 			"Map",
-			'/' + hs.application + '/geoserver/wms',
+			'/' + hs.application + '/geoserver/ows?ID=' + node.id,
 			{
-			    ID: node.id,
+			    SERVICE: 'WMS',
 			    layers: node.prefix + ':' + node.filename,
 			    transparent: true,
 			    format: "image/png",
-			    projection: 'EPSG:9000913',
+			    projection: 'EPSG:900913',
 			    //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
 			    styles: null,
 			},
@@ -43,14 +53,94 @@ hs.map = {
 			    displayOutsideMaxExtent: true,
 			}
 		    );
+		    /*layers[node.filename] = new OpenLayers.Layer.WMS (
+			"Map",
+			'/' + hs.application + '/geoserver/filter?ID=' + node.id,
+			{
+			    SERVICE: 'WMS',
+			    layers: node.prefix + ':' + node.filename,
+			    transparent: true,
+			    format: "image/png",
+			    projection: 'EPSG:900913',
+			    //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
+			    //styles: null,
+			    FIELD: 'pop_admin',
+			    MODE: 'gt',
+			    VALUE: 1000000,
+			},
+			{
+			    isBaseLayer: false,
+			    displayOutsideMaxExtent: true,
+			}
+		    );*/
+		    /*layers[node.filename] = new OpenLayers.Layer.WMS (
+			"Map",
+			'/' + hs.application + '/geoserver/choropleth?ID=' + node.id,
+			{
+			    SERVICE: 'WMS',
+			    layers: node.prefix + ':' + node.filename,
+			    transparent: true,
+			    format: "image/png",
+			    projection: 'EPSG:900913',
+			    //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
+			    //styles: null,
+			    FIELD: 'pop_admin',
+			    LOW_COLOR: '0xff0000',
+			    HIGH_COLOR: '0x00ff00',
+			},
+			{
+			    isBaseLayer: false,
+			    displayOutsideMaxExtent: true,
+			}
+		    );*/
+
+		    /*layers[node.filename].events.register ('click', this, function (e) {
+			console.log ('Event', e);
+		    });*/
+		    
+		    /*Ext.Ajax.request ({
+			method: 'GET',
+			url: hs.url ('geoserver', 'choropleth.xsd'),
+			params: {
+			    ID: node.id,
+			    FIELD: 'pop_admin',
+			    LOW_COLOR: '0xff0000',
+			    HIGH_COLOR: '0x00ff00',
+			},
+			success: function (data) {
+			    layers[node.filename] = new OpenLayers.Layer.WMS (
+				"Map",
+				'/' + hs.application + '/geoserver/ows?ID=' + node.id,
+				{
+				    SERVICE: 'WMS',
+				    layers: node.prefix + ':' + node.filename,
+				    transparent: true,
+				    format: "image/png",
+				    projection: 'EPSG:900913',
+				    SLD_NAME: JSON.parse (data.responseText).id,
+				},
+				{
+				    isBaseLayer: false,
+				    displayOutsideMaxExtent: true,
+				    unsupportedBrowsers: [],
+				}
+			    );
+			    map.addLayer (layers[node.filename]);
+			    activeLayers[node.filename] = node;
+			    attrPanel.loadMap (node);
+			},
+		    });
+		    return;*/
 
 		    control[node.filename] = new OpenLayers.Control.GetFeature({
 			protocol: OpenLayers.Protocol.WFS.fromWMSLayer(layers[node.filename], {
-			    ID: node.id,
 			    srsName: 'EPSG:900913',
 			}),
+			strategies: [
+			    new OpenLayers.Strategy.BBOX (),
+			],
 			/*protocol: new OpenLayers.Protocol.WFS.v1_1_0 ({
-			    url: geoserver_url + '/ows',
+			    url: '/' + hs.application + '/geoserver/wfs?id=' + node.id,
 			    featureType: node.filename,
 			    featureNS: node.prefix,
 			    srsName: 'EPSG:900913',
@@ -58,7 +148,7 @@ hs.map = {
 			box: true,
 			hover: false,
 			multipleKey: "shiftKey",
-			toggleKey: "shiftKey"
+			toggleKey: "shiftKey",
 		    });
 
 		    control[node.filename].events.register("featureselected", this, function(e) {
@@ -70,27 +160,18 @@ hs.map = {
 
 		    map.addControl (control[node.filename]);
 
-		    /*layers[node.filename] = new OpenLayers.Layer.Vector (null, {
-			projection: 'EPSG:4326',
-			strategies: [new OpenLayers.Strategy.Fixed()],
-			protocol: new OpenLayers.Protocol.WFS.v1_1_0 ({
-			    url: 'http://zk.healthscapes.org/geoserver/wfs',
-			    featureType: node.filename,
-			    featurePrefix: node.prefix,
-			}),
-			styleMap: defaultStyle,
-		    });*/
 		}
 		selectControl = control[node.filename];
-		//control[node.filename].activate ();
 		map.addLayer (layers[node.filename]);
-		//map.addLayer (select[node.filename]);
+		activeLayers[node.filename] = node;
+
 		attrPanel.loadMap (node);
 	    };
 
 	    this.removeMap = function (node) {
 		var map = mapPanel.getMap ();
 		map.removeLayer (layers[node.filename]);
+		delete activeLayers[node.filename];
 		//map.removeLayer (select[node.filename]);
 		//control[node.filename].deactivate ();
 	    };
@@ -105,10 +186,12 @@ hs.map = {
 
 			var map = mapPanel.getMap ();
 
+			var filterButton = new hs.map.FilterButton (thisPanel);
+
 			toolbar = new Ext.Toolbar ({
 			    region: 'north',
 			    height: 30,
-			    /*items: [
+			    items: [
 				new Ext.Button ({
 				    text: "Select Subset",
 				    enableToggle: true,
@@ -119,13 +202,15 @@ hs.map = {
 						selectControl.activate ();
 					    }
 					    else {
+						selectLayer.removeAllFeatures();
 						map.removeLayer (selectLayer);
 						selectControl.deactivate ();
 					    }
 					},
 				    },
 				}),
-			    ],*/
+				filterButton,
+			    ],
 			});
 
 			attrPanel = new hs.map.AttrPanel (mapPanel.getMap (), {
@@ -135,7 +220,7 @@ hs.map = {
 				forceFit: true,
 			    },
 			});
-
+			
 			thisPanel.add (mapPanel);
 			thisPanel.add (toolbar);
 			thisPanel.add (attrPanel);
@@ -193,8 +278,8 @@ hs.map = {
 		var fields = []
 		var colList = []
 		for (var i = 0; i < cols.columns.length; i ++) {
-		    colList.push (cols.columns[i]);
-		    fields.push (cols.columns[i].header);
+		    colList.push ({header: cols.columns[i]});
+		    fields.push (cols.columns[i]);
 		}
 
 		var colModel = new Ext.grid.ColumnModel ({
@@ -245,7 +330,7 @@ hs.map = {
 				    format: new OpenLayers.Format.GML (),
 				    params: {
 					outputformat: 'GML2',
-					id: current_map.id,
+					ID: current_map.id,
 					request: 'GetFeature',
 					featureID: record.id,
 					srsName: 'EPSG:900913',
@@ -263,6 +348,73 @@ hs.map = {
 	    });
 	    
 	    hs.map.AttrPanel.superclass.constructor.call (this, config);
+	},
+    }),
+    FilterButton: Ext.extend (Ext.Button, {
+	constructor: function (mapPanel, config) {
+	    if (!config)
+		config = {};
+
+	    Ext.apply (config, {
+		text: 'Filter Map',
+		listeners: {
+		    click: function (b) {
+			layers = mapPanel.getVisibleLayers ();
+			
+			var field_data = [];
+			for (var i = 0; i < layers.length; i ++) {
+			    field_data.push ([layers[i], layers[i].name]);
+			}
+			var layer_select = new Ext.form.ComboBox ({
+			    store: new Ext.data.ArrayStore ({
+				fields: [
+				    'node',
+				    'node_name',
+				],
+				data: field_data,
+			    }),
+			    valueField: 'node',
+			    displayField: 'node_name',
+			    mode: 'local',
+			    triggerAction: 'all',
+			    width: 250,
+			    listeners: {
+				select: function (cb, record, index) {
+				    Ext.Ajax.request ({
+					method: 'GET',
+					url: hs.url ('geodata', 'columns'),
+					params: {
+					    id: record.data.node.id,
+					},
+					success: function (data) {
+					    console.log (data.responseText);
+					}
+				    });
+				},
+			    }
+			});
+
+			var filter_slider = new Ext.slider.MultiSlider ({
+			    disabled: true,
+			    minValue: 0,
+			    maxValue: 1,
+			});
+
+			var win = new Ext.Window ({
+			    width: 300,
+			    height: 200,
+			    title: 'Create Filter',
+			    items: [
+				layer_select,
+				filter_slider,
+			    ],
+			});
+			win.show ();
+		    },
+		},
+	    });
+	    hs.map.FilterButton.superclass.constructor.call (this, config);
+	    
 	},
     }),
 };

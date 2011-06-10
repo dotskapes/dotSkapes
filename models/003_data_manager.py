@@ -356,11 +356,11 @@ class DataManager:
         return lookup.data.multi_get (loadList)
 
     def get (self, datatype, object_id):
-        user_id = require_logged_in ()
+        user_id = check_logged_in ()
         lookup = self.root.query (datatype = datatype).first ()
         lookup.data.create (self.models[datatype])
         result = lookup.data.get (object_id)
-        if user_id != result.owner and not result.public:
+        if user_id != result.owner and not result['public']:
             raise HTTP (400, "Attempt to access private data")
         return result
     

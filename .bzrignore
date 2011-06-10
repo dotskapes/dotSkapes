@@ -1,5 +1,6 @@
 .git
 .gitignore
+.pyc
 cache/*
 cron/crontab
 databases/*

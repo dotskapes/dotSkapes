@@ -56,11 +56,13 @@ hs.find = {
 		});
 		return new Ext.form.TextField (config);
 	    };
+
+            var text_box = keywordFilter (dataGrid, rec);
 	    
 	    var top_menu = new Ext.Toolbar ({
 		height: 30,
 		items: [
-		    keywordFilter (dataGrid, rec),
+		    text_box,
 		    rec,
 		],
 	    });
@@ -83,6 +85,11 @@ hs.find = {
 		    sub_menu,
 		],
 	    });
+
+	    this.search = function (term) {
+		text_box.setValue (term);
+		dataGrid.keyword (term);
+            };
 
 	    Ext.apply (config, {
 		region: 'center',

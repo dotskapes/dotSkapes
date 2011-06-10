@@ -1,19 +1,13 @@
 {{extend 'splash/layout.html' }}
 
-<script type="text/javascript">
-    window.addEventListener ('load', function (event) {
-	console.log (top);
-    }, false);
-</script>
+   <div id='banner'></div>
 
-    <div id='banner'></div>
-    
     <div id='header'>
-        
-        <div id='introQuote'>
-        <h2><span>Healthscapes</span> is a suite of web tools for finding, analyzing, and sharing global environmental health information.</h2>
-        </div>
-        
+      <img style="float:right; height:130px; margin-top: 5px;" src="/{{= request.application}}/static/images/globe_small.png" />
+      <div id='introQuote'>
+        <h1><b>Healthscapes</b> is a suite of web tools for finding, analyzing, and sharing global environmental health information.</h1>
+      </div>
+      
         <!--
         <div id='flashSS'>
         
@@ -30,41 +24,61 @@
     <div id='feature'>
     
         <!--<a href="/{{= request.application }}/splash/find.html">-->
-	<a href="#" id="find">
+        <a href="/{{= request.application }}/splash/find.html">       
         <div class='box'>
-        <h2>Find</h2>
+	  <h2 class="letter">F</h2>
+	  <p class="subscript">find</p>
         </div>
         </a>
-       
+
+        <a href="/{{= request.application }}/splash/analyze.html">       
+        <div class='box' style="position:relative">
+	  <h2 class="letter">A</h2>
+	  <p class="subscript">analyze</p>
+        </div>
+        </a>
+
         <a href="/{{= request.application }}/splash/share.html">       
-        <div class='box'>
-        <h2>Share</h2>
+        <div class='box' style="position:relative">
+	  <h2 class="letter">S</h2>
+	  <p class="subscript">share</p>
         </div>
         </a>
-        
-        <a href="/{{= request.application }}/splash/analyze.html">
-        <div class='box'>
-        <h2>Analyze</h2>
+
+        <a href="/{{= request.application }}/splash/tag.html">       
+        <div class='box' style="position:relative">
+	  <h2 class="letter">T</h2>
+	  <p class="subscript">tag</p>
         </div>
         </a>
-        
+
+       
+        <a href="/{{= request.application }}/splash/research.html">
+        <div class='box'>
+        <h2>Researchers</h2>
+        </div>
+        </a>
+
         <a href="/{{= request.application }}/splash/dev.html">
         <div class='box'>
-        <h2>Developer</h2>
+        <h2>Developers</h2>
         </div>
         </a>
+
         
         <a href="/{{= request.application }}/splash/case.html">
         <div class='box'>
-        <h2>Case Study</h2>
+        <h2>Case Studies</h2>
         </div>
         </a>
         
-        <a href="http://www.healthscapes.org/welcome/default/about">
+
+        <a href="/{{= request.application }}/splash/doc.html">
         <div class='box'>
-        <h2>About</h2>
+        <h2>Documentation</h2>
         </div>
         </a>
+
         
         <div class='clear'></div>
         

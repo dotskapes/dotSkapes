@@ -11,6 +11,7 @@ map_model = DM_TableModel (DM_Field ('name', 'string', required = True, title = 
 
 dm.define_datatype ('maps', map_model)
 
+# Deprecated use geoserver.load_map instead
 def geodata_json (lookup_id):
     data = dm.get ('maps', lookup_id)
     map_data = urlopen (data.src + '/wfs', urlencode ({

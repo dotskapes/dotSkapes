@@ -1,32 +1,39 @@
 {{extend 'splash/layout.html'}}
 
+<script type="text/javascript">
+    $ (window).load (function () {
+	$ ("#search_button").click (function () {
+	    top.searchFindTab ($ ("#search_box").val ());
+	});
+    });
+</script>
+
 <div class='subPage' id='find'>
 
     <div id='feature'>
     
-        <a href="#">
         <div class='box'>
         <h2>Step 1:</h2>
-        <p>Descrptions go here.</p>
+        <p>Choose a keyword.</p>
         </div>
-        </a>
        
-        <a href="#">       
         <div class='box'>
         <h2>Step 2:</h2>
-        <p>Descrptions go here.</p>
+        <p>Choose a data type (map, tool, analysis).</p>
         </div>
-        </a>
         
-        <a href="#">
         <div class='box'>
         <h2>Step 3:</h2>
-        <p>Descrptions go here.</p>
+        <p>Drag items to your sidebar.</p>
         </div>
-        </a>
+
+        <div class='box'>
+        <h2>Start:</h2>
+	<form style="text-align: right;" action="#">
+	  <p>Enter a search term below</p>
+	  <input id="search_box" type="text" />
+	  <input id="search_button" type="submit" value="Submit" />
+	  </form>
+        </div>
         
-        <div class='clear'></div>
-        
-    </div>   
-    
-</div>
+</div>   

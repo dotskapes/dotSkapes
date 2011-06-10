@@ -79,3 +79,15 @@ def require_int (input):
     if not match ('^[0-9]*$', input):
         raise HTTP (400, 'Bad Character In Request')
     return int (input)
+
+def require_decimal (input):
+    if not match ('^-?[0-9]*\.?[0-9]*$', input):
+        raise HTTP (400, 'Bad Character In Request')
+    return int (input)
+
+def require_color (input):
+    from savage.graphics.color import hex_to_color
+    if not match ('^(0x)?[0-9a-fA-F]{6}$', input):
+        raise HTTP (400, 'Bad Character In Request')
+    return hex_to_color (input)
+    

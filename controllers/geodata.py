@@ -4,41 +4,11 @@ from urllib import urlencode
 from urllib2 import urlopen
 from BeautifulSoup import BeautifulStoneSoup
 
-'''def sync():
-    require_role (admin_role)
-    if request.args[0] == 'geoserver':
-        path = request.vars.get ('path')
-        file = urlopen (path + '/wms?ERVICE=WMS&REQUEST=GetCapabilities')
-        buffer = file.read ()
-        soup = BeautifulStoneSoup (buffer)
-        layers = soup.findAll (name = 'layer')
-        results = []
-        for l in layers:
-            name = l.find ('title')
-            id = l.find ('name')
-            if name and id:
-                text = name.string
-                if not text:
-                    text = id.string
-                m = match ('^([^\:]+)\:(.+)$', id.string)
-                if m:
-                    p = m.group (1)
-                    f = m.group (2)
-                else:
-                    p = '',
-                    f = id.string
-                id = dm.insert ('maps', prefix = p, filename = f, name = text, src = path, public = True)
-                keywords = l.findAll (name = 'keyword')
-                kw = []
-                for k in keywords:
-                    kw.append (k.string)
-                dm.keywords ('maps', id, kw)
-        return 'Ok' '''
-
 def read():
     lookup_id = require_int (request.vars.get ('id'))
     data = dm.get ('maps', lookup_id)
-    map_data = urlopen (data.src + '/ows', urlencode ({
+    return json.dumps (load_map_attributes (data))
+    '''map_data = urlopen (data.src + '/ows', urlencode ({
                 'service': 'wfs',
                 'version': '1.1.0',
                 'request': 'GetFeature',
@@ -53,34 +23,12 @@ def read():
         result.update (ob['properties'])
         #result.update ({'geom': ob['geometry']['coordinates'], 'id': ob['id']})
         entry_list.append (result)
-    return json.dumps ({'features': entry_list})
+    return json.dumps ({'features': entry_list})'''
 
 def columns():
     lookup_id = require_int (request.vars.get ('id'))
     data = dm.get ('maps', lookup_id)
-    map_data = urlopen (data.src + '/ows', urlencode ({
-                'service': 'wfs',
-                'version': '1.1.0',
-                'request': 'DescribeFeatureType',
-                'typename': data.prefix + ':' + data.filename,
-                #'outputformat': 'json',
-                })
-             )
-    doc = BeautifulStoneSoup (map_data.read ())
-    elements = doc.find ('xsd:complextype')
-    tags = elements.findAll ('xsd:element')
-    names = []
-    for t in tags:
-        '''if t['type'] == 'xsd:decimal':
-            r_type = 'integer'
-        elif t['type'] == 'xsd:string':
-            r_type = 'string'
-        else:
-            continue'''
-        if t['name'] == 'the_geom':
-            continue
-        names.append ({'header': t['name'],})
-    return json.dumps ({'id': lookup_id, 'columns': names})
+    return json.dumps ({'id': lookup_id, 'columns': load_fields (data)})
 
 def maps():
     file = urlopen (deployment_settings.geoserver.wms_capabilities ())
