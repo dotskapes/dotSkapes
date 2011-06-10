@@ -9,12 +9,18 @@ def share():
    
 def analyze():
     return {}        
+
+def tag():
+    return {}
     
 def dev():
     return {}        
-    
-def case():
+
+def research():
     return {}        
     
-def about():
+def case():
+    return {}
+   
+def doc():
     return {}            

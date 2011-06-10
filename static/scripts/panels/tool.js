@@ -390,7 +390,7 @@ hs.tool = {
 		config = {};
 
 	    Ext.apply (config, {
-		title: 'Analyzer',
+		title: 'Analyze',
 		layout: 'border',
 		items: [
 		    leftPanel,
