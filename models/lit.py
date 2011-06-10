@@ -7,8 +7,8 @@ db.define_table('disease',
 )
 
 db.define_table('keycount',
-    Field('kw_id', db.keyword),
-    Field('d_id', db.disease),
+    Field('kw_id', 'integer'),
+    Field('d_id', 'integer'),
     Field('counts','integer'),
 )
 

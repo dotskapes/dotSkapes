@@ -355,6 +355,15 @@ class DataManager:
             loadList.append (r.ref)
         return lookup.data.multi_get (loadList)
 
+    def load_keyworded (self, datatype, kw):
+        lookup = self.root.query (datatype = datatype).first ()
+        key_table = lookup.kw.query (name = kw).first ()
+        if key_table is None:
+            return DM_List ()
+        ids = map (lambda x: x.ref, key_table.ref.all ())
+        lookup.data.create (self.models[datatype])
+        return lookup.data.multi_get (ids)
+
     def get (self, datatype, object_id):
         user_id = check_logged_in ()
         lookup = self.root.query (datatype = datatype).first ()
