@@ -287,7 +287,7 @@ class DM_Table:
 
 class DataManager:
     def __init__ (self):
-        self.root = DM_Table ('datatypes', root_table)
+        self.root = DM_Table (deployment_settings.data.base_table, root_table)
         self.__checker = set ()
         self.models = {}
 

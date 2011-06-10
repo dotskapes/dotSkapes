@@ -1,14 +1,14 @@
 db.define_table('keyword',
-    Field('kw'),
+    Field('kw', 'string', length = 512),
 )
 
 db.define_table('disease',
-    Field('d'),
+    Field('d', 'string', length = 512),
 )
 
 db.define_table('keycount',
-    Field('kw_id', db.keyword),
-    Field('d_id', db.disease),
+    Field('kw_id', 'integer'),
+    Field('d_id', 'integer'),
     Field('counts','integer'),
 )
 

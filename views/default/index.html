@@ -96,7 +96,7 @@
         items: [
 	    {{ if not side_bar: }}{
 		xtype: 'panel',
-		html: '<div style="text-align: center;"><a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or <a href="{{=URL (a=request.application, c='default', f='user', args=['login'])}}">Login</a> to activate this panel</div>',
+		html: '<div style="text-align: center;"><!--<a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or--><a href="{{=URL (a=request.application, c='default', f='user', args=['login'])}}">Login</a> to activate this panel</div>',
 		border: false,
 		padding: 10,
             },{{else:}}

@@ -16,6 +16,10 @@ deployment_settings.database.username = "admin"
 deployment_settings.database.password = "passwd"
 deployment_settings.database.pool_size = 30
 
+# Data Manager Settings
+deployment_settings.data = blank ()
+deployment_settings.data.base_table = "base_data_table"
+
 # PostGIS Settings
 deployment_settings.postgis = blank ()
 deployment_settings.postgis.host = "localhost"

@@ -1,4 +1,3 @@
-
 while True:
     user1 = raw_input ('Enter admin email address: ')
     user2 = raw_input ('Re-enter admin email address: ')
@@ -11,7 +10,11 @@ admin_role = auth.add_group ("Administrator", "System Administrator - can access
 dev_role = auth.add_group ("Developer", "Developer - Users with development privileges")
 auth_role = auth.add_group ("Authenticated", "Authenticated - all logged-in users")
 
-user_id = db[auth.settings.table_user_name].insert (email = user1)
+result = db (db[auth.settings.table_user_name].email == user1).select ().first ()
+if result:
+    user_id = result.id
+else:
+    user_id = db[auth.settings.table_user_name].insert (email = user1)
 auth.add_membership (admin_role, user_id)
 
 # Simmulate Login

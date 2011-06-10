@@ -8,6 +8,7 @@ auth = Auth(globals(), db)
 auth.define_tables()                          
 
 auth.settings.create_user_groups = False
+auth.settings.actions_disabled = ['register', 'request_reset_password']
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.register_next = URL (a = request.application, c = 'default',  f = 'register')
@@ -57,9 +58,7 @@ def check_role (role):
         False
     if auth.has_membership (admin_role, auth.user.id):
         return True
-    if not auth.has_membership (role, auth.user.id):
-        return False
-    return True
+    return auth.has_membership (role, auth.user.id)
 
 def require_val (input):
     if not input:
