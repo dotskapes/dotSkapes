@@ -12,7 +12,7 @@ auth.settings.actions_disabled = ['register', 'request_reset_password']
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.register_next = URL (a = request.application, c = 'default',  f = 'register')
-auth.settings.login_next = URL (a = request.application, c = 'default',  f = 'index.html')
+auth.settings.login_next = URL (scheme = 'http', a = request.application, c = 'default',  f = 'index.html')
 
 auth.settings.login_methods.append(
     email_auth("smtp.gmail.com:587", "@gmail.com"))
