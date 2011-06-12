@@ -9,7 +9,7 @@ def index():
             output.update ({'dev_tools': False})
     else:
         output.update ({'side_bar': False, 'dev_tools': False})
-    response.title = 'Healthscapes'
+    response.title = 'skapes'
     return(output)
 
 def user():
