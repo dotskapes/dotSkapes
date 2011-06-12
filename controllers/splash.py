@@ -24,3 +24,9 @@ def case():
    
 def doc():
     return {}            
+
+def privacy():
+    return {}
+
+def terms():
+    return{}

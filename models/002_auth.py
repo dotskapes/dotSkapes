@@ -51,7 +51,7 @@ def require_role (role):
 def check_logged_in ():
     if not auth.user:
         return False
-    return True
+    return auth.user.id
 
 def check_role (role):
     if not auth.user:

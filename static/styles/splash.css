@@ -17,7 +17,7 @@ body {
     padding: 0;
     background: #C1D6E2;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 h1, h2, h3 {
@@ -206,4 +206,35 @@ p.subscript {
     -moz-border-radius-topright: 20px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+}
+
+
+/* Footer */
+/* html5: changed #wrapper2 to footer */
+/* html5: changed #footer to #fatfooter */
+/* footer{ */
+/*    background: #F7F7F7 url(images/img03.jpg) repeat-x left top; */
+/*    padding: 20px 0px; */
+/* } */
+
+#fatfooter {
+   width: 900px;
+   margin: 0 auto;
+   color: #757E82;
+}
+
+#fatfooter p {
+   margin: 0;
+   text-align: center;
+   font-size: 11px;
+}
+
+#fatfooter a {
+   text-decoration: underline;
+   color: #757E82;
+}
+
+#fatfooter a:hover {
+   text-decoration: none;
+   color: #F90542;
 }
