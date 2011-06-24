@@ -372,6 +372,12 @@ class DataManager:
         if user_id != result.owner and not result['public']:
             raise HTTP (400, "Attempt to access private data")
         return result
+
+    def query (self, datatype, **query):
+        user_id = check_logged_in ()
+        lookup = self.root.query (datatype = datatype).first ()
+        lookup.data.create (self.models[datatype])
+        return lookup.data.query (**query)
     
     def owner (self, datatype, object_id, user_id):
         pass
@@ -396,6 +402,17 @@ class DataManager:
     def unlink (self, datatype, object_id):
         user_table = self.__traverse_to_user_table (datatype)
         user_table.delete (ref = object_id)
+
+    def delete (self, datatype, **kw):
+        user_id = require_logged_in ()
+        data = self.query (datatype, **kw)
+        if not check_role (admin_role):
+            for item in data:
+                if item.owner != user_id:
+                    raise HTTP (400, "Permission Denied")
+        lookup = self.root.query (datatype = datatype).first ()
+        lookup.data.create (self.models[datatype])
+        lookup.data.delete (**kw)
 
     def keywords (self, datatype, object_id, keywords):
         lookup = self.root.query (datatype = datatype).first ()

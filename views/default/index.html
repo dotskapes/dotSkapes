@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/scripts/ext/resources/css/ext-all.css" />
@@ -7,12 +7,8 @@
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/OpenLayers/OpenLayers.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/GeoExt/lib/GeoExt.js"></script>
 <script language="javascript" type="text/javascript" src="/{{=request.application}}/static/scripts/edit_area/edit_area_full.js"></script>
-<script type="text/javascript">
-    var geoserver_url = '{{=geoserver.url}}';
-    var app = '{{=request.application}}';
-    var dev = {{if dev_tools: }}true {{else:}} false {{pass}};
-</script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/base.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/scripts/base.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/utils.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/scripts/data.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/grid.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/tree.js"></script>
@@ -27,7 +23,9 @@
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/result.js"></script>
 
 <script type="text/javascript">
-    window.addEventListener ('load', function () {
+    hs.app = {};
+    //window.addEventListener ('load', function () {
+    Ext.onReady (function () {
    
     if (!('console' in window)) {
 	console = {
@@ -36,43 +34,46 @@
 	};
     }
 
-    var mapTab = new hs.map.Panel ({
+    hs.app.map = mapTab = new hs.map.Panel ({
 	title: 'Map',
 	region: 'center',
     });
 
-    var diseasePages = new hs.info.Panel ({
+    hs.app.info = new hs.info.Panel ({
 	title: 'Info',
 	region: 'center',
 	layout: 'border',
     });
 
+    hs.app.user = {};
+
     {{if side_bar:}}
 
     //var saved_maps = new hs.side.MapPanel ({{response.write (maps_saved, escape = False)}});
-    var saved_maps = new hs.side.MapPanel ({{response.write (maps_saved, escape = False)}});
-    saved_maps.linkMap (mapTab);
+    hs.app.user.maps = new hs.side.MapPanel ({{response.write (maps_saved, escape = False)}});
+    hs.app.user.maps.linkMap (mapTab);
 
-    var tool_list = new hs.side.ToolPanel ({{response.write (tool_list, escape = False)}});
+    hs.app.user.tools = new hs.side.ToolPanel ({{response.write (tool_list, escape = False)}});
 
     //var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
-	var saved_results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
+    hs.app.user.results = new hs.side.ResultPanel ({{response.write (tool_saved_results, escape = False)}});
 
-    var saved_analyses = new hs.side.AnalysisPanel ({{response.write (tool_saved_analyses, escape = False)}});
+    hs.app.user.analyses = new hs.side.AnalysisPanel ({{response.write (tool_saved_analyses, escape = False)}});
 	/*var saved_analyses = new hs.tree.Panel ({{response.write (tool_saved_analyses, escape = False)}}, {
 	    datatype: 'analyses',
 	});*/
 
     {{ else: }}
 
-    var tool_list = null;
-    var saved_results = null;
-    var saved_analyses = null;
+    hs.app.user.maps = null;
+    hs.app.user.tools = null;
+    hs.app.user.results = null;
+    hs.app.user.analyses = null;
 
     {{ pass }}
 
     {{ if dev_tools: }}
-    var devtools = new hs.side.DevPanel ({{response.write (in_dev, escape = False)}});
+    hs.app.user.dev = new hs.side.DevPanel ({{response.write (in_dev, escape = False)}});
 	/*var devtools = new hs.tree.Panel ({{response.write (in_dev, escape = False)}}, {
 	    datatype: 'dev_tools',
 	    title: 'Development Tools',
@@ -83,19 +84,33 @@
 	});*/
     {{ pass }}
 
-    var findPanel = new hs.find.Panel ({
+    hs.app.find = new hs.find.Panel ({
 	title: 'Find',
     });
 
-    var sidePanel = new Ext.Panel ({
+    /*var wikiPanel = new Ext.Panel ({
+	title: 'Blog',
+	region: 'center',
+	autoLoad: '/{{ =request.application }}/plugin_wiki',
+	autoScroll: true,
+    });*/
+
+    hs.app.blog = new hs.util.IFramePanel ({
+	title: 'Blog',
+	region: 'center',
+	autoScroll: true,
+    }, '/{{ =request.application }}/plugin_wiki');
+
+    hs.side = new Ext.Panel ({
         title: 'Controls',
+	autoScroll: true,
 	//collapsible: true,
 	width: 250,
 	region: 'west',
         items: [
 	    {{ if not side_bar: }}{
 		xtype: 'panel',
-		html: '<div style="text-align: center;"><a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or <a href="{{=URL (a=request.application, c='default', f='user', args=['login'])}}">Login</a> to activate this panel</div>',
+		html: '<div style="text-align: center;"><a href="{{=URL (a=request.application, c='default', f='user', args=['login'])}}">Login</a> with Gmail to activate this panel</div><!--<div style="text-align: center;"><a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or <a href="{{=URL (a=request.application, c='default', f='user', args=['login'])}}">Login</a> to activate this panel</div>-->',
 		border: false,
 		padding: 10,
             },{{else:}}
@@ -106,22 +121,22 @@
 		padding: 10,
             },
             {{pass}}
-            {{ if side_bar: }}saved_maps,
-            {{ if dev_tools: }}devtools,{{pass}}
-            tool_list,
-            saved_results,
-            saved_analyses,{{pass}}
+            {{ if side_bar: }}hs.app.user.maps,
+            {{ if dev_tools: }}hs.app.user.dev,{{pass}}
+            hs.app.user.tools,
+            hs.app.user.results,
+            hs.app.user.analyses,{{pass}}
         ],
     });
 
-    var toolTab = new hs.tool.Panel (saved_results, saved_analyses);
+    hs.app.tool = new hs.tool.Panel (hs.app.user.results, hs.app.user.analyses);
 
     /*var mapTab = new Ext.Panel ({
 	title: 'Map',
 	region: 'center',
     });*/
 
-    var welcomeTab = new hs.util.IFramePanel ({
+    hs.app.splash = new hs.util.IFramePanel ({
 	title: 'Main',
     }, '/{{= request.application }}/splash/');
 
@@ -132,20 +147,21 @@
 	layoutOnChange: true,
 	region: 'center',
 	items: [
-	    welcomeTab,
-	    mapTab,
-            diseasePages,
-	    findPanel,
-            toolTab,
+	    hs.app.splash,
+	    hs.app.map,
+	    hs.app.info,
+	    hs.app.find,
+	    hs.app.tool,
+	    hs.app.blog,
         ],
     });
 
     {{if side_bar:}}
-    saved_analyses.setToolPanel (toolTab, tabPanel, 4);
-    tool_list.setToolPanel (toolTab, tabPanel, 4);    
+    hs.app.user.analyses.setToolPanel (hs.app.tool, tabPanel, 4);
+    hs.app.user.tools.setToolPanel (hs.app.tool, tabPanel, 4);    
     {{pass}}
     {{ if dev_tools: }}
-    devtools.setToolPanel (toolTab, tabPanel, 4);
+    hs.app.user.dev.setToolPanel (hs.app.tool, tabPanel, 4);
     //devtools.setToolSide (tool_list);
     //tool_list.setDevSide (devtools);
     {{pass}}
@@ -166,7 +182,7 @@
 		region: 'north',
 		border: false,
 	    },
-	    sidePanel,
+	    hs.side,
             tabPanel, 
         ],
     });
@@ -180,7 +196,8 @@
         findPanel.search (term);
     };
 
-    }, false);
+    //}, false);
+    });
 </script>
 </head>
 <body>

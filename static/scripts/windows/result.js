@@ -40,6 +40,61 @@ hs.win.Result = Ext.extend (Ext.Window, {
 		b.setText (text);
 	    },
 	});
+	
+	var exportButton = new Ext.Button ({
+	    text: 'Export',
+	    handler: function (b, e) {
+		Ext.Ajax.request ({
+		    method: 'GET',
+		    url: hs.url ('tool', 'result', ['export_available']),
+		    params: {
+			id: result_id,
+		    },
+		    success: function  (data) {
+			var types = JSON.parse (data.responseText);
+			var selections = [];
+			for (var i = 0; i < types.length; i ++) {
+			    selections.push ({
+				inputValue: types[i].id,
+				boxLabel: types[i].name,
+				name: 'export_mode',
+			    });
+			}
+			var radio = new Ext.form.RadioGroup  ({
+			    items: selections,
+			    width: 200,
+			});
+
+			var input = new Ext.form.TextField ({
+			    emptyText: 'Filename',
+			    width: 200,
+			});
+
+			var win = new Ext.Window ({
+			    title: 'Export Result',
+			    width: 200,
+			    items: [
+				radio,
+				input,
+			    ],
+			    buttons: [
+				new Ext.Button ({
+				    text: 'Export',
+				    handler: function (b, e) {
+					window.location = hs.url ('tool', 'result', ['export'], {
+					    id: result_id,
+					    mode: radio.getValue ().inputValue,
+					    filename: input.getValue (),
+					});
+				    },
+				}),
+			    ],
+			});
+			win.show ()
+		    },
+		});
+	    },
+	});
 
 	var result = new hs.util.IFramePanel ({
 	    region: 'center',
@@ -64,6 +119,7 @@ hs.win.Result = Ext.extend (Ext.Window, {
 		urlPanel,
 	    ],
 	    buttons: [
+		exportButton,
 		publicButton,
 	    ],
 	});

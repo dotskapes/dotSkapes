@@ -10,8 +10,122 @@ hs.side = {
 	    this.linkMap = function (map) {
 		mapPanel = map;
 	    };
+
+	    var buttons = [];
+	    
+	    if (hs.user.admin) {
+		var syncButton = new Ext.Button ({
+		    text: 'Sync Geoserver',
+		    handler: function (b) {
+			Ext.Ajax.request ({
+			    method: 'GET',
+			    url: hs.url ('geoserver', 'sources'),
+			    success: function (data) {
+				var sources = JSON.parse (data.responseText);
+
+				var root = new Ext.tree.TreeNode ({});
+
+				var sync_geoserver = function (path) {
+				    Ext.Ajax.request ({
+					method: 'GET',
+					url: hs.url ('geoserver', 'sync'),
+					params: {
+					    path: path,
+					},
+					success: function (data) {
+					    var resp = JSON.parse (data.responseText);
+					    if ('err' in resp)
+						console.log (resp.err);
+					    if (resp.code == 1)
+						root.appendChild ({
+						    text: resp.path,
+						    leaf: true,
+						})
+					    else
+						console.log ('Ok');
+					},
+				    });				    
+				};
+
+				for (var i = 0; i < sources.length; i ++) {
+				    root.appendChild ({
+					text: sources[i],
+					leaf: true,
+					listeners: {
+					    dblclick: function (node) {
+						sync_geoserver (node.text);
+					    },
+					},
+				    });
+				}
+
+				var input = new Ext.form.TextField ({
+				    region: 'south',
+				    height: 30,
+				});
+
+				var delete_button = new Ext.Button ({
+				    text: 'Remove Geoserver',
+				    handler: function (b) {
+					var node = tree.getSelectionModel ().getSelectedNode ();
+					if (!node)
+					    return;
+					Ext.Ajax.request ({
+					    method: 'GET',
+					    url: hs.url ('geoserver', 'desync'),
+					    params: {
+						path: node.text,
+					    },
+					    success: function (data) {
+						var resp = JSON.parse (data.responseText);
+						if ('err' in resp)
+						    console.log (resp.err);
+						else {
+						    node.remove ();
+						    console.log ('Ok');
+						}
+					    },
+					});
+				    },
+				});
+
+				var add_button = new Ext.Button ({
+				    text: 'Add Geoserver',
+				    handler: function (b) {
+					sync_geoserver (input.getValue ());
+				    },
+				});
+				
+				var tree = new Ext.tree.TreePanel ({
+				    region: 'center',
+				    root: root,
+				    rootVisible: false,
+				});
+
+				var win = new Ext.Window ({
+				    title: 'Geoserver Sources',
+				    width: 300,
+				    height: 400,
+				    layout: 'border',
+				    items: [
+					tree,
+					input,
+				    ],
+				    buttons: [
+					delete_button,
+					add_button,
+				    ],
+				});
+				win.show ();
+			    }
+			});
+		    },
+		});
+		buttons.push (syncButton);
+	    }
 	    
 	    Ext.apply (config, {
+		toolbar_buttons: buttons,
 		listeners: {
 		    checkchange: function (node, checked) {
 			if (checked) {

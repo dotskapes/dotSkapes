@@ -1,0 +1,17 @@
+{{extend 'plugin_wiki/layout.html'}}
+
+<script type="text/javascript">
+    $(window).ready (function () {
+	$ ('#cancel').click (function () {
+	    window.location = '{{= URL (r = request, f = 'index.html') }}';
+	    return false;
+	});
+    });
+</script>
+
+<div id="plugin_wiki_form">
+{{=form}}
+<div style="margin-top: 20px;">
+  <a id="cancel" href="#">Cancel</a>
+</div>
+</div>
