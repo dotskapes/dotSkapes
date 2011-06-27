@@ -229,7 +229,11 @@ def call_r (m):
     if proc.returncode != 0:
         #output = sub ('\n', '<br />', out[0])
         #return attr_dict (err = output)
-        return attr_dict (err = "An Error Occurred")
+        if check_role (admin_role):
+            output = sub ('\n', '<br />', out[0])
+            return attr_dict (err = output)
+        else:
+            return attr_dict (err = "An Error Occurred")
     lookup_id = dm.insert ('results', filename = result_id, type = 'image/svg+xml')
     return dm.get ('results', lookup_id)
 
@@ -258,10 +262,11 @@ def dev_read_code (filename):
 
 def dev_format_code (buf):
     buffer = buf
-    buffer = buffer.replace (',', ',&#8203;')
+    #buffer = buffer.replace (',', ',&#8203;')
     buffer = buffer.replace (' ', '&nbsp;')
     buffer = buffer.replace ('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
     buffer = buffer.replace ('\n', '<br />\n')
+    buffer = '<div style="word-wrap: break-word">' +  buffer + '</div>'
     return buffer
 
 def dev_save_code (filename, buffer):
