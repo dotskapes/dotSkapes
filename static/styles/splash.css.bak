@@ -81,7 +81,7 @@ Header
 }
 
 #header #introQuote {
-    width: 493px;
+    width: 463px;
     padding-top: 10px;
     padding-left: 20px;
 }
