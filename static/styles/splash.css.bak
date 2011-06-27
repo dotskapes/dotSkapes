@@ -81,13 +81,17 @@ Header
 }
 
 #header #introQuote {
-    width: 463px;
+    width: 493px;
     padding-top: 10px;
     padding-left: 20px;
 }
 
 #header #introQuote {
     font-weight: bold;
+}
+
+#header #introQuote h1{
+    font-size: 150%;
 }
 
 #header #flashSS {

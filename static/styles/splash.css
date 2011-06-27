@@ -90,6 +90,10 @@ Header
     font-weight: bold;
 }
 
+#header #introQuote h1{
+    font-size: 130%;
+}
+
 #header #flashSS {
     float:   right;
     height:  232px;  
