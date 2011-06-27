@@ -73,7 +73,6 @@ def post_comment():
         redirect (URL (r = request, f = 'page.html', args = [slug]))
     w = db.plugin_wiki_page
     page = w(slug = slug)
-    require_page_authorized (page)
     db.plugin_wiki_comment.insert(page_id = page.id, body = request.vars.get ('body'))
     db (db.plugin_wiki_page.slug == slug).update (comments = (page.comments + 1))
     redirect (URL (r = request, f = 'page.html', args = [slug]))
@@ -84,7 +83,6 @@ def delete_comment():
         raise HTTP (400)
     lookup_id = require_int (request.vars.get ('id'))
     comment = db (db.plugin_wiki_comment.id == lookup_id).select ().first ()
-    require_page_authorized (comment)
     comment.delete_record ()
     w = db.plugin_wiki_page
     page = w(slug = slug)
