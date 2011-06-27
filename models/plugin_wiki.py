@@ -8,7 +8,7 @@
 DEFAULT = {
     'editor' : check_role (editor_role), #auth.user and auth.has_membership(role='editor') or auth.user_id==1, # if current user a editor?
     'mode'   : 'markmin',    # 'markmin' or 'html' for wysiwyg editor
-    'level'  : 3,            # 1 - wiki only, 2 - widgets enables, 3 - remplate render enabled
+    'level'  : 3,            # 1 - wiki only, 2 - widgets enables, 3 - template render enabled
     'migrate': True,         # set to False in production
     'theme'  : 'redmond', # the jquery-ui theme, mapped into plugin_wiki/ui/%(theme)s/jquery-ui-1.8.1.custom.css
     'widgets' : 'all',       # list of widgets to be made available
@@ -50,13 +50,14 @@ for _f in ['plugin_wiki/ui/css/%s/jquery-ui-1.8.5.custom.css' % plugin_wiki_them
 # required tables
 ###################################################
 db.define_table('plugin_wiki_page',
-                Field('slug',writable=True,
+                Field('slug', writable=True,
                       requires=(IS_SLUG(),IS_NOT_IN_DB(db,'plugin_wiki_page.slug'))),
                 Field('title',default='',),
                 Field('is_public','boolean',default=True),
                 Field('body','text',default=''),
                 Field('role',db.auth_group,
                       requires=IS_EMPTY_OR(IS_IN_DB(db,'auth_group.id','%(role)s'))),
+                Field ('comments', 'integer', default = 0),
                 Field('changelog',default=''),
                 auth.signature,
                 format = '%(slug)s', migrate=plugin_wiki_migrate)
@@ -75,15 +76,22 @@ db.define_table('plugin_wiki_attachment',
                 auth.signature,
                 format='%(name)s', migrate=plugin_wiki_migrate)
 
-
 db.define_table('plugin_wiki_comment',
+                Field('page_id',
+                      writable=False,readable=False),
+                Field('body',requires=IS_NOT_EMPTY(),label='Your comment'),
+                auth.signature,
+                )
+
+
+'''db.define_table('plugin_wiki_comment',
                 Field('tablename',
                       writable=False,readable=False),
                 Field('record_id','integer',
                       writable=False,readable=False),
                 Field('body',requires=IS_NOT_EMPTY(),label='Your comment'),
                 auth.signature,
-                migrate=plugin_wiki_migrate)
+                migrate=plugin_wiki_migrate)'''
 
 
 db.define_table('plugin_wiki_tag',

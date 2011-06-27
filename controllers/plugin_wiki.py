@@ -9,11 +9,11 @@
 def index():
     w = db.plugin_wiki_page
     if check_role (editor_role):
-        pages = db(w.is_active == True).select(orderby=~w.created_on)
+        pages = db(w.id > 0).select(orderby=~w.created_on)
     elif check_role (writer_role):
-        pages = db((w.is_active == True) | (w.created_by == auth.user.id)).select(orderby=~w.created_on)
+        pages = db((w.is_public == True) | (w.created_by == auth.user.id)).select(orderby=~w.created_on)
     else:
-        pages = db(w.is_active==True)(w.is_public==True).select(orderby=~w.created_on)
+        pages = db(w.is_public == True).select(orderby=~w.created_on)
     #if plugin_wiki_editor:
     #    form=SQLFORM.factory(Field('slug',requires=db.plugin_wiki_page.slug.requires),
     #                         Field('from_template',requires=IS_EMPTY_OR(IS_IN_DB(db,db.plugin_wiki_page.slug))))
@@ -27,10 +27,18 @@ def page():
     """
     shows a page
     """
-    slug = request.args(0) or 'index'
+    slug = request.args(0)
+    if not slug:
+        raise HTTP (400)
     w = db.plugin_wiki_page
-    page = w(slug=slug)
-    if not auth.user and (not page or not page.is_public or not page.is_active):
+    page = w(slug = slug)
+    if not page.is_public:
+        require_page_authorized (page)
+    comments = db (db.plugin_wiki_comment.page_id == page.id).select ()
+    for c in comments: 
+        c.body = plugin_wiki.render (c.body)
+    return dict(page=page,slug=slug, comments = comments)
+    '''if not auth.user and (not page or not page.is_public or not page.is_active):
         redirect(URL(r=request,c='default',f='user',args='login'))
     elif not plugin_wiki_editor and (not page or not page.is_public or not page.is_active):
         raise HTTP(404)
@@ -39,9 +47,37 @@ def page():
     if request.extension=='load':
         return plugin_wiki.render(page.body)
     if request.extension=='html':         
-        return dict(page=page,slug=slug)
+        return dict(page=page,slug=slug, comments = comments)
     return MARKMIN(page.body,extra={'widget':(lambda code:''),
-                                    'template':(lambda template:'')})
+                                    'template':(lambda template:'')})'''
+
+def post_comment():
+    require_logged_in ()
+    slug = request.args(0)
+    if not slug:
+        raise HTTP (400)
+    if (not request.vars.has_key ('body')) or (len (request.vars.get ('body')) == 0):
+        redirect (URL (r = request, f = 'page.html', args = [slug]))
+    w = db.plugin_wiki_page
+    page = w(slug = slug)
+    require_page_authorized (page)
+    db.plugin_wiki_comment.insert(page_id = page.id, body = request.vars.get ('body'))
+    db (db.plugin_wiki_page.slug == slug).update (comments = (page.comments + 1))
+    redirect (URL (r = request, f = 'page.html', args = [slug]))
+
+def delete_comment():
+    slug = request.args(0)
+    if not slug:
+        raise HTTP (400)
+    lookup_id = require_int (request.vars.get ('id'))
+    comment = db (db.plugin_wiki_comment.id == lookup_id).select ().first ()
+    require_page_authorized (comment)
+    comment.delete_record ()
+    w = db.plugin_wiki_page
+    page = w(slug = slug)
+    db (db.plugin_wiki_page.slug == slug).update (comments = (page.comments - 1))
+    redirect (URL (r = request, f = 'page.html', args = [slug]))
+    
 
 def page_archive():
     """
@@ -75,6 +111,7 @@ def page_create():
         w = db.plugin_wiki_page
         page = w.insert(slug=slug, 
                         title = '',
+                        comments = 0,
                         is_active = True,
                         is_public = False,
                         created_by = auth.user.id,
@@ -86,37 +123,30 @@ def page_edit():
     """
     edit a page
     """
+    slug = request.args(0)
+    if not slug:
+        raise HTTP (400)
+    w = db.plugin_wiki_page
+    page = w(slug = slug)
+    require_page_authorized (page)
 
     if request.vars.get ('create'):
         create = True
     else:
         create = False
-
-    slug = request.args(0)
-    if not slug:
-        raise HTTP (400)
-    w = db.plugin_wiki_page
-    page = w(slug=slug)
-
-    '''if request.vars.get ('new_slug') and len (request.vars.get ('new_slug')) > 0:
-        request.post_vars['slug'] = request.vars.get ('new_slug')
-        if db (w.slug == request.vars.get ('slug')).count () > 0:
-            response.flash = 'URL Already Exists'
+        
+    if request.vars.has_key ('slug'):
+        new_slug = request.vars.get ('slug')
+        if slug != new_slug:
+            if (len (new_slug) == 0) or (db (w.slug == new_slug).count () > 0):
+                response.flash = 'URL Already Exists'
+                return dict (page = request.vars, create = create)
+        vars = request.vars
+        db (w.slug == slug).update (slug = vars.slug, title = vars.title, is_public = vars.is_public, body = vars.body)
+        redirect (URL (r = request, f = 'index.html'))
     else:
-        request.post_vars['slug'] = slug'''
+        return dict (page = page, create = create)
 
-    request.post_vars['is_active'] = True
-
-    #w.role.writable = w.role.readable = plugin_wiki_level>1
-    require_page_authorized (page)
-
-    if request.vars.get ('slug'):
-        slug = request.vars.get ('slug')
-    
-    form = crud.update(w, page, onaccept=crud.archive,
-                       next=URL(r = request, f = 'page', args=[slug]))
-    
-    return dict (page = page, form = form, create = create)
 
 def page_publish_toggle():
     slug = request.args(0)

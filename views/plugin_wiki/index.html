@@ -35,12 +35,14 @@ Pages started with undescore are considered system pages. In particular:
   {{for page in pages:}}
   {{request.args[0] = page.slug }}
   <div class="page">
-    <p class="title">{{= page.title }} {{if not page.is_public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
-    <p class="date">{{= page.created_on }} by {{= user_name (page.created_by) }}</p>
+    <div class="page_head">
+      <p class="title">{{= page.title }} {{if not page.is_public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
+      <p class="date">{{= page.created_on }} by {{= user_name (page.created_by) }}</p>
+    </div>
     <div class="page_body">
       {{= plugin_wiki.render(page.body) }}
       <div class="page_foot">
-	{{ if (check_role (editor_role) or check_user (page.created_by)): }}<a href="{{= URL(r=request,f='page_delete',args=page.slug) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=page.slug) }}">{{if page.is_public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=page.slug) }}">EDIT</a>{{ pass }}
+	<a href="{{= URL (r = request, c = 'plugin_wiki', f = 'page', args = [page.slug], anchor = 'comments') }}">COMMENTS ({{= page.comments }})</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if (check_role (editor_role) or check_user (page.created_by)): }}<a href="{{= URL(r=request,f='page_delete',args=page.slug) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=page.slug) }}">{{if page.is_public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=page.slug) }}">EDIT</a>{{ pass }}
 	</div>
     </div>
   </div>

@@ -16,21 +16,24 @@ div#plugin_wiki p.date {
 }
 
 div#plugin_wiki div.page_body {
-    margin: 20px 50px 50px 50px;
+    margin: 20px 0px;
 }
 
 div#plugin_wiki h1 {
     font-size: 1em;
     margin: 10px 0px;
+    margin-bottom: 0px;
 }
 
 div#plugin_wiki h2 {
     font-size: .85em;
     margin: 20px 0px;
+    margin-bottom: 0px;
 }
 
 div#plugin_wiki p {
     margin-top: 10px;
+    margin-bottom: 0px;
     font-size: .85em;
     text-align: justify;
 }
@@ -40,7 +43,30 @@ div#plugin_wiki div.page {
     clear: both;
 }
 
+div#plugin_wiki div.page_head p {
+    text-indent: 0px;
+}
+
 div#plugin_wiki div.page_foot {
     text-align: right;
     clear: both;
 }
+
+div#plugin_wiki div.comment_body {
+    margin: 20px 0px;
+    text-indent: 0px;
+}
+
+div#plugin_wiki p.comments_title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+div#plugin_wiki div.comments_foot {
+    margin-top: 50px;
+}
+
+div#plugin_wiki div.page_comments p {
+    text-indent: 0px;
+}
+
