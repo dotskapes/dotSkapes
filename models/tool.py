@@ -33,6 +33,14 @@ dm.define_datatype ('analyses', DM_TableModel (
         
 # Util Functions
 
+def mime_ext (m_type):
+    if m_type == mime.PNG:
+        return '.png'
+    elif m_type == mime.SVG:
+        return '.svg'
+    elif m_type == mime.HTML:
+        return '.html'
+
 def tool_path ():
     return getcwd () + '/applications/' + request.application + '/tool/'
 
@@ -125,12 +133,31 @@ def get_tool(id):
 
 # Run Tool Function
 
+mime = attr_dict (PNG = 'image/png', SVG = 'image/svg+xml', HTML = 'text/html')
+
+class TempBuffer:
+    def __init__ (self, name , id):
+        self.buffer = []
+        self.name = name
+        self.id = id
+        self.mime = 'text'
+
+    def MIME (self, mime):
+        self.mime = mime
+
+    def write (self, data):
+        self.buffer.append (data)
+
+    def close (self):
+        session[self.id] = {'buffer': ''.join (self.buffer), 'type': self.mime, 'name': self.name}
+
+
 def call_py (m):
     connection = deployment_settings.postgis.connection ()
-    file_id = str (uuid4 ().int)
+    #file_id = str (uuid4 ().int)
     mod = get_module (m['filename'])
     attr = {}
-    attr['file'] = open ('applications/' + request.application + '/tool/results/' + file_id, 'w')
+    #attr['file'] = open ('applications/' + request.application + '/tool/results/' + file_id, 'w')
     for t in m['args']:
         key = t[0]
         label = t[1]
@@ -159,17 +186,27 @@ def call_py (m):
                 attr[key] = None
         else:
             attr[key] = val
+    buffers = []
+    def request_new_buffer (name = None):
+        b_id = uuid4 ().hex
+        if name is None:
+            name = b_id
+        buffers.append ({'id': b_id, 'name': name})
+        return TempBuffer (name, b_id)
+    mod.request_new_buffer = request_new_buffer
+    mod.mime = mime
     try:
         r_type = mod.ctool (**attr)
     except Exception as ex:
         return attr_dict (err = str (ex))
-    attr['file'].close ()
-    if auth.user:
-        user_id = auth.user.id
-    else:
-        user_id = None
-    lookup_id = dm.insert ('results', filename = file_id, type = r_type)
-    return dm.get ('results', lookup_id)
+    return attr_dict (file_ids = buffers)
+    #attr['file'].close ()
+    #if auth.user:
+    #    user_id = auth.user.id
+    #else:
+    #    user_id = None
+    #lookup_id = dm.insert ('results', filename = file_id, type = r_type)
+    #return dm.get ('results', lookup_id)
 
 def call_r (m):
     #from rpy2 import robjects
@@ -245,9 +282,9 @@ def dev_create_tool (name, desc, tool_type):
     path = tool_path () + filename
     file = open (path, 'w')
     if pytool:
-        file.write ('''# Add parameters here. Each parameter is of the form (param_name, param_title, param_type)\ncargs = []\n\n# Implement tool function here. Parameters are accessible as attr[param_name].\n# The return type should be the MIME type of the result.\n# An IO Stream attr[\'file\'] is provided to store the result.\ndef ctool (**attr):\n    pass''')
+        file.write ('''# Add parameters here. Each parameter is of the form (param_name, param_title, param_type)\ncargs = []\n\n# Implement tool function here. Parameters are accessible as attr[param_name].\n\n# The available types are:\n# Polygon Map: poly_map\n# Point Map: point_map\n# Aggregation Widget: agg\n# Text Input: text\n\n# The return type should be the MIME type of the result.\n# An IO Stream attr[\'file\'] is provided to store the result.\ndef ctool (**attr):\n    pass''')
     else:
-        file.write ('''# Add R code here. Use the function user_param (key, name, type)\n# Use this function to insert parameters from the main applciation to your tool\n''')
+        file.write ('''# Add R code here. Use the function user_param (key, name, type)\n# Use this function to insert parameters from the main applciation to your tool\n\n# The available types are:\n# Polygon Map: poly_map\n# Point Map: point_map\n# Aggregation Widget: agg\n# Text Input: text\n\n''')
     file.close ()
     kwargs = dict (name = name, type = tool_type, description = desc, filename = filename)
     id = dm.insert ('dev_tools', **kwargs)
@@ -261,8 +298,8 @@ def dev_read_code (filename):
     return buffer
 
 def dev_format_code (buf):
-    buffer = buf
     #buffer = buffer.replace (',', ',&#8203;')
+    buffer = buf
     buffer = buffer.replace (' ', '&nbsp;')
     buffer = buffer.replace ('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
     buffer = buffer.replace ('\n', '<br />\n')

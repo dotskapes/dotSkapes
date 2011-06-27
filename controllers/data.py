@@ -2,6 +2,7 @@ def save():
     datatype = require_alphanumeric (request.args[0])
     lookup_id = require_int (request.vars.get ('id'))
     dm.link (datatype, lookup_id)
+    return dm.get (datatype, lookup_id).json ()
 
 def load():
     datatype = require_alphanumeric (request.args[0])

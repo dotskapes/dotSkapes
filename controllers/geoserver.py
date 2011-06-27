@@ -4,6 +4,7 @@ from urllib2 import urlopen, Request
 def ows():
     lookup_id = require_int (request.vars.get ('ID'))
     data = dm.get ('maps', lookup_id)
+    request.get_vars['layers'] = data.prefix + ':' + data.filename
     content_type = request.vars.get ('Content-Type') or 'text'
     #if request.vars.has_key ('SLD_NAME'):
     #    req_body = {'sld_body': str (db (db.tmp_styles.id == require_int (request.vars.get ('SLD_NAME'))).select ().first ().style_data)}
@@ -35,6 +36,32 @@ def wfs():
     map_data = urlopen (req)
     #response.headers['Content-Type'] = 'application/xml'
     return map_data.read () '''
+
+def sources():
+    sources = db (db.geoserver_sources.id > 0).select ()
+    return json.dumps (map (lambda x: x.loc, sources))
+
+def sync():
+    require_role (admin_role)
+    path = require_http (request.vars.get ('path'))
+    try:
+        sync_geoserver (path)
+        if not db (db.geoserver_sources.loc == path).select ().first ():
+            db.geoserver_sources.insert (loc = path)
+            return json.dumps ({'code': 1, 'path': path})
+        return json.dumps ({'code': 0})
+    except:
+        return json.dumps ({'code': -1, 'err': 'An error occurred'})
+
+def desync():
+    require_role (admin_role)
+    path = require_http (request.vars.get ('path'))
+    result = db (db.geoserver_sources.loc == path).select ().first ()
+    if not result:
+        return json.dumps ({'err': 'Geoserver not found'})
+    dm.delete ('maps', src = result.loc)
+    db (db.geoserver_sources.id == result.id).delete ()
+    return json.dumps ({'code': 0})
 
 def filter():
     lookup_id = require_int (request.vars.get ('ID'))

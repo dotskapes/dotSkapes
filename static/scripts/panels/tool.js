@@ -17,7 +17,7 @@ hs.tool = {
 	    var values = {};
 	    var tool_ob;
 
-	    var result_id;
+	    var result_ids;
 
 	    this.paramReady = false;
 
@@ -120,25 +120,29 @@ hs.tool = {
 	    function showResult (data, options) {
 		resultMask.hide ();
 		var doc = data.responseText;
+		
 		var resp = JSON.parse (doc);
-		result_id = resp['id'];
-		var docOb;
+		result_ids = resp['file_ids'];
+		resultPanel.removeAll ();		
 		if ('err' in resp) {
-		    docOb = {
+		    resultPanel.add ({
 			html: resp['err'],
-		    };
+		    });
 		}
 		else {
-		    docOb =  {
-			html: '<iframe style="margin: 0px; padding: 0px; border: none;" width="' + (resultPanel.getInnerWidth () - 25)  + '" height="' + (resultPanel.getInnerHeight () - 25)  + '" src="/' + hs.application + '/tool/result/load?id=' + result_id + '"></iframe>',
-		    };
+		    for (var i = 0; i < result_ids.length; i ++) {
+			var id = result_ids[i].id;
+			resultPanel.add ({
+			    title: result_ids[i].name,
+			    html: '<iframe style="margin: 0px; padding: 0px; border: none;" width="' + (resultPanel.getInnerWidth () - 25)  + '" height="' + (resultPanel.getInnerHeight () - 25)  + '" src="/' + hs.application + '/tool/result/load?tmp=true&id=' + id + '"></iframe>',
+			    file_id: id,
+			});
+		    }
+		    saveButton.enable ();
 		}
 
-		saveButton.enable ();
-		//publicButton.enable ();
-
-		resultPanel.removeAll ();
-		resultPanel.add (docOb);
+		//resultPanel.add (docOb);
+		resultPanel.setActiveTab (0)
 		resultPanel.doLayout ();
 	    };
 	    
@@ -207,6 +211,7 @@ hs.tool = {
 		disabled: true,
 		handler: function (b, e) {
 		    Ext.MessageBox.prompt ('Save', 'Filename', function (b, text) {
+			var result_id = resultPanel.getActiveTab ().file_id;
 			Ext.Ajax.request ({
 			    method: 'GET',
 			    url: '/' + hs.application + '/tool/result/save',
@@ -336,14 +341,13 @@ hs.tool = {
 		],
 	    });
 
-	    resultPanel = new Ext.Panel ({
-		region: 'center',
-		title: 'Tool Result',
+	    resultPanel = new Ext.TabPanel ({
 		padding: '10',
 		hideBorders: true,
 		autoScroll: true,
 		buttonAlign: 'right',
 		bodyBorder: false,
+		items: [],
 		buttons: [
 		    //publicButton,
 		    saveButton,
@@ -355,6 +359,15 @@ hs.tool = {
 			});
 		    },
 		},
+	    });
+
+	    var resultWrapper = new Ext.Panel ({
+		title: 'Results',
+		region: 'center',
+		layout: 'fit',
+		items: [
+		    resultPanel,
+		],
 	    });
 	    
 	    leftPanel = new Ext.Panel ({
@@ -394,7 +407,7 @@ hs.tool = {
 		layout: 'border',
 		items: [
 		    leftPanel,
-		    resultPanel,
+		    resultWrapper,
 		],
 	    });
 

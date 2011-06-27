@@ -22,10 +22,14 @@ try:
     admin_role = auth.id_group ("Administrator")
     dev_role = auth.id_group ("Developer")
     auth_role = auth.id_group ("Authenticated")
+    writer_role = auth.id_group ("Writer")
+    editor_role = auth.id_group ("Editor")
 except:
     admin_role = None
     dev_role = None
     auth_role = None
+    writer_role = None
+    editor_role = None
 
 def require_logged_in ():
     if not auth.user:
@@ -40,25 +44,31 @@ def require_user (owner):
     return auth.user.id
 
 def require_role (role):
-    if not auth.user:
-        raise HTTP (401, "Login Required")
-    if auth.has_membership (admin_role, auth.user.id):
-        return auth.user.id
-    if not auth.has_membership (role, auth.user.id):
+    if not check_role (role):
         raise HTTP (401, "Permission Denied")
-    return auth.user.id
+    else:
+        return auth.user.id
 
 def check_logged_in ():
     if not auth.user:
         return False
     return auth.user.id
 
+def check_user (user_id):
+    if not auth.user:
+        return False
+    return auth.user.id == user_id
+
 def check_role (role):
     if not auth.user:
-        False
+        return False
     if auth.has_membership (admin_role, auth.user.id):
         return True
-    return auth.has_membership (role, auth.user.id)
+    if role == writer_role and auth.has_membership (editor_role, auth.user.id):
+        return True
+    if not auth.has_membership (role, auth.user.id):
+        return False
+    return True
 
 def require_val (input):
     if not input:
@@ -91,3 +101,20 @@ def require_color (input):
         raise HTTP (400, 'Bad Character In Request')
     return hex_to_color (input)
     
+def require_http (input, params = True):
+    if not params:
+        input = input.split ('?')[0]
+    if not match ('^https?://', input):
+        input = 'http://' + input
+    if input [len (input) - 1] == '/':
+        input = input[0:len (input) - 2]
+    return input
+
+def require_style_attr (input):
+    if not match ('^[a-zA-Z0-9\.%]+$', input):
+        raise HTTP (400, "Bad Character in Request")
+    return input
+
+def user_name (id):
+    result = db (db[auth.settings.table_user].id == id).select ().first ()
+    return result.first_name + ' ' + result.last_name
