@@ -120,6 +120,9 @@
 	      return false;
 	  });
       });
+      /*$(window).load (function () {
+	  $ ('#search_box').
+      });*/
      </script>
    </head>
 
@@ -139,7 +142,7 @@
 	 <div id="header"> <!-- header and login nav -->
 	   {{block header}} <!-- this is default header -->
 	   <div style="text-align: right">
-	     <a href="{{= URL(r=request, f='index.html') }}">Main</a>{{if check_role (writer_role): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_create') }}">Create New Page</a>{{ pass }}
+    <form style="display: inline;" method="GET" action="{{= URL (r = request, f = 'index.html') }}"><input name="search" id="search_box" type="text" value="{{ if request.vars.has_key ('search'): }}{{= request.vars.get ('search') }}{{ pass }}" /></form><a href="{{= URL(r=request, f='index.html') }}">Main</a>{{if check_role (writer_role): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_create') }}">Create New Page</a>{{ pass }}
 	  </div>
 	  <div style="clear: both;"></div><!-- Clear the divs -->
 	  {{end}}				  					  

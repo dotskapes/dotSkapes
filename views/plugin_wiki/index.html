@@ -41,6 +41,7 @@ Pages started with undescore are considered system pages. In particular:
     </div>
     <div class="page_body">
       {{= plugin_wiki.render(page.body) }}
+      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, f = 'page', args = [page.slug])}}">MORE &#187;</a></p>{{ pass }}
       <div class="page_foot">
 	<a href="{{= URL (r = request, c = 'plugin_wiki', f = 'page', args = [page.slug], anchor = 'comments') }}">COMMENTS ({{= page.comments }})</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if (check_role (editor_role) or check_user (page.created_by)): }}<a href="{{= URL(r=request,f='page_delete',args=page.slug) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=page.slug) }}">{{if page.is_public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=page.slug) }}">EDIT</a>{{ pass }}
 	</div>

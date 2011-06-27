@@ -9,11 +9,24 @@
 def index():
     w = db.plugin_wiki_page
     if check_role (editor_role):
-        pages = db(w.id > 0).select(orderby=~w.created_on)
+        query = w.id > 0
     elif check_role (writer_role):
-        pages = db((w.is_public == True) | (w.created_by == auth.user.id)).select(orderby=~w.created_on)
+        query = (w.is_public == True) | (w.created_by == auth.user.id)
     else:
-        pages = db(w.is_public == True).select(orderby=~w.created_on)
+        query = w.is_public == True
+    if request.vars.has_key ('search'):
+        term = request.vars.get ('search')
+        query = query & (w.body.contains (term) | w.title.contains (term))
+    pages = db(query).select(orderby=~w.created_on)
+    
+    for p in pages:
+        words = p.body.split (' ')
+        if len (words) > 300:
+            p.more = True
+            p.body = ' '.join (words[0:299])
+        else:
+            p.more = False
+        
     #if plugin_wiki_editor:
     #    form=SQLFORM.factory(Field('slug',requires=db.plugin_wiki_page.slug.requires),
     #                         Field('from_template',requires=IS_EMPTY_OR(IS_IN_DB(db,db.plugin_wiki_page.slug))))
