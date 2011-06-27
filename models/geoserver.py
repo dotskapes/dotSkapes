@@ -2,8 +2,8 @@ from urllib import urlencode
 from urllib2 import urlopen
 from BeautifulSoup import BeautifulStoneSoup
 
-db.define_table ('tmp_styles', 
-                 Field ('style_data', 'string', required = True))
+db.define_table ('geoserver_sources', 
+                 Field ('loc', 'string', required = True))
 
 def sync_geoserver (path):
     file = urlopen (path + '/wms?SERVICE=WMS&REQUEST=GetCapabilities')
@@ -25,12 +25,15 @@ def sync_geoserver (path):
             else:
                 p = '',
                 f = id.string
-            id = dm.insert ('maps', prefix = p, filename = f, name = text, src = path, public = True)
-            keywords = l.findAll (name = 'keyword')
-            kw = []
-            for k in keywords:
-                kw.append (k.string)
-            dm.keywords ('maps', id, kw)
+            if dm.query ('maps', prefix = p, filename = f, name = text, src = path).first ():
+                pass
+            else:
+                id = dm.insert ('maps', prefix = p, filename = f, name = text, src = path, public = True)
+                keywords = l.findAll (name = 'keyword')
+                kw = []
+                for k in keywords:
+                    kw.append (k.string)
+                dm.keywords ('maps', id, kw)
 
 def load_fields (data):
     map_data = urlopen (data.src + '/ows', urlencode ({

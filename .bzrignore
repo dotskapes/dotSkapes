@@ -1,6 +1,6 @@
 .git
 .gitignore
-.pyc
+*.pyc
 cache/*
 cron/crontab
 databases/*
@@ -13,6 +13,8 @@ uploads/*
 tool/*
 tool/results/*
 tool/files/*
+.openid/*
+.tmp/*
 .raw/*
 static/scripts/ext/.docs/*
 static/scripts/ext/.examples/*

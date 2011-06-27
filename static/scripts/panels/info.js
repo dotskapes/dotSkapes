@@ -249,9 +249,9 @@ hs.info = {
 		//emptyText: 'malaria',
 	    });
 
-	    var litPanel = new hs.info.LitPanel ();
+	    //var litPanel = new hs.info.LitPanel ();
 
-	    litPanel.populate ('malaria');
+	    //litPanel.populate ('malaria');
 	    wikiPanel.populate('malaria');
 	    nprPanel.populate('malaria');	    
 
@@ -288,7 +288,7 @@ hs.info = {
 	    var submitButton = new Ext.Button ({
 		text: 'Submit',
 		handler: function () {
-		    litPanel.populate (selectBox.getValue ());
+		    //litPanel.populate (selectBox.getValue ());
 		    wikiPanel.populate(selectBox.getValue ());
 		    nprPanel.populate(selectBox.getValue ());
 		},
