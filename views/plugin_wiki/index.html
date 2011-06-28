@@ -48,4 +48,8 @@ Pages started with undescore are considered system pages. In particular:
     </div>
   </div>
   {{ pass }}
+  <div style="text-align: right;">
+    {{if not first: }}<a href = "{{= URL (r = request, vars = older) }}">OLDER POSTS</a>{{ else: }} OLDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
+    {{if not last: }}<a href = "{{= URL (r = request, vars = newer) }}">NEWER POSTS</a>{{ else: }} NEWER POSTS {{ pass }}
+  </div>
 </div>

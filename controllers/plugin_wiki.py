@@ -7,6 +7,7 @@
 
 
 def index():
+    from re import finditer
     w = db.plugin_wiki_page
     if check_role (editor_role):
         query = w.id > 0
@@ -18,14 +19,57 @@ def index():
         term = request.vars.get ('search')
         query = query & (w.body.contains (term) | w.title.contains (term))
     pages = db(query).select(orderby=~w.created_on)
-    
+
+    if request.vars.has_key ('start'):
+        start = require_int (request.vars.get ('start'))
+    else:
+        start = 0
+
+    if request.vars.has_key ('max'):
+        max_ret = require_int (request.vars.get ('max'))
+    else:
+        max_ret = 10
+
+    first = (start + max_ret >= len (pages))
+    last = (start == 0)
+
+    older = {}
+    older.update (request.vars)
+    older['start'] = start + max_ret
+
+    newer = {}
+    newer.update (request.vars)
+    newer['start'] = start - max_ret
+
+    pages = pages[start:(start + max_ret)]
     for p in pages:
-        words = p.body.split (' ')
+        start = 0
+        widgets = {}
+        strings = []
+        p.body = sub ('%', '&#37;', p.body)
+        p.body = sub ('\n', '\n ', p.body)
+        for i, widget in enumerate (finditer ('``([^`]|(`(?!`)))*``:widget', p.body)):
+            strings.append (p.body[start:widget.start (0)])
+            key = 'widget_' + str (i)
+            strings.append ('%(' + key +')s')
+            widgets[key] = p.body[widget.start (0):widget.end (0)]
+            start = widget.end (0)
+        #if len (strings):
+        #    return str (strings)
+        strings.append (p.body[start:])
+        
+        #'(?=#)#{0, 3}/s[^\n]*\n)'
+        #words = p.body.split (' ')
+        words = (''.join (strings)).split (' ')
         if len (words) > 300:
             p.more = True
             p.body = ' '.join (words[0:299])
         else:
             p.more = False
+            p.body = ' '.join (words)
+        p.body = p.body % widgets
+        p.body = sub ('&#37;', '%', p.body)
+        p.body = sub ('\n ', '\n', p.body)
         
     #if plugin_wiki_editor:
     #    form=SQLFORM.factory(Field('slug',requires=db.plugin_wiki_page.slug.requires),
@@ -34,7 +78,7 @@ def index():
     #       redirect(URL(r=request,f='page',args=form.vars.slug,vars=dict(template=request.vars.from_template or '')))
     #else:
     #    form=''
-    return dict(pages = pages)
+    return dict(pages = pages, first = first, last = last, older = older, newer = newer)
 
 def page():
     """
