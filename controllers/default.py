@@ -78,7 +78,8 @@ def user():
             ax_req.add (ax.AttrInfo (type_uri='http://axschema.org/namePerson/last', required=True, alias='lastname'))
             req.addExtension (ax_req)
             session['openid-consumer'] = cons
-            url = req.redirectURL ('https://zk.healthscapes.org', return_to = 'https://zk.healthscapes.org/healthscapes/default/user/login')
+#            return str(request.wsgi)
+            url = req.redirectURL ('https://skapes.org', return_to = 'https://skapes.org' + URL(scheme='https', r=request, a=request.application, c='default', f='user', args=['login']))
             redirect (url)
         '''if request.vars.has_key ('openid.mode'):
             if request.vars['openid.mode'] == 'cancel':
