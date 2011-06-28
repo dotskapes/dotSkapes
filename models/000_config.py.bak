@@ -31,7 +31,7 @@ deployment_settings.postgis.pool_size = 10
 deployment_settings.postgis.connection = lambda: psycopg2.connect ('dbname=' + deployment_settings.postgis.database + ' user=' + deployment_settings.postgis.username + ' password=' + deployment_settings.postgis.password + ' host=' + deployment_settings.postgis.host + ' port=' + str (deployment_settings.postgis.port))
 
 #Geoserver Settings
-deployment_settings.geoserver_sources = ["http://zk.healthscapes.org",]
+deployment_settings.geoserver_sources = ["http://path/to/geoserver",]
 
 deployment_settings.geoserver = blank ()
 deployment_settings.geoserver.url = "localhost"

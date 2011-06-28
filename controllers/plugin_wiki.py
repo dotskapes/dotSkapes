@@ -159,7 +159,7 @@ def page_create():
                         onaccept = process_req)
                        #next=URL(r=request,f='page_edit',args='[id]'))
     return {'form': form}'''
-    require_role (writer_role)
+
     form = FORM ('', LABEL ('URL: '), INPUT (_name = 'page_title', requires=(IS_SLUG(), IS_NOT_IN_DB(db,'plugin_wiki_page.slug'))))
     if form.accepts (request, session):
         slug = request.vars.get ('page_title')
