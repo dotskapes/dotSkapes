@@ -96,7 +96,7 @@
     });*/
 
     hs.app.blog = new hs.util.IFramePanel ({
-	title: 'Blog',
+	title: 'Main',
 	region: 'center',
 	autoScroll: true,
     }, '/{{ =request.application }}/plugin_wiki');
@@ -149,12 +149,11 @@
 	layoutOnChange: true,
 	region: 'center',
 	items: [
-	    hs.app.splash,
+	    hs.app.blog,
 	    hs.app.map,
 	    hs.app.info,
 	    hs.app.find,
 	    hs.app.tool,
-	    hs.app.blog,
         ],
     });
 

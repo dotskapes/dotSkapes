@@ -1,5 +1,48 @@
 {{extend 'plugin_wiki/layout.html'}}
 
+    <div id='header'>
+    
+      <img style="float:left; height:130px; margin-top: 5px;" src="/{{= request.application}}/static/images/130px_logo_white_alpha.png" />
+      <a  href="http://dot.skapes.org" target="_blank">
+      <div class='box'>
+          <img style="float:right; height:124px; width:129px;" src="/{{= request.application}}/static/images/Home.png" />
+      </div>
+      </a>
+      
+      <a href="#">       
+        <div class='box' style="background-color:#C0C0C0;">
+          <h2 class="letter">T</h2>
+          <p class="subscript">tag</p>
+        </div>
+      </a>
+      
+      <a href="/{{= request.application }}/splash/share.html">       
+        <div class='box'>
+          <h2 class="letter">S</h2>
+          <p class="subscript">share</p>
+        </div>
+      </a>
+      
+      <a href="/{{= request.application }}/splash/analyze.html">       
+        <div class='box'>
+          <h2 class="letter">A</h2>
+          <p class="subscript">analyze</p>
+        </div>
+      </a>
+      
+      <a href="/{{= request.application }}/splash/find.html">       
+      <div class='box'>
+          <h2 class="letter">F</h2>
+          <p class="subscript">find</p>
+      </div>
+      </a>
+
+      <div id='introQuote'>
+        <h1><b>Skapes.org</b> is a suite of web tools for finding, analyzing, and sharing spatial information.</h1>
+      </div>
+
+
+
 <div id="plugin_wiki">
 <!--<h1>System Pages</h1>
 
@@ -52,4 +95,33 @@ Pages started with undescore are considered system pages. In particular:
     {{if not first: }}<a href = "{{= URL (r = request, vars = older) }}">OLDER POSTS</a>{{ else: }} OLDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
     {{if not last: }}<a href = "{{= URL (r = request, vars = newer) }}">NEWER POSTS</a>{{ else: }} NEWER POSTS {{ pass }}
   </div>
+        <div class='clear'></div>
+
+<div id="fatfooter">
+  <p id="legal">
+    <a href="/{{=request.application}}/splash/privacy.html">Privacy Policy</a>
+    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+    <a href="/{{=request.application}}/splash/terms.html">Terms of Use</a>
+    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+    {{=T('Powered By')}} <a href="http://www.web2py.com">Web2Py</a>
+  </p>
+
+  <p id="legal">
+    <span xmlns:dct="http://purl.org/dc/terms/"
+          href="http://purl.org/dc/dcmitype/Text" property="dct:title"
+          rel="dct:type">Website content</span> by
+    <a xmlns:cc="http://creativecommons.org/ns#" href="http://dot.skapes.org/" property="cc:attributionName" rel="cc:attributionURL" target="_blank">Skapes Project</a>
+ is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.
+    <a rel="license"
+       href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative 
+                                                                    Commons License" style="border-width:0"
+                                                               src="http://i.creativecommons.org/l/by/3.0/80x15.png" />
+    </a>
+
+  </p>
+
+
+</div>
+
+
 </div>
