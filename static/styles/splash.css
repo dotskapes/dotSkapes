@@ -57,7 +57,7 @@ a img {
     margin: auto;
     width: 100%;
     float: left;
-    background: #D0ECF2;
+    background: white;
 }
 
 #banner {
@@ -256,7 +256,7 @@ Feature
 
 h2.letter {
     font-family: 'Didact Gothic', arial, serif;
-    font-size: 170px;
+    font-size: 140px;
     margin: 0px;
     padding: 0px;
 }
@@ -272,7 +272,7 @@ p.subscript {
 #feature .box p {
     text-align: center;
     padding: 0px;
-    margin-top: 30px;
+    margin-top: 0px;
 }
 
 .subPage #feature {
