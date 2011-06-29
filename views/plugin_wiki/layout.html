@@ -70,8 +70,10 @@
     <script type="text/javascript" src="/{{= request.application }}/static/scripts/OpenLayers/OpenLayers.js"></script>
     <script type="text/javascript">
       $(window).load (function () {
-        var map_id = $('.hs_map').attr ('map_id');
-          var map = new OpenLayers.Map($('.hs_map').attr ('id'), {
+      var elem = $ ('.hs_map');
+      for (var i = 0; i < elem.length; i ++) {
+        var map_id = elem[i].attr ('map_id');
+          var map = new OpenLayers.Map(elem[i].attr ('id'), {
               projection: new OpenLayers.Projection("EPSG:900913"),
               displayProjection: new OpenLayers.Projection("EPSG:4326"),
       });

@@ -12,7 +12,7 @@
 <form method="POST" action="">
 <b>URL:</b><input name="slug" type="text" value="{{= page.slug }}" /><br />
 <b>Title:</b><input name="title" type="text" value="{{= page.title }}" /><br/>
-<b>Publish:</b><input name="is_public" type="checkbox" {{if create: }}checked{{ pass }}/><br />
+<b>Publish:</b><input name="is_public" type="checkbox" {{if create or page.is_public: }}checked{{ pass }}/><br />
 [{{=plugin_wiki.attachments('page',page.id)}}]
 {{if plugin_wiki_level>1:}}[{{=plugin_wiki.widget_builder()}}]{{pass}}<br/>
 <textarea name="body" id="plugin_wiki_page_body">{{= page.body }}</textarea><br/>
