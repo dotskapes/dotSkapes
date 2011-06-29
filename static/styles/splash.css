@@ -45,10 +45,6 @@ a {
     color: #639CBF;
 }
 
-/*a:hover { 
-    text-decoration: none; 
-}*/
-
 a img {
     border: none;
 }
@@ -57,9 +53,11 @@ a img {
     clear: both; 
 }
 
-#wrapper {
+#wrapper_wiki {
+    margin: auto;
     width: 100%;
     float: left;
+    background: white;
 }
 
 #banner {
@@ -76,7 +74,6 @@ Header
     
 #splash_header {
     margin: auto;
-    margin-top: 5px;
     height: 150px;
     background: white url(../images/img01.jpg) repeat-x left top;
 }
@@ -255,13 +252,15 @@ Feature
 
 #feature .box p{
     padding-right: 10px; 
+    font-size: 1.2em;
 }
 
 h2.letter {
     font-family: 'Didact Gothic', arial, serif;
-    font-size: 170px;
+    font-size: 130px;
     margin: 0px;
     padding: 0px;
+    text-align: left;
 }
 
 p.subscript {
@@ -275,7 +274,7 @@ p.subscript {
 #feature .box p {
     text-align: center;
     padding: 0px;
-    margin-top: 30px;
+    margin-top: 0px;
 }
 
 .subPage #feature {

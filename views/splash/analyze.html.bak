@@ -5,17 +5,17 @@
     <div id='feature'>
     
         <div class='box'>
-        <h2 class='letter'>1</h2>
+        <h2 class='letter'>Step 1:</h2>
         <p>Drag geolytic tool from sidebar to analyzer</p>
         </div>
        
         <div class='box'>
-        <h2 class='letter'>2</h2>
+        <h2 class='letter'>Step 2:</h2>
         <p>Drag/configure paramenters into analysis</p>
         </div>
         
         <div class='box'>
-        <h2 class='letter'>3</h2>
+        <h2 class='letter'>Step 3:</h2>
         <p>Run tool</p>
         </div>
         
