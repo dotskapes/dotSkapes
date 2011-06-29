@@ -37,7 +37,7 @@ Pages started with undescore are considered system pages. In particular:
   <div class="page">
     <div class="page_head">
       <p class="title">{{= page.title }} {{if not page.is_public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
-      <p class="date">{{= page.created_on }} by {{= user_name (page.created_by) }}</p>
+      <p class="date">{{= page.created_on }} by {{= user_name (page.created_by) }}{{ if len (page.cats): }} in {{= ' | '.join (map (lambda x: x.category, page.cats)) }}{{ pass }}</p>
     </div>
     <div class="page_body">
       {{= plugin_wiki.render(page.body) }}
