@@ -41,6 +41,7 @@ div#plugin_wiki p {
 div#plugin_wiki div.page {
     margin: 0px 20px 50px 20px;
     clear: both;
+    background: red;
 }
 
 div#plugin_wiki div.page_head p {
