@@ -252,13 +252,15 @@ Feature
 
 #feature .box p{
     padding-right: 10px; 
+    font-size: 1.2em;
 }
 
 h2.letter {
     font-family: 'Didact Gothic', arial, serif;
-    font-size: 140px;
+    font-size: 130px;
     margin: 0px;
     padding: 0px;
+    text-align: left;
 }
 
 p.subscript {

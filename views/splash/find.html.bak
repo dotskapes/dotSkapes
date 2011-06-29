@@ -28,7 +28,7 @@
         </div>
 
         <div class='box'>
-        <h2 style='margin-top: 40px;'>Start:</h2>
+        <h2 style='margin-top: 20px;'>Start:</h2>
     <form style="text-align: right;" action="#">
       <p>Enter a search term below</p>
       <input id="search_box" type="text" />
