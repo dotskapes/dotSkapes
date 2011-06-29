@@ -212,8 +212,13 @@ def call_r (m):
     #from rpy2 import robjects
     #r = robjects.r
 
-    result_id = str (uuid4 ().int)
-    result_path = 'applications/' + request.application + '/tool/results/' + result_id
+    #result_id = str (uuid4 ().int)
+    #result_path = 'applications/' + request.application + '/tool/results/' + result_id
+    files_to_delete = []
+    result_buffer = NamedTemporaryFile (delete = False)
+    files_to_delete.append (result_buffer)
+    result_path = result_buffer.name
+    result_buffer.close ()
 
     code = get_code (m['filename'])
     #r ("library ('sp')")
@@ -222,9 +227,8 @@ def call_r (m):
 
     setup = "library ('sp')\n"
     setup += "library ('rgdal')\n"
-    setup += "svg (filename = '" + getcwd () + '/' + result_path  + "')\n"
+    setup += "svg (filename = '" + result_path  + "')\n"
 
-    files_to_delete = []
     func = 'user_param = function (key, name, type, ...) {\n'
     for i, t in enumerate (m['args']):
         key = t[0]
@@ -261,18 +265,20 @@ def call_r (m):
 
     proc = subprocess.Popen (['R', '--no-save', '--silent'], stdin = subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     out = proc.communicate (setup + func + code + '\ndev.off ()\n')
+    fileid = str (uuid4 ().int)
+    session[fileid] = {'buffer': open (result_path).read (), 'type': 'image/svg+xml', 'name': 'R Result'}
     for f in files_to_delete:
         remove (f.name)
     if proc.returncode != 0:
-        #output = sub ('\n', '<br />', out[0])
-        #return attr_dict (err = output)
         if check_role (admin_role):
             output = sub ('\n', '<br />', out[0])
             return attr_dict (err = output)
         else:
             return attr_dict (err = "An Error Occurred")
-    lookup_id = dm.insert ('results', filename = result_id, type = 'image/svg+xml')
-    return dm.get ('results', lookup_id)
+
+    return attr_dict (file_ids = [{'id': fileid, 'name': 'R Result'}])
+    #lookup_id = dm.insert ('results', filename = result_id, type = 'image/svg+xml')
+    #return dm.get ('results', lookup_id)
 
 # Dev Functions
 

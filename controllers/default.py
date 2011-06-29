@@ -42,6 +42,7 @@ def user():
                 firstname = ax_resp['value.firstname']
                 lastname = ax_resp['value.lastname']
                 auth.get_or_create_user ({'first_name': firstname, 'last_name': lastname, 'email': email, 'password': db.auth_user.password.validate (psswd)[0]})
+                db (db[auth.settings.table_user].email == email).update (first_name = firstname, last_name = lastname)
                 auth.login_bare (email, psswd)
                 del session['openid-consumer']
                 redirect  (URL (scheme = 'http', r = request, c = 'default', f = 'index.html'))
