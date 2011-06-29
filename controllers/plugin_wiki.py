@@ -70,6 +70,7 @@ def index():
         p.body = p.body % widgets
         p.body = sub ('&#37;', '%', p.body)
         p.body = sub ('\n ', '\n', p.body)
+        p.cats = load_categories (p)
         
     #if plugin_wiki_editor:
     #    form=SQLFORM.factory(Field('slug',requires=db.plugin_wiki_page.slug.requires),
@@ -216,13 +217,7 @@ def page_publish_toggle():
     redirect (URL (r = request, f = 'index.html'))
 
 def page_delete():
-    slug = request.args(0)
-    if not slug:
-        raise HTTP (400, "No page URL given")
-    page = db (db.plugin_wiki_page.slug == slug).select ().first ()
-    if not page:
-        raise HTTP (404, "Page not found")
-
+    page = load_page (request.args(0))
     require_page_authorized (page)
     form = FORM (LABEL ('Confirm deletion of page ' + page.slug), BR (),
                  INPUT (_type='submit', _value = 'Delete'))
@@ -231,6 +226,30 @@ def page_delete():
         redirect (URL (r = request, f = 'index.html'))
     return {'form': form}
 
+def category_add():
+    page = load_page (request.args(0))
+    require_page_authorized (page)
+    cid = require_int (request.vars.get ('cid'))
+    return str (db.plugin_wiki_page_categories.insert (pid = page.id, cid = cid))
+
+def category_delete():
+    page = load_page (request.args(0))
+    require_page_authorized (page)
+    cat_id = require_int (request.vars.get ('cid'))
+    db ((db.plugin_wiki_page_categories.cid == cat_id) & (db.plugin_wiki_page_categories.pid == page.id)).delete ()
+
+def categories_edit():
+    require_role (editor_role)
+    if request.vars.has_key ('category'):
+        c = request.vars.get ('category')
+        if len (c) == 0:
+            pass
+        elif db (db.plugin_wiki_categories.category == c).count () > 0:
+            response.flash = 'Category is already defined'
+        else:
+            db.plugin_wiki_categories.insert (category = c)
+    results = db (db.plugin_wiki_categories).select ()
+    return {'categories': results}
 
 def page_history():
     """
