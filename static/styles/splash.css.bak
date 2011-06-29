@@ -74,27 +74,28 @@ a img {
 Header
 */
     
-#header {
+#splash_header {
     margin: auto;
+    margin-top: 5px;
     height: 150px;
     background: white url(../images/img01.jpg) repeat-x left top;
 }
 
-#header #introQuote {
+#splash_header #introQuote {
     width: 493px;
     padding-top: 10px;
     padding-left: 20px;
 }
 
-#header #introQuote {
+#splash_header #introQuote {
     font-weight: bold;
 }
 
-#header #introQuote h1{
-    font-size: 150%;
+#splash_header #introQuote h1{
+    font-size: 130%;
 }
 
-#header #flashSS {
+#splash_header #flashSS {
     float:   right;
     height:  232px;  
     width:   232px;  
@@ -102,7 +103,7 @@ Header
     margin:  0;
 }
 
-#header #flashSS img {  
+#splash_header #flashSS img {  
     padding: 15px;  
     border:  1px solid #ccc;  
     background-color: #eee;  
@@ -112,12 +113,12 @@ Header
     left: 0 
 } 
 
-#header a {
+#splash_header a {
     float: right;
     text-decoration: none;
 }
 
-#header a:hover .box{
+#splash_header a:hover .box{
     width: 127px;
     height: 122px;
     margin-top: 7px;
@@ -140,7 +141,7 @@ Header
     border-bottom-left-radius: 20px;
 }
 
-#header .box {
+#splash_header .box {
     width: 127px;
     height: 122px;
     margin-top: 7px;
@@ -165,13 +166,14 @@ Header
 }
 
 
-#header .box h2{
-    margin-top: 0px;
+#splash_header .box h2{
+    margin-top: 5px;
     text-align: center;
-    font-size: 110px;
+    font-size: 100px;
+    line-height: 100%;
 }
 
-#header .box p{
+#splash_header .box p{
     padding-right: 10px; 
 }
 

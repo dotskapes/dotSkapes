@@ -1,6 +1,6 @@
 {{extend 'plugin_wiki/layout.html'}}
 
-    <div id='header'>
+    <div id='splash_header'>
     
       <img style="float:left; height:130px; margin-top: 5px;" src="/{{= request.application}}/static/images/130px_logo_white_alpha.png" />
       <a  href="http://dot.skapes.org" target="_blank">
@@ -37,10 +37,8 @@
       </div>
       </a>
 
-      <div id='introQuote'>
-        <h1><b>Skapes.org</b> is a suite of web tools for finding, analyzing, and sharing spatial information.</h1>
+      
       </div>
-
 
 
 <div id="plugin_wiki">
@@ -86,8 +84,8 @@ Pages started with undescore are considered system pages. In particular:
       {{= plugin_wiki.render(page.body) }}
       {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, f = 'page', args = [page.slug])}}">MORE &#187;</a></p>{{ pass }}
       <div class="page_foot">
-	<a href="{{= URL (r = request, c = 'plugin_wiki', f = 'page', args = [page.slug], anchor = 'comments') }}">COMMENTS ({{= page.comments }})</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if (check_role (editor_role) or check_user (page.created_by)): }}<a href="{{= URL(r=request,f='page_delete',args=page.slug) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=page.slug) }}">{{if page.is_public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=page.slug) }}">EDIT</a>{{ pass }}
-	</div>
+    <a href="{{= URL (r = request, c = 'plugin_wiki', f = 'page', args = [page.slug], anchor = 'comments') }}">COMMENTS ({{= page.comments }})</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if (check_role (editor_role) or check_user (page.created_by)): }}<a href="{{= URL(r=request,f='page_delete',args=page.slug) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=page.slug) }}">{{if page.is_public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=page.slug) }}">EDIT</a>{{ pass }}
+    </div>
     </div>
   </div>
   {{ pass }}
@@ -95,6 +93,7 @@ Pages started with undescore are considered system pages. In particular:
     {{if not first: }}<a href = "{{= URL (r = request, vars = older) }}">OLDER POSTS</a>{{ else: }} OLDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
     {{if not last: }}<a href = "{{= URL (r = request, vars = newer) }}">NEWER POSTS</a>{{ else: }} NEWER POSTS {{ pass }}
   </div>
+
         <div class='clear'></div>
 
 <div id="fatfooter">
