@@ -7,19 +7,80 @@
 <script src="{{=URL('static','plugin_wiki/elrte-1.0rc4/js/elrte.min.js')}}" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="{{=URL('static','plugin_wiki/elrte-1.0rc4/css/elrte.full.css')}}" type="text/css" media="screen" charset="utf-8">
 
+{{ current_cat = load_categories (page) }}
+<script type="text/javascript">
+    var cats = []; 
+    var cat_link = function () {
+	var ob = $(this);
+	var val = ob.attr ('cid');
+	jQuery.ajax ({
+	    url: '{{= URL (r = request, f = 'category_delete', args = [page.slug]) }}',
+	    method: 'GET',
+	    data: {
+		cid: val,
+	    },
+	    success: function (data) {
+		delete cats[val];
+		ob.parent ().remove ();
+	    },
+	});
+	return false;
+    };
+    cats[''] = true;
+    {{ for c in current_cat: }}
+    cats['{{= c.cid }}'] = true;
+    {{ pass }}
+
+    $ (window).load (function () {
+	$ ('#add_cat').click (function () {
+	    var val = $('#sel_cat').val ();
+	    if (!cats[val]) {
+		cats[val] = true;
+		jQuery.ajax ({
+		    url: '{{= URL (r = request, f = 'category_add', args = [page.slug]) }}',
+		    method: 'GET',
+		    data: {
+			cid: val,
+		    },
+		    success: function (data) {
+			$ ('#lst_cat').append ('<li>' + $('#sel_cat option[value="' + val + '"]').text ()  + '&nbsp;&nbsp;&nbsp;&nbsp;<a class ="remove_cat" cid="' + val  + '" href="#">remove</a></li>');
+			$ ('.remove_cat[cid="' + val  + '"]').click (cat_link);
+		    },
+		});
+	    }
+	    return false;
+	});
+	$ ('.remove_cat').click (cat_link);
+    });
+</script>
+
 <div id="plugin_wiki_form">
 
 <form method="POST" action="">
 <b>URL:</b><input name="slug" type="text" value="{{= page.slug }}" /><br />
 <b>Title:</b><input name="title" type="text" value="{{= page.title }}" /><br/>
-<b>Publish:</b><input name="is_public" type="checkbox" {{if create: }}checked{{ pass }}/><br />
+<b>Publish:</b><input name="is_public" type="checkbox" {{if create or page.is_public: }}checked{{ pass }}/><br />
 [{{=plugin_wiki.attachments('page',page.id)}}]
 {{if plugin_wiki_level>1:}}[{{=plugin_wiki.widget_builder()}}]{{pass}}<br/>
 <textarea name="body" id="plugin_wiki_page_body">{{= page.body }}</textarea><br/>
 <input name="submit" type="submit" value="Submit" />
 </form>
-
 </div>
+
+<select id="sel_cat" name="categories">
+  <option></option>
+    {{ for c in db (db.plugin_wiki_categories).select (): }}
+    <option value="{{= c.id }}">{{= c.category }}</option>
+  {{ pass }}
+</select>
+<input id="add_cat" type="submit" value="Add Category" />
+<br />
+<b>Categories:</b>
+<ul id="lst_cat">
+  {{ for c in current_cat: }}
+    <li>{{= c.category }}&nbsp;&nbsp;&nbsp;&nbsp;<a class="remove_cat" cid="{{= c.cid }}" href="#">remove</a></li>
+  {{ pass }}
+</ul>
 
 {{if request.extension=='html' and not page.slug.startswith('meta-'):}}
 <script>

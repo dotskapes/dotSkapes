@@ -77,10 +77,18 @@ db.define_table('plugin_wiki_attachment',
                 format='%(name)s', migrate=plugin_wiki_migrate)
 
 db.define_table('plugin_wiki_comment',
-                Field('page_id',
-                      writable=False,readable=False),
+                Field('page_id'),
                 Field('body',requires=IS_NOT_EMPTY(),label='Your comment'),
                 auth.signature,
+                )
+
+db.define_table('plugin_wiki_page_categories',
+                Field('pid', 'integer'),
+                Field('cid', 'integer'),
+                )
+
+db.define_table('plugin_wiki_categories',
+                Field('category', 'string'),
                 )
 
 
@@ -736,3 +744,32 @@ def check_page_authorized (page):
     if check_user (page.created_by):
         return True
     return check_role (editor_role)
+
+cat_keys = None
+def load_category_keys ():
+    global cat_keys
+    if not cat_keys:
+        cat_keys = {}
+        keys_lookup = db (db.plugin_wiki_categories.id > 0).select ()
+        for entry in keys_lookup:
+            cat_keys[entry.id] = entry.category
+
+def lookup_cat_id (id):
+    load_category_keys ()
+    return cat_keys[id]
+
+def load_categories (page):
+    load_category_keys ()
+    lookup = db (db.plugin_wiki_page_categories.pid == page.id).select ()
+    cats = []
+    for item in lookup:
+        cats.append (attr_dict (cid = item.cid, category = lookup_cat_id (item.cid)))
+    return cats
+
+def load_page (slug):
+    if not slug:
+        raise HTTP (400, "No page URL given")
+    page = db (db.plugin_wiki_page.slug == slug).select ().first ()
+    if not page:
+        raise HTTP (404, "Page not found")
+    return page
