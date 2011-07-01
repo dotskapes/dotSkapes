@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{=T.accepted_language or 'en'}}" class="no-js"><!-- no-js need it for modernzr -->
+<html><!-- no-js need it for modernzr -->
   <head>
     
     <meta charset="utf-8" />        
