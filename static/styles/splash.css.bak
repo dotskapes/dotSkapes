@@ -181,6 +181,7 @@ Feature
 
 #feature {
     width: 986px;
+    height: 240px;
     margin: 0 auto;
     padding: 5px 20px 0px 20px;
     background: #C1D6E2;
@@ -261,6 +262,7 @@ Feature
     line-height: 120%;
 }
 
+
 h2.letter {
     font-family: 'Didact Gothic', arial, serif;
     font-size: 160px;
@@ -283,6 +285,13 @@ p.subscript {
     -moz-border-radius-topright: 20px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+}
+
+.subPage canvas{
+    margin: 20px 0 0 30px;
+    width: 500px;
+    height: 300px;
+    border: 1px dashed black;
 }
 
 
