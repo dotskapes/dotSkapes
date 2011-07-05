@@ -7,7 +7,7 @@ div#plugin_wiki p.title {
     margin: 0px;
     margin-top: 0;
     font-size: 2.2em;
-    font-family: Trebuchet MS, sans-serif;
+    font-weight: bold;
 }
 
 div#plugin_wiki p.date {
