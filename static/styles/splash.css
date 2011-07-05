@@ -68,8 +68,12 @@ a img {
     background: white url(../images/img01.jpg) repeat-x left top;
 }
 
+#header #title{
+    font-family: 'IM Fell DW Pica SC', serif;
+}
+
 /*
-Header
+Splash Page Header
 */
     
 #splash_header {

@@ -68,8 +68,13 @@ a img {
     background: white url(../images/img01.jpg) repeat-x left top;
 }
 
+#header #title{
+    font-family: 'Jura', cursive;
+    font-weight: bold;
+}
+
 /*
-Header
+Splash Page Header
 */
     
 #splash_header {
@@ -295,7 +300,7 @@ p.subscript {
 }
 
 .subPage video{
-   / background: black;
+    background: black;
     display: block;
     margin: 0 auto;
     width: 480px;
