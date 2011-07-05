@@ -295,6 +295,7 @@ p.subscript {
 }
 
 .subPage video{
+   / background: black;
     display: block;
     margin: 0 auto;
     width: 480px;
