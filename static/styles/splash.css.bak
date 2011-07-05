@@ -288,10 +288,17 @@ p.subscript {
 }
 
 .subPage canvas{
-    margin: 20px 0 0 30px;
+    margin: 0 0 0 30px;
     width: 500px;
     height: 300px;
     border: 1px dashed black;
+}
+
+.subPage video{
+    display: block;
+    margin: 0 auto;
+    width: 480px;
+    height: 390px;
 }
 
 

@@ -34,9 +34,14 @@
               <input id="search_box" type="text" />
               <input id="search_button" type="submit" value="Submit" />
           </form>
+        </div>  
           
     </div>
     
-    <canvas style='width:300px; height:200px; border: 1px dashed black;'></canvas>
+    <video controls preload="none">
+      <source src="{{= URL(r=request, c='static', f='videos/ps.mp4')}"  type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+      <source src="{{= URL(r=request, c='static', f='videos/ps.webm')}}" type='video/webm; codecs="vp8, vorbis"'>   
+      <source src="{{= URL(r=request, c='static', f='videos/ps.ogv')}}"  type='video/ogg; codecs="theora, vorbis"'>
+    </video>
         
 </div>

@@ -294,6 +294,14 @@ p.subscript {
     border: 1px dashed black;
 }
 
+.subPage video{
+    background: black;
+    display: block;
+    margin: 0 auto;
+    width: 480px;
+    height: 390px;
+}
+
 
 /* Footer */
 /* html5: changed #wrapper2 to footer */

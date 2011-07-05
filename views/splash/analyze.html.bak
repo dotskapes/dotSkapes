@@ -19,8 +19,8 @@
         <p>Run tool</p>
         </div>
         
-        <canvas></canvas>
-        
     </div>   
+    
+    <canvas></canvas>
     
 </div>
