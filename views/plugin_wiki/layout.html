@@ -86,60 +86,56 @@
           var map = new OpenLayers.Map(elem[i].attr ('id'), {
               projection: new OpenLayers.Projection("EPSG:900913"),
               displayProjection: new OpenLayers.Projection("EPSG:4326"),
-      });
-      var base = new OpenLayers.Layer.OSM ();
-      map.addLayer (base);
-
-      var center = new OpenLayers.LonLat (-55.0, -10.0);
-      var proj4326 = new OpenLayers.Projection('EPSG:4326');
-      var projection_current = new OpenLayers.Projection('EPSG:900913');
-      center.transform(proj4326, projection_current);
-      map.setCenter (center, 4);
-      var overlay = new OpenLayers.Layer.WMS (
-          "Map",
-          '/{{= request.application }}/geoserver/ows?ID=' + map_id,
-          {
-          SERVICE: 'WMS',
-          //layers: 'hsd:br_pop',
-          transparent: true,
-          format: "image/png",
-          projection: 'EPSG:900913',
-          //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
-          styles: null,
-          },
-          {
-          isBaseLayer: false,
-          displayOutsideMaxExtent: true,
-          }
-      );
-      map.addLayer (overlay);
-
-      $ ('.map_add').click (function () {
-          var map_id = $ (this).attr ('map_id');
-          jQuery.ajax ({
-          url: '/{{= request.application }}/data/save/maps',
-          method: 'GET',
-          dataType: 'json',
-          data: {
-              id: map_id
-          },
-          success: function (data, status, jqXHR) {
-              var nodes = top.hs.app.user.maps.getRootNode ().childNodes;
-              for (var i = 0; i < nodes.length; i ++) {
-              if (nodes[i].id == map_id) {
-                  console.log ("Node Already Exists. Stopping");
-                  return false;
+	  });
+	  var base = new OpenLayers.Layer.OSM ();
+	  map.addLayer (base);
+	  
+	  var center = new OpenLayers.LonLat (-55.0, -10.0);
+	  var proj4326 = new OpenLayers.Projection('EPSG:4326');
+	  var projection_current = new OpenLayers.Projection('EPSG:900913');
+	  center.transform(proj4326, projection_current);
+	  map.setCenter (center, 4);
+	  var overlay = new OpenLayers.Layer.WMS (
+              "Map",
+              '/{{= request.application }}/geoserver/ows?ID=' + map_id, {
+		  SERVICE: 'WMS',
+		  //layers: 'hsd:br_pop',
+		  transparent: true,
+		  format: "image/png",
+		  projection: 'EPSG:900913',
+		  //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
+		  styles: null,
+              }, {
+		  isBaseLayer: false,
+		  displayOutsideMaxExtent: true,
               }
-              }
-              top.hs.app.user.maps.addChild (data);
-          },
-          });
-          return false;
+	  );
+	  map.addLayer (overlay);
+	  
+	  $ ('.map_add').click (function () {
+              var map_id = $ (this).attr ('map_id');
+              jQuery.ajax ({
+		  url: '/{{= request.application }}/data/save/maps',
+		  method: 'GET',
+		  dataType: 'json',
+		  data: {
+		      id: map_id
+		  },
+		  success: function (data, status, jqXHR) {
+		      var nodes = top.hs.app.user.maps.getRootNode ().childNodes;
+		      for (var i = 0; i < nodes.length; i ++) {
+			  if (nodes[i].id == map_id) {
+			      console.log ("Node Already Exists. Stopping");
+			      return false;
+			  }
+		      }
+		      top.hs.app.user.maps.addChild (data);
+		  },
+              });
+              return false;
+	  });
+      }
       });
-      });
-      /*$(window).load (function () {
-      $ ('#search_box').
-      });*/
      </script>
    </head>
 
@@ -161,15 +157,11 @@
      <span id='title'>The dotSkapes Project</span>
      
        {{block header}} <!-- this is default header -->
-       <div style="text-align: right; display: inline; float: right;">
-             <form style="display: inline;" method="GET" action="{{= URL (r = request, f = 'index.html') }}">
-                 <input style='color: #666;' name="search" placeholder="Search Blog Titles" id="search_box" type="search" value="{{ if request.vars.has_key ('search'): }}{{= request.vars.get ('search') }}{{ pass }}" />
-             </form>
-             <a href="{{= URL(r=request, f='index.html') }}">Main</a>
-             {{if check_role (writer_role): }}&nbsp;&nbsp;&nbsp;&nbsp;
-             <a href="{{= URL(r=request,f='page_create') }}">Create New Page</a>{{ pass }}
-       </div>
-      
+
+       <div style="text-align: right">
+             <form style="display: inline;" method="GET" action="{{= URL (r = request, f = 'index', args = [request.args (0)]) }}"><input name="search" id="search_box" type="text" value="{{ if request.vars.has_key ('search'): }}{{= request.vars.get ('search') }}{{ pass }}" /></form><a href="{{= URL(r=request, f='index', args = [request.args (0)]) }}">Main</a>{{if check_role (writer_role): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request, f='categories_edit', args = [request.args (0)]) }}">Edit Categories</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request, f='page_create', args = [request.args (0)]) }}">Create New Page</a>{{ pass }}
+      </div>
+
       <div style="clear: both;"></div><!-- Clear the divs -->
       {{end}}                                     
     </div><!-- header  -->

@@ -1,5 +1,6 @@
 {{extend 'plugin_wiki/layout.html'}}
 
+{{ if request.args (0) == 'blog': }}
     <div id='splash_header'>
     
       <img style="float:left; height:130px; margin-top: 5px;" src="/{{= request.application}}/static/images/logo_white_alpha.png" />
@@ -39,59 +40,37 @@
 
       
       </div>
-
+{{ pass }}
 
 <div id="plugin_wiki">
-<!--<h1>System Pages</h1>
-
-<h2>Create New page</h2>
-
-<h2>Current Pages</h2>
-
-<table>
-  {{for page in pages:}}
-  <tr>
-    <td>{{=A(page.slug,_href=URL(r=request,f='page',args=page.slug))}}</td>
-    <td><i>{{=page.title}}</i></td>
-    <td>{{=page.created_on}}</td>
-    <td>{{=page.is_public and 'public' or 'private'}} {{=page.role}}</td>
-    <td>{{=page.is_active and 'active' or 'inactive'}}</td>
-    <td>[{{=A('edit',_href=URL(r=request,f='page_edit',args=page.slug))}}]</td>
-  </tr>
-  {{pass}}
-</table>
-
-<h3>Info</h3>
-
-Pages started with undescore are considered system pages. In particular:
-<ul>
-  <li><a href="{{=URL(r=request,f='page',args='meta-code')}}">meta-code</a> must contain code and it will be executed for every page.</li>
-  <li><a href="{{=URL(r=request,f='page',args='meta-menu')}}">meta-menu</a> must contain a description of the menu.</li>
-  <li><a href="{{=URL(r=request,f='page',args='meta-header')}}">meta-header</a> conatins the content of the header.</li>
-  <li><a href="{{=URL(r=request,f='page',args='meta-sidebar')}}">meta-sidebar</a> conatins the content of the sidebar.</li>
-  <li><a href="{{=URL(r=request,f='page',args='meta-footer')}}">meta-footer</a> conatins the content of the footer.</li>
-</ul> -->
-
+  <div style="float: right;">
+    {{ for cat in MongoWrapper (mongo.categories.find ({request.args (0): True})): }}
+    <a href="{{= URL (r = request, args = request.args, vars = {'cat': str (cat._id)}) }}">{{= cat.name }}</a><br />
+    {{ pass }}
+  </div>
+  
   {{request.args.append (None) }}
   {{for page in pages:}}
-  {{request.args[0] = page.slug }}
   <div class="page">
     <div class="page_head">
-      <p class="title">{{= page.title }} {{if not page.is_public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
-      <p class="date">{{= page.created_on }} by {{= user_name (page.created_by) }}{{ if len (page.cats): }} in {{= ' | '.join (map (lambda x: x.category, page.cats)) }}{{ pass }}</p>
+      <p class="title">{{= page.title }} {{if not page.public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
+      <p class="date">
+	{{= page.date }} by {{= user_name (page.owner) }}{{ if len (page.categories): }} in {{= ' | '.join (map (lambda x: lookup_cat_id (str (x)), page.categories)) }}{{ pass }}<br />
+	{{ if len (page.tags): }}Tags: {{ pass }}{{= ', '.join (page.tags) }}
+      </p>
     </div>
     <div class="page_body">
       {{= plugin_wiki.render(page.body) }}
-      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, f = 'page', args = [page.slug])}}">MORE &#187;</a></p>{{ pass }}
+      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, f = 'page', args = [request.args (0), page.slug])}}">MORE &#187;</a></p>{{ pass }}
       <div class="page_foot">
-    <a href="{{= URL (r = request, c = 'plugin_wiki', f = 'page', args = [page.slug], anchor = 'comments') }}">COMMENTS ({{= page.comments }})</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if (check_role (editor_role) or check_user (page.created_by)): }}<a href="{{= URL(r=request,f='page_delete',args=page.slug) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=page.slug) }}">{{if page.is_public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=page.slug) }}">EDIT</a>{{ pass }}
+    <a href="{{= URL (r = request, c = 'plugin_wiki', f = 'page', args = [request.args (0), page.slug], anchor = 'comments') }}">COMMENTS ({{= len (page.comments) }})</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if (check_role (editor_role) or check_user (page.owner)): }}<a href="{{= URL(r=request,f='page_delete', args = [request.args (0), page.slug]) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=[request.args (0), page.slug]) }}">{{if page.public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=[request.args (0), page.slug]) }}">EDIT</a>{{ pass }}
     </div>
     </div>
   </div>
   {{ pass }}
   <div style="text-align: right;">
-    {{if not first: }}<a href = "{{= URL (r = request, vars = older) }}">OLDER POSTS</a>{{ else: }} OLDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
-    {{if not last: }}<a href = "{{= URL (r = request, vars = newer) }}">NEWER POSTS</a>{{ else: }} NEWER POSTS {{ pass }}
+    {{if not first: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = older) }}">OLDER POSTS</a>{{ else: }} OLDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
+    {{if not last: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = newer) }}">NEWER POSTS</a>{{ else: }} NEWER POSTS {{ pass }}
   </div>
 
         <div class='clear'></div>

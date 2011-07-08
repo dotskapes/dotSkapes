@@ -737,11 +737,11 @@ class PluginWiki(object):
 plugin_wiki=PluginWiki()
 
 def require_page_authorized (page):
-    if not check_user (page.created_by):
+    if not check_user (page.owner):
         require_role (editor_role)
 
 def check_page_authorized (page):
-    if check_user (page.created_by):
+    if check_user (page.owner):
         return True
     return check_role (editor_role)
 
@@ -750,26 +750,33 @@ def load_category_keys ():
     global cat_keys
     if not cat_keys:
         cat_keys = {}
-        keys_lookup = db (db.plugin_wiki_categories.id > 0).select ()
+        #keys_lookup = db (db.plugin_wiki_categories.id > 0).select ()
+        keys_lookup = MongoWrapper (mongo.categories.find ())
         for entry in keys_lookup:
-            cat_keys[entry.id] = entry.category
+            cat_keys[str (entry._id)] = entry.name
 
 def lookup_cat_id (id):
     load_category_keys ()
     return cat_keys[id]
 
-def load_categories (page):
-    load_category_keys ()
-    lookup = db (db.plugin_wiki_page_categories.pid == page.id).select ()
-    cats = []
-    for item in lookup:
-        cats.append (attr_dict (cid = item.cid, category = lookup_cat_id (item.cid)))
-    return cats
+def load_categories (page = None):
+    if page:
+        load_category_keys ()
+        lookup = db (db.plugin_wiki_page_categories.pid == page.id).select ()
+        cats = []
+        for item in lookup:
+            cats.append (attr_dict (cid = item.cid, category = lookup_cat_id (item.cid)))
+        return cats
+    else:
+        return MongoWrapper (mongo.categories.find ())
 
 def load_page (slug):
     if not slug:
         raise HTTP (400, "No page URL given")
-    page = db (db.plugin_wiki_page.slug == slug).select ().first ()
+    page = MongoWrapper (mongo.blog.find_one ({'slug': slug}))
+    #page = db (db.plugin_wiki_page.slug == slug).select ().first ()
     if not page:
         raise HTTP (404, "Page not found")
+    if not page.public:
+        require_page_authorized (page)
     return page

@@ -99,10 +99,30 @@
     });*/
 
     hs.app.blog = new hs.util.IFramePanel ({
-    title: 'Main',
-    region: 'center',
-    autoScroll: true,
-    }, '/{{ =request.application }}/plugin_wiki');
+
+	title: 'Main',
+	region: 'center',
+	autoScroll: true,
+    }, '/{{ =request.application }}/plugin_wiki/index/blog');
+
+    hs.app.case = new hs.util.IFramePanel ({
+	title: 'Case Studies',
+	region: 'center',
+	autoScroll: true,
+    }, '/{{ =request.application }}/plugin_wiki/index/case');
+
+    hs.app.docs = new hs.util.IFramePanel ({
+	title: 'Documentation',
+	region: 'center',
+	autoScroll: true,
+    }, '/{{ =request.application }}/plugin_wiki/index/docs');
+
+    hs.app.tutorials = new hs.util.IFramePanel ({
+	title: 'Tutorials',
+	region: 'center',
+	autoScroll: true,
+    }, '/{{ =request.application }}/plugin_wiki/index/tutorials');
+
 
     hs.side = new Ext.Panel ({
         title: 'Controls',
@@ -149,6 +169,7 @@
 
     var tabPanel = new Ext.TabPanel ({
         activeTab: 0,
+<<<<<<< TREE
     layoutOnChange: true,
     region: 'center',
     items: [
@@ -157,6 +178,19 @@
         hs.app.info,
         hs.app.find,
         hs.app.tool,
+=======
+	layoutOnChange: true,
+	region: 'center',
+	items: [
+	    hs.app.blog,
+	    hs.app.map,
+	    hs.app.info,
+	    hs.app.find,
+	    hs.app.tool,
+	    hs.app.case,
+	    hs.app.tutorials,
+	    hs.app.docs,
+>>>>>>> MERGE-SOURCE
         ],
     });
 
