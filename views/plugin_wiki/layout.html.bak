@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{=T.accepted_language or 'en'}}" class="no-js"><!-- no-js need it for modernzr -->
+<html><!-- no-js need it for modernzr -->
   <head>
     
     <meta charset="utf-8" />        
@@ -40,6 +40,8 @@
 <link rel="stylesheet" href="/{{= request.application }}/static/styles/splash.css" type="text/css" />
 
 <link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Jura&v2' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Limelight&v2' rel='stylesheet' type='text/css'>
 
     <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
     <script src="{{=URL('static','js/modernizr-1.6.min.js')}}"></script>
@@ -148,8 +150,11 @@
        <div id="wrapper_wiki">       
 
      <div id="header"> <!-- header and login nav -->
+     
+     <span id='title'>The dotSkapes Project</span>
+     
        {{block header}} <!-- this is default header -->
-       <div style="text-align: right">
+       <div style="text-align: right; display: inline; float: right;">
              <form style="display: inline;" method="GET" action="{{= URL (r = request, f = 'index.html') }}"><input name="search" id="search_box" type="text" value="{{ if request.vars.has_key ('search'): }}{{= request.vars.get ('search') }}{{ pass }}" /></form><a href="{{= URL(r=request, f='index.html') }}">Main</a>{{if check_role (writer_role): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_create') }}">Create New Page</a>{{ pass }}
       </div>
       <div style="clear: both;"></div><!-- Clear the divs -->

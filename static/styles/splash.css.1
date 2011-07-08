@@ -181,6 +181,7 @@ Feature
 
 #feature {
     width: 986px;
+    height: 240px;
     margin: 0 auto;
     padding: 5px 20px 0px 20px;
     background: #C1D6E2;
@@ -247,19 +248,26 @@ Feature
 
 #feature .box h2{
     margin-top: 0px;
-    text-align: center;
+    text-align: left;
+    float: left;
 }
 
 #feature .box p{
-    padding-right: 10px; 
+    width: 80px;
+    float: right;
+    text-align: left;
+    margin: 40px 5px 0 0;
+    padding-right: 8px; 
+    font-size: 1.2em;
+    line-height: 120%;
 }
+
 
 h2.letter {
     font-family: 'Didact Gothic', arial, serif;
-    font-size: 140px;
+    font-size: 160px;
     margin: 0px;
     padding: 0px;
-    text-align: left;
 }
 
 p.subscript {
@@ -270,11 +278,6 @@ p.subscript {
     color: #aaa;
 }
 
-#feature .box p {
-    text-align: center;
-    padding: 0px;
-    margin-top: 0px;
-}
 
 .subPage #feature {
     margin-top: 20px;
@@ -282,6 +285,19 @@ p.subscript {
     -moz-border-radius-topright: 20px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+}
+
+.subPage canvas{
+    margin: 0 0 0 30px;
+    width: 500px;
+    height: 300px;
+    border: 1px dashed black;
+}
+
+.subPage video{
+    display: block;
+    width: 500px;
+    height: 300px;
 }
 
 
