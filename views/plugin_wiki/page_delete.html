@@ -3,7 +3,7 @@
 <script type="text/javascript">
     $(window).ready (function () {
 	$ ('#cancel').click (function () {
-	    window.location = '{{= URL (r = request, f = 'index.html') }}';
+	    window.location = '{{= URL (r = request, f = 'index', args = [request.args (0)]) }}';
 	    return false;
 	});
     });

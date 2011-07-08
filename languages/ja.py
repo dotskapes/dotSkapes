@@ -2915,6 +2915,7 @@
 'Rescue and recovery': 'Rescue and recovery',
 'Reset': 'Reset',
 'Reset Password': 'パスワードのリセット',
+'Reset Password key': 'Reset Password key',
 'Reset form': 'フォームをクリア',
 'Resize Feature: Select the feature you wish to resize & then Drag the associated dot to your desired size': 'Resize Feature: Select the feature you wish to resize & then Drag the associated dot to your desired size',
 'Resolve': 'Resolve',

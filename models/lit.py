@@ -1,9 +1,9 @@
 db.define_table('keyword',
-    Field('kw'),
+    Field('kw', 'string', length = 512),
 )
 
 db.define_table('disease',
-    Field('d'),
+    Field('d', 'string', length = 512),
 )
 
 db.define_table('keycount',

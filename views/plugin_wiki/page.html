@@ -2,33 +2,36 @@
 <div id="plugin_wiki">
   <div class="page">
     <div class="page_head">
-      <p class="title">{{= page.title }} {{if not page.is_public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
-      <p class="date">{{= page.created_on }} by {{= user_name (page.created_by) }}</p>
+      <p class="title">{{= page.title }} {{if not page.public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
+      <p class="date">
+	{{= page.date }} by {{= user_name (page.owner) }}{{ if len (page.categories): }} in {{= ' | '.join (map (lambda x: lookup_cat_id (str (x)), page.categories)) }}{{ pass }}<br />
+	{{ if len (page.tags): }}Tags: {{ pass }}{{= ', '.join (page.tags) }}
+      </p>
     </div>
     <div class="page_body">
       {{= plugin_wiki.render(page.body) }}
       <div class="page_foot">
-	{{ if (check_role (editor_role) or check_user (page.created_by)): }}<a href="{{= URL(r=request,f='page_delete',args=page.slug) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=page.slug) }}">{{if page.is_public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=page.slug) }}">EDIT</a>{{ pass }}
+	{{ if (check_role (editor_role) or check_user (page.owner)): }}<a href="{{= URL(r=request,f='page_delete', args = request.args) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args = request.args) }}">{{if page.public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit', args = request.args) }}">EDIT</a>{{ pass }}
 	</div>
     </div>
     <div id="comments" class="page_comments">
       <p class="comments_title">Comments:</p>
-      {{ if len (comments) == 0: }}
+      {{ if len (page.comments) == 0: }}
       <div class="comment_body">
 	No one has posted any comments yet.
       </div>
       {{ pass }}
-      {{ for comment in comments: }}
+      {{ for comment in page.comments: }}
       <div class="comment_body">
 	{{= comment.body }}
-	<p class="date">{{= comment.created_on }} by {{= user_name (comment.created_by) }}{{if check_page_authorized (comment): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL (r = request, f = 'delete_comment', args = [page.slug], vars = {'id': comment.id})}}">DELETE</a>{{ pass }}</p>
+	<p class="date">{{= comment.date }} by {{= user_name (comment.owner) }}{{if check_page_authorized (comment): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL (r = request, f = 'delete_comment', args = request.args, vars = {'id': comment._id})}}">DELETE</a>{{ pass }}</p>
       </div>
       
       {{ pass }}
       <div class="comments_foot">
 	{{ if check_logged_in (): }}
 	<p class="comments_title">Post Comment:</p>
-	<form method="POST", action="{{= URL (r = request, f = 'post_comment', args = [page.slug]) }}">
+	<form method="POST", action="{{= URL (r = request, f = 'post_comment', args = request.args) }}">
 	  <textarea style="width: 100%; height: 200px;" name="body"></textarea><br />
 	  <input name="submit" type="submit" value="Submit" />
 	</form>

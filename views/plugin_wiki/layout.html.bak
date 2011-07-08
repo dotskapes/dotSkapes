@@ -1,9 +1,6 @@
-<!DOCTYPE html>
 <html lang="{{=T.accepted_language or 'en'}}" class="no-js"><!-- no-js need it for modernzr -->
   <head>
     
-    <link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
-
     <meta charset="utf-8" />	  	
     <!-- www.phpied.com/conditional-comments-block-downloads/ -->
     <!--[if IE]><![endif]-->    
@@ -30,11 +27,19 @@
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
     
     <!-- Place favicon.ico and apple-touch-icon.png in the root of your domain and delete these references -->
+    <link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{=URL('static','favicon.png')}}">
 
     <!-- For the less-enabled mobile browsers like Opera Mini -->
     <link rel="stylesheet" media="handheld" href="{{=URL('static','css/handheld.css')}}">
-    
+
+    <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/plugin_wiki.css" />
+
+
+<link rel="stylesheet" href="/{{= request.application }}/static/styles/splash.css" type="text/css" />
+
+<link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" type="text/css" />
+
     <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
     <script src="{{=URL('static','js/modernizr-1.6.min.js')}}"></script>
     
@@ -61,54 +66,92 @@
     style_content = 'style="width: %s"' % width_content
     }}
 
-<script type="text/javascript">
+    <!--'-->
+    <script type="text/javascript" src="/{{= request.application }}/static/scripts/OpenLayers/OpenLayers.js"></script>
+    <script type="text/javascript">
+      $(window).load (function () {
+        var map_id = $('.hs_map').attr ('map_id');
+          var map = new OpenLayers.Map($('.hs_map').attr ('id'), {
+              projection: new OpenLayers.Projection("EPSG:900913"),
+              displayProjection: new OpenLayers.Projection("EPSG:4326"),
+	  });
+	  var base = new OpenLayers.Layer.OSM ();
+	  map.addLayer (base);
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-23924726-1']);
-  _gaq.push(['_trackPageview']);
+	  var center = new OpenLayers.LonLat (-55.0, -10.0);
+	  var proj4326 = new OpenLayers.Projection('EPSG:4326');
+	  var projection_current = new OpenLayers.Projection('EPSG:900913');
+	  center.transform(proj4326, projection_current);
+	  map.setCenter (center, 4);
+	  var overlay = new OpenLayers.Layer.WMS (
+	      "Map",
+	      '/{{= request.application }}/geoserver/ows?ID=' + map_id,
+	      {
+		  SERVICE: 'WMS',
+		  //layers: 'hsd:br_pop',
+		  transparent: true,
+		  format: "image/png",
+		  projection: 'EPSG:900913',
+		  //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
+		  styles: null,
+	      },
+	      {
+		  isBaseLayer: false,
+		  displayOutsideMaxExtent: true,
+	      }
+	  );
+	  map.addLayer (overlay);
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+	  $ ('.map_add').click (function () {
+	      var map_id = $ (this).attr ('map_id');
+	      jQuery.ajax ({
+		  url: '/{{= request.application }}/data/save/maps',
+		  method: 'GET',
+		  dataType: 'json',
+		  data: {
+		      id: map_id
+		  },
+		  success: function (data, status, jqXHR) {
+		      var nodes = top.hs.app.user.maps.getRootNode ().childNodes;
+		      for (var i = 0; i < nodes.length; i ++) {
+			  if (nodes[i].id == map_id) {
+			      console.log ("Node Already Exists. Stopping");
+			      return false;
+			  }
+		      }
+		      top.hs.app.user.maps.addChild (data);
+		  },
+	      });
+	      return false;
+	  });
+      });
+      /*$(window).load (function () {
+	  $ ('#search_box').
+      });*/
+     </script>
+   </head>
 
-</script>
+   <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->	
+   <!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
+   <!--[if IE 7 ]>    <body class="ie7"> <![endif]-->
+   <!--[if IE 8 ]>    <body class="ie8"> <![endif]-->
+   <!--[if IE 9 ]>    <body class="ie9"> <![endif]-->
+   <!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
 
-  </head>
-  
-  <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->	
-  <!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
-  <!--[if IE 7 ]>    <body class="ie7"> <![endif]-->
-  <!--[if IE 8 ]>    <body class="ie8"> <![endif]-->
-  <!--[if IE 9 ]>    <body class="ie9"> <![endif]-->
-  <!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
-    
-    <div class="flash">{{=response.flash or ''}}</div> <!-- notification div -->
-    
-    <div id="container">	      		      	
-      
-      <div id="wrapper">		
-	
-	<div id="header"> <!-- header and login nav -->
-	  {{block header}} <!-- this is default header -->
-	  {{try:}}{{=auth.navbar(action=URL('default','user'))}}{{except:pass}}		          
-	  <div id="logo"><!-- put your logo here --></div>
+     <div class="flash">{{=response.flash or ''}}</div> <!-- notification div -->
+
+     <div id="container">	      		      	
+
+       <div id="wrapper">		
+
+	 <div id="header"> <!-- header and login nav -->
+	   {{block header}} <!-- this is default header -->
+	   <div style="text-align: right">
+             <form style="display: inline;" method="GET" action="{{= URL (r = request, f = 'index.html') }}"><input name="search" id="search_box" type="text" value="{{ if request.vars.has_key ('search'): }}{{= request.vars.get ('search') }}{{ pass }}" /></form><a href="{{= URL(r=request, f='index.html') }}">Main</a>{{if check_role (writer_role): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_create') }}">Create New Page</a>{{ pass }}
+	  </div>
 	  <div style="clear: both;"></div><!-- Clear the divs -->
 	  {{end}}				  					  
 	</div><!-- header  -->
-	
-	<div id="statusbar"><!-- statusbar is menu zone -->
-	  {{block statusbar}} <!-- this is default statusbar -->
-	  {{#------ superfish menu ------}}
-	  {{=MENU(response.menu,_class='sf-menu')}}
-	  <script type="text/javascript">
-	    jQuery(document).ready(function(){
-	    jQuery('ul.sf-menu').superfish();});
-	  </script>
-	  <div style="clear: both;"></div><!-- Clear the divs -->	
-	  {{end}}				
-	</div><!-- statusbar -->
 	
 	<div id="page"> <!-- Here my central body -->	  
 
@@ -139,16 +182,6 @@
 	  
 	</div><!-- page -->							
 	
-	<div id="footer">
-	  {{block footer}} <!-- this is default footer -->
-	  <a href="http://www.web2py.com/" style="float: left; padding-right: 6px;">
-	    <img src="{{=URL('static','images/poweredby.png')}}"/>
-	  </a>
-	  {{=T('Copyright')}} &#169; 2010				
-	  <div style="clear: both;"></div><!-- Clear the divs -->
-	  {{end}}
-
-	</div><!-- footer -->			
       </div><!-- wrapper -->
     </div><!-- container -->		
     
@@ -173,3 +206,4 @@
 	   -->    
   </body>
 </html>
+

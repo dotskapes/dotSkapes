@@ -3096,6 +3096,7 @@
 'Rescue and recovery': 'Rescue and recovery',
 'Reset': 'Reset',
 'Reset Password': 'Reset Password',
+'Reset Password key': 'Reset Password key',
 'Reset form': 'Reset form',
 'Resize Feature: Select the feature you wish to resize & then Drag the associated dot to your desired size': 'Resize Feature: Select the feature you wish to resize & then Drag the associated dot to your desired size',
 'Resolve': 'Resolve',

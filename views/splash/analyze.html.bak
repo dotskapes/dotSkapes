@@ -1,22 +1,22 @@
 {{extend 'splash/layout.html'}}
 
-<div class='subPage' id='share'>
+<div class='subPage' id='analyze'>
 
     <div id='feature'>
     
         <div class='box'>
         <h2 class='letter'>1</h2>
-        <p>Make an analysis result public</p>
+        <p>Drag geolytic tool from sidebar to analyzer</p>
         </div>
        
         <div class='box'>
         <h2 class='letter'>2</h2>
-        <p>Publish a tool</p>
+        <p>Drag/ configure paramenters into analysis</p>
         </div>
         
         <div class='box'>
         <h2 class='letter'>3</h2>
-        <p>Share the URL</p>
+        <p>Run tool</p>
         </div>
         
     </div>   

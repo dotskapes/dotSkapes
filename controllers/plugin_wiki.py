@@ -5,21 +5,98 @@
 # code to handle wiki pages
 ##########################################################
 
-
 def index():
     from re import finditer
-    w = db.plugin_wiki_page
+    # w = db.plugin_wiki_page
     if check_role (editor_role):
-        query = w.id > 0
+        p_query = {} #{'body': {'$exists': True}}
+        #query = w.id > 0
     elif check_role (writer_role):
-        query = (w.is_public == True) | (w.created_by == auth.user.id)
+        '''p_query = {
+            '$not': {
+                'public': {'$ne' : True},
+                'owner': {'$ne' : auth.user.id},
+                }
+                }''' 
+        p_query = {
+            '$or': [
+                {'public': True}, 
+                {'owner': auth.user.id}
+                ]
+            }
+        #query = (w.is_public == True) | (w.created_by == auth.user.id)
     else:
-        query = w.is_public == True
-    if request.vars.has_key ('search'):
-        term = request.vars.get ('search')
-        query = query & (w.body.contains (term) | w.title.contains (term))
-    pages = db(query).select(orderby=~w.created_on)
+        p_query = {'public': True}
+        #query = w.is_public == True
+    term = request.vars.get ('search')
+    if term:
+        '''m_query = {
+            '$or': [
+                {'body': {'$regex': re.compile ('%s' % term)}},
+                {'title': {'$regex': re.compile ('%s' % term)}},
+                ]
+            }'''
+        '''m_query = {
+            '$not': {
+                'body': {'$not': re.compile ('%s' % term)},
+                'title': {'$not': re.compile ('%s' % term)},
+                }
+            }'''
+        m_query = {'body': re.compile ('%s' % term)}
+        '''query = {
+            '$nor': [
+                {
+                    'body': {'$not': re.compile ('%s' % term)},
+                    'title': {'$not': re.compile ('%s' % term)},
+                    },
+                {
+                    '$not': query,
+                    }
+                ]
+            }'''
+    else:
+        m_query = {}
+    if request.vars.get ('cat'):
+        cats = [ObjectId (request.vars.get ('cat'))]
+    elif request.args (0) == 'blog':
+        cats = map (lambda x: x._id, MongoWrapper (mongo.categories.find ({'blog': True})))
+    elif request.args (0) == 'case':
+        cats = map (lambda x: x._id, MongoWrapper (mongo.categories.find ({'case': True})))
+    elif request.args (0) == 'docs':
+        cats = map (lambda x: x._id, MongoWrapper (mongo.categories.find ({'docs': True})))
+    elif request.args (0) == 'tutorials':
+        cats = map (lambda x: x._id, MongoWrapper (mongo.categories.find ({'tutorial': True})))
+    c_query = {
+        'categories': {
+            '$in': cats,
+            },
+        }
+    #query = {
+    #    '$nor': [
+    #        {'$not': p_query},
+    #        {'$not': m_query},           
+    #        {'$not': c_query},          
+    #        ],
+    #    }
+    query = {
+        '$and': [
+            p_query,
+            m_query,
+            c_query,
+            ]
+        }
+    #query = c_query
 
+        #term = request.vars.get ('search')
+        #query['body'] = '/%s/' % term
+        #query['title'] = '/%s/' % term
+        #query = ({'$or': [{'body': term}, {'title': term}]}) #[{'$or': {'public': True, 'owner': auth.user.id}}, {'$or': [{'body': '/%s/' % term}, {'title': '/%s/' % term}]}]
+    #    query = query & (w.body.contains (term) | w.title.contains (term))
+    #pages = db(query).select(orderby=~w.created_on)    
+    #query = {'$where': 'return ((this.public) || (this.owner == %d)) && ((this.body.search ("%s") >= 0) || (this.title.search ("%s") >= 0));' % (auth.user.id, term, term)}
+    pages = MongoCursorWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING))
+    #pages = MongoCursorWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING))
+                
     if request.vars.has_key ('start'):
         start = require_int (request.vars.get ('start'))
     else:
@@ -30,7 +107,7 @@ def index():
     else:
         max_ret = 10
 
-    first = (start + max_ret >= len (pages))
+    first = (start + max_ret >= pages.count ())
     last = (start == 0)
 
     older = {}
@@ -70,7 +147,18 @@ def index():
         p.body = p.body % widgets
         p.body = sub ('&#37;', '%', p.body)
         p.body = sub ('\n ', '\n', p.body)
-        p.cats = load_categories (p)
+        #p.cats = load_categories (p)
+        p.cats = []
+
+    '''if request.vars.has_key ('category'):
+        require_role (editor_role)
+        c = request.vars.get ('category')
+        if len (c) == 0:
+            pass
+        elif mongo.categories.find ({'name': c}).count (): #db (db.plugin_wiki_categories.category == c).count () > 0:
+            response.flash = 'Category is already defined'
+        else:
+            mongo.categories.insert ({'name': c})'''
         
     #if plugin_wiki_editor:
     #    form=SQLFORM.factory(Field('slug',requires=db.plugin_wiki_page.slug.requires),
@@ -79,67 +167,69 @@ def index():
     #       redirect(URL(r=request,f='page',args=form.vars.slug,vars=dict(template=request.vars.from_template or '')))
     #else:
     #    form=''
+
     return dict(pages = pages, first = first, last = last, older = older, newer = newer)
 
 def page():
     """
     shows a page
     """
-    slug = request.args(0)
-    if not slug:
-        raise HTTP (400)
-    w = db.plugin_wiki_page
-    page = w(slug = slug)
-    if not page.is_public:
-        require_page_authorized (page)
-    comments = db (db.plugin_wiki_comment.page_id == page.id).select ()
-    for c in comments: 
-        c.body = plugin_wiki.render (c.body)
-    return dict(page=page,slug=slug, comments = comments)
-    '''if not auth.user and (not page or not page.is_public or not page.is_active):
-        redirect(URL(r=request,c='default',f='user',args='login'))
-    elif not plugin_wiki_editor and (not page or not page.is_public or not page.is_active):
-        raise HTTP(404)
-    elif page and page.role and not auth.has_membership(page.role):    
-        raise HTTP(404)
-    if request.extension=='load':
-        return plugin_wiki.render(page.body)
-    if request.extension=='html':         
-        return dict(page=page,slug=slug, comments = comments)
-    return MARKMIN(page.body,extra={'widget':(lambda code:''),
-                                    'template':(lambda template:'')})'''
+    page = load_page (request.args (1))
+    #comments = db (db.plugin_wiki_comment.page_id == page.id).select ()
+    #for c in comments:
+    #    c.body = plugin_wiki.render (c.body)
+    return dict(page = page)
 
 def post_comment():
     require_logged_in ()
-    slug = request.args(0)
-    if not slug:
-        raise HTTP (400)
+    slug = request.args (1)
+    page = load_page (slug)
     if (not request.vars.has_key ('body')) or (len (request.vars.get ('body')) == 0):
-        redirect (URL (r = request, f = 'page.html', args = [slug]))
-    w = db.plugin_wiki_page
-    page = w(slug = slug)
-    db.plugin_wiki_comment.insert(page_id = page.id, body = request.vars.get ('body'))
-    db (db.plugin_wiki_page.slug == slug).update (comments = (page.comments + 1))
-    redirect (URL (r = request, f = 'page.html', args = [slug]))
+        redirect (URL (r = request, f = 'page.html', args = request.args))
+    #w = db.plugin_wiki_page
+    #page = w(slug = slug)
+    #db.plugin_wiki_comment.insert(page_id = page.id, body = request.vars.get ('body'))
+    #db (db.plugin_wiki_page.slug == slug).update (comments = (page.comments + 1))
+    import datetime
+    mongo.blog.update ({'slug': slug}, {'$push': {'comments': {
+                    'date': datetime.datetime.now (),
+                    'owner': auth.user.id,
+                    'body': request.vars.get ('body'),                    
+                    '_id': ObjectId (),
+                    }}})
+    redirect (URL (r = request, f = 'page.html', args = request.args))
 
 def delete_comment():
-    slug = request.args(0)
+    #slug = request.args(1)
+    #if not slug:
+    #    raise HTTP (400)
+    #lookup_id = require_int (request.vars.get ('id'))
+    #comment = db (db.plugin_wiki_comment.id == lookup_id).select ().first ()
+    #comment.delete_record ()
+    #w = db.plugin_wiki_page
+    #page = w(slug = slug)
+    #db (db.plugin_wiki_page.slug == slug).update (comments = (page.comments - 1))
+    slug = request.args(1)
     if not slug:
         raise HTTP (400)
-    lookup_id = require_int (request.vars.get ('id'))
-    comment = db (db.plugin_wiki_comment.id == lookup_id).select ().first ()
-    comment.delete_record ()
-    w = db.plugin_wiki_page
-    page = w(slug = slug)
-    db (db.plugin_wiki_page.slug == slug).update (comments = (page.comments - 1))
-    redirect (URL (r = request, f = 'page.html', args = [slug]))
+    lookup_id = require_hex (request.vars.get ('id'))
+    comment = MongoWrapper (mongo.blog.find_one ({'slug': slug, 'comments._id': ObjectId (lookup_id)}))
+    require_page_authorized (comment)
+    mongo.blog.update ({'slug': slug}, {
+            '$pull': {
+                'comments': {
+                    '_id': ObjectId (lookup_id),
+                    }
+                }
+            })
+    redirect (URL (r = request, f = 'page.html', args = request.args))
     
 
 def page_archive():
     """
     shows and old version of a page
     """
-    id = request.args(0)
+    id = request.args(1)
     h = db.plugin_wiki_page_archive
     page = h(id)
     if not page or (not plugin_wiki_editor and (not page.is_public or not page.is_active)):
@@ -150,42 +240,43 @@ def page_archive():
     return dict(page=page)
 
 def page_create():
-    '''require_role (writer_role)
-    w = db.plugin_wiki_page
-
-    def process_req (f):
-        redirect (URL (r=request,f='page_edit',args=f.vars.slug))
-    
-    form = crud.create (w,
-                        onaccept = process_req)
-                       #next=URL(r=request,f='page_edit',args='[id]'))
-    return {'form': form}'''
-    require_role (writer_role)
+    import datetime
     form = FORM ('', LABEL ('URL: '), INPUT (_name = 'page_title', requires=(IS_SLUG(), IS_NOT_IN_DB(db,'plugin_wiki_page.slug'))))
     if form.accepts (request, session):
         slug = request.vars.get ('page_title')
         w = db.plugin_wiki_page
-        page = w.insert(slug=slug, 
+        pid = mongo.blog.insert ({
+                'slug': slug,
+                'title': '',
+                'comments': [],
+                'public': True,
+                'owner': auth.user.id,
+                'body': '',
+                'tags': [],
+                'categories': [],
+                'date': str (datetime.datetime.now ())})
+        mongo.blog.ensure_index ('slug')
+        
+        '''page = w.insert(slug=slug, 
                         title = '',
                         comments = 0,
                         is_active = True,
-                        is_public = False,
+                       is_public = False,
                         created_by = auth.user.id,
-                        body=request.vars.template and w(slug=request.vars.template).body or '')
-        redirect (URL (r = request, f = 'page_edit', args = [slug], vars = {'create': True}))
+                        body=request.vars.template and w(slug=request.vars.template).body or '')'''
+        redirect (URL (r = request, f = 'page_edit', args = request.args, vars = {'create': True}))
     return {'form': form}
 
 def page_edit():
     """
     edit a page
     """
-    slug = request.args(0)
-    if not slug:
-        raise HTTP (400)
-    w = db.plugin_wiki_page
-    page = w(slug = slug)
+    ''' w = db.plugin_wiki_page
+    page = w(slug = slug)'''
+    
+    page = load_page (request.args(1))
     require_page_authorized (page)
-
+        
     if request.vars.get ('create'):
         create = True
     else:
@@ -193,69 +284,103 @@ def page_edit():
         
     if request.vars.has_key ('slug'):
         new_slug = request.vars.get ('slug')
-        if slug != new_slug:
-            if (len (new_slug) == 0) or (db (w.slug == new_slug).count () > 0):
+        if page.slug != new_slug:
+            #if (len (new_slug) == 0) or (db (w.slug == new_slug).count () > 0):
+            if (len (new_slug) == 0) or mongo.blog.find ({'slug': new_slug}).count ():
                 response.flash = 'URL Already Exists'
                 return dict (page = request.vars, create = create)
         vars = request.vars
-        db (w.slug == slug).update (slug = vars.slug, title = vars.title, is_public = vars.is_public, body = vars.body)
-        redirect (URL (r = request, f = 'index.html'))
+        #db (w.slug == slug).update (slug = vars.slug, title = vars.title, is_public = vars.is_public, body = vars.body)
+        cats = json.loads (request.vars.get ('cats')) 
+        mongo.blog.update ({'slug': page.slug}, {'$set': {
+                    'slug': vars.slug,
+                    'title': vars.title,
+                    'public': vars.public == 'on',
+                    'body': vars.body,
+                    'categories': map (lambda x: ObjectId (x), cats),
+                    'tags': json.loads (request.vars.get ('tags')),
+                    }})
+        redirect (URL (r = request, f = 'index', args = [request.args (0)]))
     else:
         return dict (page = page, create = create)
 
 
 def page_publish_toggle():
-    slug = request.args(0)
-    if not slug:
-        raise HTTP (400, "No page URL given")
-    page = db (db.plugin_wiki_page.slug == slug).select ().first ()
-    if not page:
-        raise HTTP (404, "Page not found")
-
+    page = load_page (request.args(1))
     require_page_authorized (page)
-    page.update_record (is_public = (not page.is_public))
-    redirect (URL (r = request, f = 'index.html'))
+
+    mongo.blog.update ({'slug': page.slug}, {'$set': {'public': not page.public}})
+
+    #page.update_record (is_public = (not page.is_public))
+    redirect (URL (r = request, f = 'index', args = request.args))
 
 def page_delete():
-    page = load_page (request.args(0))
+    page = load_page (request.args(1))
     require_page_authorized (page)
+
     form = FORM (LABEL ('Confirm deletion of page ' + page.slug), BR (),
                  INPUT (_type='submit', _value = 'Delete'))
     if form.accepts (request, session):
-        page.delete_record ()
-        redirect (URL (r = request, f = 'index.html'))
+        mongo.blog.remove ({'slug': page.slug})
+        redirect (URL (r = request, f = 'index', args = [request.args (0)]))
     return {'form': form}
 
-def category_add():
-    page = load_page (request.args(0))
+'''def category_add():
+    page = load_page (request.args(1))
     require_page_authorized (page)
-    cid = require_int (request.vars.get ('cid'))
-    return str (db.plugin_wiki_page_categories.insert (pid = page.id, cid = cid))
+    cid = require_hex (request.vars.get ('cid'))
+    mongo.blog.update ({'_id': page._id}, {'$push': {'categories': ObjectId (cid)}})
+    #return str (db.plugin_wiki_page_categories.insert (pid = page.id, cid = cid))
 
 def category_delete():
-    page = load_page (request.args(0))
+    page = load_page (request.args(1))
     require_page_authorized (page)
-    cat_id = require_int (request.vars.get ('cid'))
-    db ((db.plugin_wiki_page_categories.cid == cat_id) & (db.plugin_wiki_page_categories.pid == page.id)).delete ()
-
+    cat_id = require_hex (request.vars.get ('cid'))
+    mongo.blog.update ({'_id': page._id}, {
+            '$pull': {
+                'categories': ObjectId (cat_id),
+                }
+            })
+    #db ((db.plugin_wiki_page_categories.cid == cat_id) & (db.plugin_wiki_page_categories.pid == page.id)).delete ()
+'''
 def categories_edit():
     require_role (editor_role)
-    if request.vars.has_key ('category'):
+    if request.vars.has_key ('name'):
+        vars = request.vars
+        cat = {
+            'name': vars.name,
+            'blog': vars.blog == 'on',
+            'case': vars.case == 'on',
+            'docs': vars.docs == 'on',
+            'tutorials': vars.tutorials == 'on',
+            }
+        if len (vars.name) == 0:
+            response.flash = "Category name must be defined"
+        elif not vars.has_key ('_id'):
+            if mongo.categories.find ({'name': vars.name}).count ():
+                response.flash = "Category %s is already defined" % vars.name
+            else:
+                mongo.categories.insert (cat)
+        else:
+            mongo.categories.update ({'_id': ObjectId (vars._id)}, {'$set': cat})
+    '''if request.vars.has_key ('category'):
         c = request.vars.get ('category')
         if len (c) == 0:
             pass
-        elif db (db.plugin_wiki_categories.category == c).count () > 0:
+        elif mongo.categories.find ({'name': c}).count (): #db (db.plugin_wiki_categories.category == c).count () > 0:
             response.flash = 'Category is already defined'
         else:
-            db.plugin_wiki_categories.insert (category = c)
-    results = db (db.plugin_wiki_categories).select ()
+            mongo.categories.insert ({'name': c})'''
+            #db.plugin_wiki_categories.insert (category = c)
+    #results = db (db.plugin_wiki_categories).select ()
+    results = MongoWrapper (mongo.categories.find ())
     return {'categories': results}
 
 def page_history():
     """
     show page changelog
     """
-    slug = request.args(0) or 'index'
+    slug = request.args(1) or 'index'
     w = db.plugin_wiki_page
     h = db.plugin_wiki_page_archive
     page = w(slug=slug)
@@ -272,7 +397,7 @@ def attachments():
     allows to edit page attachments
     """
     a=db.plugin_wiki_attachment
-    a.tablename.default=tablename=request.args(0)
+    a.tablename.default=tablename=request.args(1)
     a.record_id.default=record_id=request.args(1)
     #if request.args(2): a.filename.writable=False
     form=crud.update(a,request.args(2),
@@ -288,7 +413,7 @@ def attachment():
     """
     displays an attachments
     """
-    short=request.args(0)
+    short=request.args(1)
     if plugin_wiki_authorize_attachments and \
             not short in session.plugin_wiki_attachments:
         raise HTTP(400)
@@ -302,7 +427,7 @@ def comment():
     """
     post a comment
     """
-    tablename, record_id = request.args(0), request.args(1)
+    tablename, record_id = request.args(1), request.args(1)
     table=db.plugin_wiki_comment
     if record_id=='None': record_id=0
     table.tablename.default=tablename
@@ -385,7 +510,7 @@ def tags():
     import re
     db_tag = db.plugin_wiki_tag
     db_link = db.plugin_wiki_link
-    table_name=request.args(0)
+    table_name=request.args(1)
     record_id=request.args(1)
     if not auth.user_id:
         return ''
@@ -466,7 +591,7 @@ def star_rate():
     N=5 #max no of stars (if you use split stars you'll get a rating out of 10)
     pm = db.plugin_wiki_rating
     pa = db.plugin_wiki_rating_aux
-    tablename = request.args(0)
+    tablename = request.args(1)
     record_id = request.args(1)
     rating = abs(float(request.vars.rating or 0)) 
     

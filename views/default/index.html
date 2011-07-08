@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
+    <link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
+
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/scripts/ext/resources/css/ext-all.css" />
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/ext/adapter/ext/ext-base.js"></script>
 <script src="/{{=request.application}}/static/scripts/ext/ext-all.js" type="text/javascript"></script>
@@ -96,10 +98,28 @@
     });*/
 
     hs.app.blog = new hs.util.IFramePanel ({
-	title: 'Blog',
+	title: 'Main',
 	region: 'center',
 	autoScroll: true,
-    }, '/{{ =request.application }}/plugin_wiki');
+    }, '/{{ =request.application }}/plugin_wiki/index/blog');
+
+    hs.app.case = new hs.util.IFramePanel ({
+	title: 'Case Studies',
+	region: 'center',
+	autoScroll: true,
+    }, '/{{ =request.application }}/plugin_wiki/index/case');
+
+    hs.app.docs = new hs.util.IFramePanel ({
+	title: 'Documentation',
+	region: 'center',
+	autoScroll: true,
+    }, '/{{ =request.application }}/plugin_wiki/index/docs');
+
+    hs.app.tutorials = new hs.util.IFramePanel ({
+	title: 'Tutorials',
+	region: 'center',
+	autoScroll: true,
+    }, '/{{ =request.application }}/plugin_wiki/index/tutorials');
 
     hs.side = new Ext.Panel ({
         title: 'Controls',
@@ -110,7 +130,9 @@
         items: [
 	    {{ if not side_bar: }}{
 		xtype: 'panel',
-		html: '<div style="text-align: center;"><a href="{{=URL (a=request.application, c='default', f='user', args=['login'])}}">Login</a> with Gmail to activate this panel</div><!--<div style="text-align: center;"><a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or <a href="{{=URL (a=request.application, c='default', f='user', args=['login'])}}">Login</a> to activate this panel</div>-->',
+
+		html: '<div style="text-align: center;"><!--<a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or--><a href="{{=URL (scheme='https', a=request.application, c='default', f='user', args=['login'])}}">Login</a> with Gmail to activate your sidebar</div>',
+
 		border: false,
 		padding: 10,
             },{{else:}}
@@ -147,12 +169,14 @@
 	layoutOnChange: true,
 	region: 'center',
 	items: [
-	    hs.app.splash,
+	    hs.app.blog,
 	    hs.app.map,
 	    hs.app.info,
 	    hs.app.find,
 	    hs.app.tool,
-	    hs.app.blog,
+	    hs.app.case,
+	    hs.app.tutorials,
+	    hs.app.docs,
         ],
     });
 
@@ -167,7 +191,7 @@
     {{pass}}
 
     win = new Ext.Viewport ({
-        title: 'Healthscapes v0.3',
+        title: 'skapes v0.4',
         //layoutOnChange: true,
         //collapsible: false,
         //maximizable: true,
@@ -177,7 +201,7 @@
         id: 'main_window',
         items:  [
 	    {
-		title: 'Healthscapes v0.3',
+		title: 'Skapes v0.4',
 		height: 'autoHeight',
 		region: 'north',
 		border: false,

@@ -8,7 +8,7 @@ def index():
             output.update ({'dev_tools': False})
     else:
         output.update ({'side_bar': False, 'dev_tools': False})
-    response.title = 'Healthscapes'
+    response.title = 'skapes'
     return(output)
 
 def user():
@@ -42,6 +42,7 @@ def user():
                 firstname = ax_resp['value.firstname']
                 lastname = ax_resp['value.lastname']
                 auth.get_or_create_user ({'first_name': firstname, 'last_name': lastname, 'email': email, 'password': db.auth_user.password.validate (psswd)[0]})
+                db (db[auth.settings.table_user].email == email).update (first_name = firstname, last_name = lastname)
                 auth.login_bare (email, psswd)
                 del session['openid-consumer']
                 redirect  (URL (scheme = 'http', r = request, c = 'default', f = 'index.html'))
@@ -63,7 +64,9 @@ def user():
             ax_req.add (ax.AttrInfo (type_uri='http://axschema.org/namePerson/last', required=True, alias='lastname'))
             req.addExtension (ax_req)
             session['openid-consumer'] = cons
+
             url = req.redirectURL (str (request.wsgi.environ['wsgi.url_scheme'] + '://' + request.wsgi.environ['HTTP_HOST']), return_to = str (request.wsgi.environ['wsgi.url_scheme'] + '://' + request.wsgi.environ['HTTP_HOST'] + request.wsgi.environ['REQUEST_URI']))
+
             redirect (url)
     else:
         raise HTTP (400, "Bad Request")

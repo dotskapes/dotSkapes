@@ -98,6 +98,7 @@ def result():
         elif r_type == mime.HTML:
             return json.dumps ([{'name': 'html', 'id': mime.HTML}])
     elif request.args[0] == 'export':
+        from re import search
         from urllib import unquote
         require_logged_in ()
         lookup_id = require_int (request.vars.get ('id'))
@@ -115,23 +116,54 @@ def result():
         elif export_type == mime.PNG and r_type == mime.SVG:
             import rsvg
             import cairo
-            from tempfile import NamedTemporaryFile as TF
+            from tempfile import NamedTemporaryFile
            
             file = open ('applications/' + request.application + '/tool/results/' + result.filename, 'r')
             buffer = file.read ()
-            file2 = TF ()
+            top = search ('<svg[^>]*>', buffer).group (0)
+            w = search ('width="(\d+)[^"]+"', top)
+            if w:
+                buffer = sub ('width="(\d+)[^"]+"', 'width="\\1px"', buffer, 1)
+                width = int (w.group (1))
+            else:
+                width = None
+            h = search ('height="(\d+)[^"]+"', top)
+            if h:
+                buffer = sub ('height="(\d+)[^"]+"', 'height="\\1px"', buffer, 1)
+                height = int (h.group (1))
+            else:
+                height = None
+            if not width or not height:
+                vbx = match ('viewBox="([^"]+)"', top)
+                if vbx:
+                    dim = vbx.group (1).split (' ')
+                    virtual_width = int (dim[2]) - int (dim[0])
+                    virtual_height = int (dim[3]) - int (dim[1])
+                    if not width and not height:
+                        width = virtual_width
+                        height = virtual_height
+                    elif not width:
+                        width = (height *virtual_width) / virtual_height
+                    elif not height:
+                        height = (width *virtual_height) / virtual_width
+                else:
+                    width = 800
+                    height = 600
+                    buffer = sub ('<svg', '<svg width="%d" height="%d" ' % (width, height), buffer, 1)
+                    
+            file2 = NamedTemporaryFile ()
             file2.write (buffer)
             file2.seek (0)
             svg = rsvg.Handle (file = file2.name)
 
-            surface = cairo.ImageSurface (cairo.FORMAT_ARGB32, int (800), int (600))
+            surface = cairo.ImageSurface (cairo.FORMAT_ARGB32, width, height)
             context = cairo.Context (surface)
             svg.render_cairo (context)
+            surface.write_to_png (response.body)
 
             response.headers['Content-Type'] = 'image/png'
             response.headers['Content-Disposition'] = 'attachment; filename="' + filename + mime_ext (export_type) + '"'
             
-            surface.write_to_png (response.body)
             return response.body.getvalue ()
         else:
             raise HTTP (400)

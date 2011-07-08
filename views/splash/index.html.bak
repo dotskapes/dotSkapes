@@ -7,7 +7,7 @@
       <img style="float:left; height:130px; margin-top: 5px;" src="/{{= request.application}}/static/images/130px_logo_white_alpha.png" />
       <a  href="http://dot.skapes.org" target="_blank">
       <div class='box'>
-          <img style="float:right; height:124px; width:129px;" src="/{{= request.application}}/static/images/Home.png" />
+          <img style="float:right; height:122px; width:129px;" src="/{{= request.application}}/static/images/Home.png" />
       </div>
       </a>
       

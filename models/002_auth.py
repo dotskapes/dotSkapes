@@ -1,3 +1,4 @@
+import re
 from re import match
 from gluon.contrib.login_methods.email_auth import email_auth
 #from gluon.contrib.login_methods.gae_google_account import GaeGoogleAccount
@@ -12,7 +13,7 @@ auth.settings.actions_disabled = ['register', 'request_reset_password']
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.register_next = URL (a = request.application, c = 'default',  f = 'register')
-auth.settings.login_next = URL (a = request.application, c = 'default',  f = 'index.html')
+auth.settings.login_next = URL (scheme = 'http', a = request.application, c = 'default',  f = 'index.html')
 
 auth.settings.login_methods.append(
     email_auth("smtp.gmail.com:587", "@gmail.com"))
@@ -52,7 +53,7 @@ def require_role (role):
 def check_logged_in ():
     if not auth.user:
         return False
-    return True
+    return auth.user.id
 
 def check_user (user_id):
     if not auth.user:
@@ -90,6 +91,11 @@ def require_int (input):
         raise HTTP (400, 'Bad Character In Request')
     return int (input)
 
+def require_hex (input):
+    if not match ('^[0-9a-fA-F]*$', input, re.U):
+        raise HTTP (400, 'Bad Character In Request: %s' % input)
+    return str (input)
+
 def require_decimal (input):
     if not match ('^-?[0-9]*\.?[0-9]*$', input):
         raise HTTP (400, 'Bad Character In Request')
@@ -111,8 +117,8 @@ def require_http (input, params = True):
     return input
 
 def require_style_attr (input):
-    if not match ('^[a-zA-Z0-9\.%]+$', input):
-        raise HTTP (400, "Bad Character in Request")
+    if not match ('^[a-zA-Z0-9\.%]+$', input, re.U):
+        raise HTTP (400, "Bad Character in Request: %s" % input)
     return input
 
 def user_name (id):

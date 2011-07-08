@@ -14,7 +14,6 @@
 '# of People Deceased': '# of People Deceased',
 '# of People Injured': '# of People Injured',
 '# of Vehicles': '# of Vehicles',
-'%Y-%m-%d': '%Y-%m-%d',
 '%Y-%m-%d %H:%M:%S': '%Y-%m-%d %H:%M:%S',
 '%s rows deleted': '%s rows deleted',
 '%s rows updated': '%s rows updated',
@@ -590,7 +589,10 @@
 'Check if the URL is pointing to a directory instead of a webpage.': 'Check if the URL is pointing to a directory instead of a webpage.',
 'Check outbox for the message status': 'Check outbox for the message status',
 'Check to delete': 'Check to delete',
+<<<<<<< TREE
+=======
 'Check to delete:': 'Check to delete:',
+>>>>>>> MERGE-SOURCE
 'Checklist': 'Checklist',
 'Checklist created': 'Checklist created',
 'Checklist deleted': 'Checklist deleted',
@@ -704,7 +706,10 @@
 'Coordinate Conversion': 'Coordinate Conversion',
 'Copy': 'Copy',
 'Copy any data from the one to be deleted into the one to keep': 'Copy any data from the one to be deleted into the one to keep',
+<<<<<<< TREE
+=======
 'Copyright': 'Copyright',
+>>>>>>> MERGE-SOURCE
 'Corn': 'Corn',
 'Cost Type': 'Cost Type',
 'Cost per Megabyte': 'Cost per Megabyte',
@@ -1563,7 +1568,10 @@
 'Invalid': 'Invalid',
 'Invalid Query': 'Invalid Query',
 'Invalid email': 'Invalid email',
+<<<<<<< TREE
+=======
 'Invalid login': 'Invalid login',
+>>>>>>> MERGE-SOURCE
 'Invalid request!': 'Invalid request!',
 'Invalid ticket': 'Invalid ticket',
 'Inventories with Item': 'Inventories with Item',
@@ -2626,7 +2634,10 @@
 'Religion': 'Religion',
 'Religious Leader': 'Religious Leader',
 'Relocate as instructed in the <instruction>': 'Relocate as instructed in the <instruction>',
+<<<<<<< TREE
+=======
 'Remember me (for 30 days)': 'Remember me (for 30 days)',
+>>>>>>> MERGE-SOURCE
 'Remove': 'Remove',
 'Repeat your password': 'Repeat your password',
 'Replace': 'Replace',
@@ -3181,7 +3192,10 @@
 'Subject': 'Subject',
 'Submission successful - please wait': 'Submission successful - please wait',
 'Submission successful - please wait...': 'Submission successful - please wait...',
+<<<<<<< TREE
+=======
 'Submit': 'Submit',
+>>>>>>> MERGE-SOURCE
 'Subscription Details': 'Subscription Details',
 'Subscription added': 'Subscription added',
 'Subscription deleted': 'Subscription deleted',
@@ -3528,7 +3542,10 @@
 'Use this space to add additional comments and notes about the Site/Warehouse.': 'Use this space to add additional comments and notes about the Site/Warehouse.',
 'Used to import data from spreadsheets into the database': 'Used to import data from spreadsheets into the database',
 'User': 'User',
+<<<<<<< TREE
+=======
 'User %(id)s Logged-in': 'User %(id)s Logged-in',
+>>>>>>> MERGE-SOURCE
 'User Details': 'User Details',
 'User ID': 'User ID',
 'User Management': 'User Management',
@@ -3625,7 +3642,10 @@
 'Weekly': 'Weekly',
 'Weight': 'Weight',
 'Weight (kg)': 'Weight (kg)',
+<<<<<<< TREE
+=======
 'Welcome': 'Welcome',
+>>>>>>> MERGE-SOURCE
 'Welcome to the Sahana Eden Disaster Management Platform': 'Welcome to the Sahana Eden Disaster Management Platform',
 'Welcome to the Sahana Eden Disaster Management System': 'Welcome to the Sahana Eden Disaster Management System',
 'Welcome to the Sahana Portal at ': 'Welcome to the Sahana Portal at ',
@@ -3722,8 +3742,11 @@
 'editor': 'editor',
 'embedded': 'embedded',
 'enclosed area': 'enclosed area',
+<<<<<<< TREE
+=======
 'enter a number between %(min)g and %(max)g': 'enter a number between %(min)g and %(max)g',
 'enter an integer between %(min)g and %(max)g': 'enter an integer between %(min)g and %(max)g',
+>>>>>>> MERGE-SOURCE
 'export as csv file': 'export as csv file',
 'fat': 'fat',
 'feedback': 'feedback',
