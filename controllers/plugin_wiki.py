@@ -264,7 +264,7 @@ def page_create():
                        is_public = False,
                         created_by = auth.user.id,
                         body=request.vars.template and w(slug=request.vars.template).body or '')'''
-        redirect (URL (r = request, f = 'page_edit', args = request.args, vars = {'create': True}))
+        redirect (URL (r = request, f = 'page_edit', args = [request.args (0), slug], vars = {'create': True}))
     return {'form': form}
 
 def page_edit():
