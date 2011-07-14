@@ -11,6 +11,7 @@ else:
 crud = Crud(globals(), db)
 
 mongo = pymongo.Connection (deployment_settings.mongodb.host, deployment_settings.mongodb.port)[deployment_settings.mongodb.db]
+mongo.authenticate('skapes','skapes4Web!')
 
 class MongoCursorWrapper:
     def __init__ (self, cursor):
