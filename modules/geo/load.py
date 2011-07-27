@@ -59,8 +59,14 @@ def loadMap (mapName, geomType, mapType, connection = None, location = None):
                     #s = Polygon (feature['geometry']['coordinates'][0], feature['properties'])
                     s = Polygon (geomList, feature['properties'], True)
             elif geomType == enum.POINT:
-                s = Point (feature['geometry']['coordinates'], feature['properties'], True)
-            shapes.append (s)
+                ob = feature['geometry']['coordinates']
+                if feature['geometry']['type'] == 'Point':
+                    s = Point (ob, feature['properties'], True)
+                    shapes.append (s)
+                elif feature['geometry']['type'] == 'MultiPoint':
+                    for p in ob:
+                        s = Point (p, feature['properties'], True)
+                        shapes.append (s)
         return shapes
 
 

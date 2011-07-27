@@ -33,7 +33,7 @@ def sync_geoserver (path):
                 kw = []
                 for k in keywords:
                     kw.append (k.string)
-                dm.keywords ('maps', id, kw)
+                #dm.keywords ('maps', id, kw)
 
 def load_fields (data):
     map_data = urlopen (data.src + '/ows', urlencode ({

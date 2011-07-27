@@ -123,6 +123,12 @@
     <!-- 	autoScroll: true, -->
     <!-- }, '/{{ =request.application }}/plugin_wiki/index/tutorials'); -->
 
+    hs.app.news = new hs.util.IFramePanel ({
+    	title: 'News',
+    	region: 'center',
+    	autoScroll: true,
+    }, 'http://dot.skapes.org/default/news');
+
 
     hs.side = new Ext.Panel ({
         title: 'Controls',
@@ -174,6 +180,7 @@
 	region: 'center',
 	items: [
 	    hs.app.blog,
+            hs.app.news,
 	    hs.app.map,
 	    hs.app.info,
 	    hs.app.find,
@@ -221,7 +228,7 @@
     //win.tools.restore.hide();
 
     searchFindTab = function (term) {
-    tabPanel.setActiveTab (3);
+    tabPanel.setActiveTab (4);
         findPanel.search (term);
     };
 
