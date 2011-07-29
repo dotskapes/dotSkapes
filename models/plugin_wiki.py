@@ -638,10 +638,10 @@ class PluginWiki(object):
             raise RuntimeError, "Not supported"
 
     def parse_value(self,code):
-        code = code.replace('[page]',request.args(0))
-        code = code.replace('[id]',request.args(1) or '')
-        code = code.replace('[application]',request.application)
-        code = code.replace('[client]',request.client)
+        #code = code.replace('[page]',request.args(0))
+        #code = code.replace('[id]',request.args(1) or '')
+        #code = code.replace('[application]',request.application)
+        #code = code.replace('[client]',request.client)
         if plugin_wiki_level>2:
             import gluon.template
             return gluon.template.render(code,context=globals())
