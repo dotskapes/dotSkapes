@@ -1,5 +1,5 @@
 def index():
-    return {}
+    return {'tool': None}
 
 def tool():
     response.view = 'analyze/index.html'
