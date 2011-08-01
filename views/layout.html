@@ -72,7 +72,7 @@
 	autoScroll: true,
 	layoutOnChange: true,
 	region: 'north',
-        height: 50,
+        autoHeight: true,
 	contentEl: 'head_panel'
     });
 
@@ -83,7 +83,8 @@
 	region: 'center',
     });
     {{ mainElement = 'hs.app.map' }}
-    hs.app.user.maps.linkMap (hs.app.map);  
+    if (hs.app.user.maps)
+        hs.app.user.maps.linkMap (hs.app.map);  
     {{ elif request.controller == 'info': }}
     hs.app.info = new hs.info.Panel ({
 	title: 'Info',
@@ -181,6 +182,13 @@
             hs.side,
             mainPanel, 
         ],
+	{{ if request.controller == 'analyze' and tool: }}
+	listeners: {
+	    afterrender: function () {
+		hs.app.tool.dropTool ({{ response.write (tool, escape = False) }});
+	    }
+	},
+	{{ pass }}
     });
     //win.show ();
     //win.toBack();
