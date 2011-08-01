@@ -36,6 +36,7 @@ static/selenium/results/*
 static/selenium/scripts/diagTestResults.txt
 static/*/.svn/*
 static/*test*
+static/videos/*
 tests/.cherrypy/*
 .DS_Store
 languages/*.po
