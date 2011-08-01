@@ -1,0 +1,22 @@
+{{ extend 'wiki/base.html' }}
+
+
+  {{ for c in categories: }}
+  <form method="POST">
+    <input name="_id" type="hidden" value="{{= str (c._id) }}" />
+    <input name="name" type="text" value="{{= c.name }}" />
+    <label>Blog: </label><input name="blog" type="checkbox" {{ if c.blog: }}checked{{ pass }} />
+    <label>Case Studies: </label><input name="case" type="checkbox" {{ if c.case: }}checked{{ pass }} />
+    <label>Documentation: </label><input name="docs" type="checkbox" {{ if c.docs: }}checked{{ pass }} />
+    <label>Tutorials: </label><input name="tutorials" type="checkbox" {{ if c.tutorials: }}checked{{ pass }} />
+    <input type="submit" value="Edit" />
+  </form>
+  {{ pass }}
+  <form method="POST">
+    <input name="name" type="text" value="" />
+    <label>Blog: </label><input name="blog" type="checkbox" />
+    <label>Case Studies: </label><input name="case" type="checkbox" />
+    <label>Documentation: </label><input name="docs" type="checkbox" />
+    <label>Tutorials: </label><input name="tutorials" type="checkbox" />
+    <input type="submit" value="Create" />
+  </form>

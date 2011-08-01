@@ -1,0 +1,9 @@
+    <div class="page_head">
+      <p class="title">{{= page.title }} {{if not page.public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
+      <p class="date">
+	{{= page.date }} by {{= user_name (page.owner) }}{{ if len (page.categories): }} in {{= ' | '.join (map (lambda x: lookup_cat_id (str (x)), page.categories)) }}{{ pass }}<br />
+	{{ if len (page.tags): }}Tags: {{ pass }}{{= ', '.join (page.tags) }}
+      </p>
+    </div>
+    <div class="page_body">
+      {{= plugin_wiki.render(page.body) }}

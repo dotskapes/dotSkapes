@@ -1,0 +1,17 @@
+{{ extend 'wiki/base.html' }}
+
+<script type="text/javascript">
+  $ (document).ready (function () {
+      $ ('#wiki_form').submit (function () {
+	  window.location = '{{= URL (r = request) }}' + '/' + $ ('#page_name').val () + '/create';
+	  return false;
+      });
+  });
+</script>
+
+<p>Enter a url to create this page</p>
+<form id="wiki_form">
+  <input id="page_name" type="text" />
+</form>
+
+</div>

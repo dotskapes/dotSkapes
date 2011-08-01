@@ -1,0 +1,11 @@
+{{ extend 'wiki/base.html' }}
+
+<div id="plugin_wiki_form">
+<p>Confirm deletion of page {{= slug }}
+<form action ="{{= URL (r = request, args=[slug, 'delete']) }}">
+<input type="submit" value="Delete" />
+</form>
+<div style="margin-top: 20px;">
+  <a id="cancel" href="{{= URL (r = request) }}">Cancel</a>
+</div>
+</div>

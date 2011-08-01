@@ -17,6 +17,7 @@ tool/files/*
 .openid/*
 .tmp/*
 .raw/*
+static/videos/*
 static/scripts/ext/.docs/*
 static/scripts/ext/.examples/*
 static/scripts/ext/.test/*
