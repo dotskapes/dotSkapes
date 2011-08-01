@@ -1,0 +1,35 @@
+{{ extend 'wiki/base.html' }}
+<div id="plugin_wiki">
+  <div class="page">
+    {{ include 'wiki/page_base.html' }}
+    <div class="page_foot">
+      {{ if (check_role (editor_role) or check_user (page.owner)): }}<a href="{{= URL(r=request, args = [page.slug, 'delete_confirm']) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if page.public: }}<a href="{{= URL(r=request, args=[page.slug, 'unpublish']) }}">UNPUBLISH</a>{{ else: }}<a href="{{= URL(r=request, args=[page.slug, 'publish']) }}">PUBLISH</a>{{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request, args=[page.slug, 'edit']) }}">EDIT</a>{{ pass }}
+    </div>
+  </div>
+  <div id="comments" class="page_comments">
+    <p class="comments_title">Comments:</p>
+    {{ if len (page.comments) == 0: }}
+    <div class="comment_body">
+      No one has posted any comments yet.
+    </div>
+    {{ pass }}
+    {{ for comment in page.comments: }}
+    <div class="comment_body">
+      {{= comment.body }}
+      <p class="date">{{= comment.date }} by {{= user_name (comment.owner) }}{{if check_page_authorized (comment): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL (r = request, args = [page.slug, 'comment', str (comment._id), 'delete'])}}">DELETE</a>{{ pass }}</p>
+    </div>
+    
+    {{ pass }}
+    <div class="comments_foot">
+      {{ if check_logged_in (): }}
+      <p class="comments_title">Post Comment:</p>
+      <form method="POST", action="{{= URL (r = request, args = [page.slug, 'comment', 'create']) }}">
+	<textarea style="width: 100%; height: 200px;" name="body"></textarea><br />
+	<input name="submit" type="submit" value="Submit" />
+      </form>
+      {{ else: }}
+      <p class="comments_title">Login to post a comment</p>
+      {{ pass }}
+    </div>
+  </div>
+</div>

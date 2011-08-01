@@ -1,0 +1,306 @@
+{{extend 'wiki/base.html'}}
+
+<script type="text/javascript" src="{{=URL('static','plugin_wiki/markitup/jquery.markitup.pack.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static','plugin_wiki/markitup/sets/markmin/set.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{=URL('static','plugin_wiki/markitup/skins/markitup/style.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{=URL('static','plugin_wiki/markitup/sets/markmin/style.css')}}" />
+<script src="{{=URL('static','plugin_wiki/elrte-1.0rc4/js/elrte.min.js')}}" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="{{=URL('static','plugin_wiki/elrte-1.0rc4/css/elrte.full.css')}}" type="text/css" media="screen" charset="utf-8">
+
+<script type="text/javascript">
+    $ (window).load (function () {
+
+	var cat_exists = {};
+	cat_exists[''] = true;
+	{{ for c in page.categories: }}
+	cat_exists['{{= str (c) }}'] = true;
+	{{ pass }}
+
+	var cat_remove = function () {
+	    var ob = $(this);
+	    var val = ob.parent ().attr ('cid');
+	    ob.parent ().remove ();
+	    delete cat_exists[val];
+	    return false;
+	};
+	$ ('.remove_cat').click (cat_remove);
+
+	$ ('#add_cat').click (function () {
+	    var val = $('#sel_cat').val ();
+	    if (!cat_exists[val]) {
+		cat_exists[val] = true;
+		$ ('#lst_cat').append ('<li cid="' + val  + '">' + $('#sel_cat option[value="' + val + '"]').text ()  + '&nbsp;&nbsp;&nbsp;&nbsp;<a class ="remove_cat" href="#">remove</a></li>');
+		//$ ('.remove_cat[cid="' + val  + '"]').click (cat_remove);
+		$ ('li[cid="' + val  + '"] a.remove_cat').click (cat_remove);
+	    }
+	    cat_exists[val] =  true;
+	});
+
+	var tag_exists = {};
+	tag_exists[''] = true;
+	{{ for t in page.tags: }}
+	tag_exists['{{= str (t) }}'] = true;
+	{{ pass }}
+
+	var tag_remove = function () {
+	    var ob = $(this);
+	    var val = ob.parent ().attr ('tag');
+	    ob.parent ().remove ();
+	    delete tag_exists[val];
+	    return false;
+	};
+	$ ('.remove_tag').click (tag_remove);
+
+	$ ('#add_tag').click (function () {
+	    var val = $('#tag_name').val ();
+	    if (!tag_exists[val]) {
+		tag_exists[val] = true;
+		$ ('#lst_tag').append ('<li tag="' + val  + '">' + val  + '&nbsp;&nbsp;&nbsp;&nbsp;<a class ="remove_tag" href="#">remove</a></li>');
+		$ ('li[tag="' + val  + '"] a').click (tag_remove);
+		//$ ('.remove_tag[tag="' + val  + '"]').click (tag_remove);
+	    }
+	    tag_exists[val] =  true;
+	});
+
+	$ ('#submit_edit').submit (function () {
+	    var cats = $ ('#lst_cat li').map (function () {
+		return $ (this).attr ('cid');
+	    });
+	    var cat_list = [];
+	    for (var i = 0; i < cats.length; i ++) {
+		cat_list.push (cats[i]);
+	    }
+	    console.log (cat_list);	    
+	    $ ('#cats_val').attr ('value', JSON.stringify (cat_list));
+
+	    var tags = $ ('#lst_tag li').map (function () {
+		return $ (this).attr ('tag');
+	    });
+	    var tag_list = [];
+	    for (var i = 0; i < tags.length; i ++) {
+		tag_list.push (tags[i]);
+	    }
+	    console.log (tag_list);	    
+	    $ ('#tags_val').attr ('value', JSON.stringify (tag_list));
+	});
+
+    });
+/*    function ListFactory (lst_id, add_url, remove_url) {
+	var exists = {};
+	
+	this.check = function (id) {
+	    if (id in exists) return false;
+	    else return true;
+	};
+
+	this.add = function (id, data, callback) {
+	    exists[id] = true;
+	    jQuery.ajax ({
+		url: '{{=request.application}}/plugin_wiki/' + add_url + '/{{=request.args (0)}}/{{=request.args (1)}}',
+		method: 'GET',
+		data: data,
+		success: callback,
+	    });
+	};
+
+	this.force = function (id) {
+	    exists[id] = true;
+	};
+
+	this.remove = function (id, data, callback) {
+	    jQuery.ajax ({
+		url:  '{{=request.application}}/plugin_wiki/' + remove_url + '/{{=request.args (0)}}/{{=request.args (1)}}',
+		method: 'GET',
+		data: data,
+		success: callback,
+	    });
+	};
+	return false;
+    };
+
+    $ (window).load (function () {
+	var cat_man = new ListFactory ('#lst_cat', 'category_add', 'category_remove');
+	cat_man.force ('');
+	{{ for c in page.categories: }}
+	cat_man.force ('{{= str (c) }}');
+	{{ pass }}
+	var cat_remove = function () {
+	    var ob = $(this);
+	    var val = ob.attr ('cid');
+	    cat_man.remove (val, {cid: val}, 
+	    ob.parent ().remove ();
+	};
+	$ ('#add_cat').click (function () {
+	    if (cat_man.check ($('#sel_cat').val ())) {
+		var val = $('#sel_cat').val ();
+		cat_man.add (val, {cid: val}, function (data) {
+		    $ ('#lst_cat').append ('<li>' + $('#sel_cat option[value="' + val + '"]').text ()  + '&nbsp;&nbsp;&nbsp;&nbsp;<a class ="remove_cat" cid="' + val  + '" href="#">remove</a></li>');
+		    #$ ('.remove_cat[cid="' + val  + '"]').click (cat_remove);
+		});
+	    }
+	    return false;
+	});
+    });*/
+
+/*    var cats = []; 
+    var cat_link = function () {
+	var ob = $(this);
+	var val = ob.attr ('cid');
+	jQuery.ajax ({
+	    url: '{{= URL (r = request, f = 'category_delete', args = request.args) }}',
+	    method: 'GET',
+	    data: {
+		cid: val,
+	    },
+	    success: function (data) {
+		delete cats[val];
+		ob.parent ().remove ();
+	    },
+	});
+	return false;
+    };
+    cats[''] = true;
+    {{ for c in page.categories: }}
+    cats['{{= c }}'] = true;
+    {{ pass }}
+
+    $ (window).load (function () {
+	$ ('#add_cat').click (function () {
+	    var val = $('#sel_cat').val ();
+	    if (!cats[val]) {
+		cats[val] = true;
+		jQuery.ajax ({
+		    url: '{{= URL (r = request, f = 'category_add', args = request.args) }}',
+		    method: 'GET',
+		    data: {
+			cid: val,
+		    },
+		    success: function (data) {
+			$ ('#lst_cat').append ('<li>' + $('#sel_cat option[value="' + val + '"]').text ()  + '&nbsp;&nbsp;&nbsp;&nbsp;<a class ="remove_cat" cid="' + val  + '" href="#">remove</a></li>');
+			$ ('.remove_cat[cid="' + val  + '"]').click (cat_link);
+		    },
+		});
+	    }
+	    return false;
+	});
+	$ ('.remove_cat').click (cat_link);
+    });*/
+</script>
+
+<div id="plugin_wiki_form">
+
+<form id="submit_edit" method="POST" action="">
+<b>URL:</b><input name="slug" type="text" value="{{= page.slug }}" /><br />
+<b>Title:</b><input name="title" type="text" value="{{= page.title }}" /><br/>
+<b>Publish:</b><input name="public" type="checkbox" {{if create or page.public: }}checked{{ pass }}/><br />
+<!--[{{=plugin_wiki.attachments('page',page._id)}}]-->
+{{if plugin_wiki_level>1:}}[{{=plugin_wiki.widget_builder()}}]{{pass}}<br/>
+<textarea name="body" id="plugin_wiki_page_body">{{= page.body }}</textarea><br/>
+<input name="_id" type="hidden" value="{{= page._id }}" />
+<input name="cats" id="cats_val" type="hidden" value="" />
+<input name="tags" id="tags_val" type="hidden" value="" />
+<input name="submit" type="submit" value="Submit" />
+</form>
+</div>
+
+<select id="sel_cat" name="categories">
+  <option></option>
+    {{ for c in load_categories (): }}
+    <option value="{{= c._id }}">{{= c.name }}</option>
+  {{ pass }}
+</select>
+
+<input id="add_cat" type="submit" value="Add Category" />
+<br />
+<b>Categories:</b>
+<ul id="lst_cat">
+  {{ for c in page.categories: }}
+    <li cid="{{= str (c) }}">{{= lookup_cat_id ( str (c)) }}&nbsp;&nbsp;&nbsp;&nbsp;<a class="remove_cat" href="#">remove</a></li>
+  {{ pass }}
+</ul>
+
+<br />
+<input id="tag_name" type="text" value="" />
+<input id="add_tag" type="submit" value="Add Tag" />
+<br />
+<b>Tags:</b>
+<ul id="lst_tag">
+  {{ for t in page.tags: }}
+    <li tag="{{= t }}">{{= t }}&nbsp;&nbsp;&nbsp;&nbsp;<a class="remove_tag" tag="{{= t }}" href="#">remove</a></li>
+  {{ pass }}
+</ul>
+
+{{if request.extension=='html' and not page.slug.startswith('meta-'):}}
+<script>
+jQuery(document).ready(function() {
+{{if plugin_wiki_mode=='html':}}
+  elRTE.prototype.options.panels.web2pyPanel = [
+     'bold', 'italic', 'underline', 'forecolor', 'justifyleft', 'justifyright',
+     'justifycenter', 'justifyfull', 'formatblock', 'insertorderedlist', 'insertunorderedlist',
+     'link', 'image', 'flash'];
+  elRTE.prototype.options.toolbars.web2pyToolbar = ['web2pyPanel', 'tables'];
+  var opts = { toolbar  : 'web2pyToolbar' }
+  jQuery('#plugin_wiki_page_body').elrte(opts);
+{{else:}}
+  jQuery('#plugin_wiki_page_body').css('width','700px').css('height','400px').markItUp(mySettings);
+{{pass}}
+});
+</script>
+
+<a href="#" onclick="jQuery('#plugin_wiki_help').slideToggle(); return false;">help</a>
+<div id="plugin_wiki_help" class="hidden">
+<h2>Help with syntax</h2>
+<pre>
+# title
+## subtitle
+### subsubtitle
+paragraph with **bold**, ''italic'' and ``code``
+[["a link" http://example.com]], [[a_anchor]] and [["a link to" #a_anchor]]
+[["an image" http://example.com left 200px]]
+
+- item
+- item
+
++ item 1
++ item 2
+
+-----
+blockquote
+-----
+
+-----
+1 | 2
+3 | 4
+-----
+
+``
+def index():
+    return 'hello'
+``:code_python
+
+``
+name: create
+``:widget
+
+``
+name: youtube
+code: x1w8hKTJ2Co
+``:widget
+
+Here is a list of widget names
+
+- read, create, update, search, select, jqgrid
+- youtube, vimeo, mediaplayer
+- comments, tags, tag_cloud
+
+Consult models/plugin_wiki.py for a list of parameters
+</pre>
+</div>
+{{else:}}
+<script>
+jQuery(document).ready(function() {
+jQuery('#plugin_wiki_page_body').css('width','700px').css('height','400px');
+});
+{{pass}}
+</script>
+{{pass}}
