@@ -67,6 +67,7 @@ jQuery(document).ready(function() {
    flash.hide();
    if(flash.html()) flash.slideDown();
    web2py_ajax_init();
+   jQuery('.flash').delay(500).slideUp()
 });
 function web2py_trap_form(action,target) {
    jQuery('#'+target+' form').each(function(i){

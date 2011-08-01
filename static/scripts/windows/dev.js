@@ -91,9 +91,11 @@ hs.win.dev = {
 	    var runButton = new Ext.Button ({
 		text: 'Run Tool',
 		handler: function () {
-		    toolPanel.tabPanel.setActiveTab (toolPanel.toolnum);
-		    toolPanel.panel.dropTool (tool);
-		    thisWin.hide ();
+		    console.log (toolPanel);
+		    window.location = hs.url ('analyze', 'tool', [tool.id]);
+		    //toolPanel.tabPanel.setActiveTab (toolPanel.toolnum);
+		    //toolPanel.panel.dropTool (tool);
+		    //thisWin.hide ();
 		},
 	    });
 
