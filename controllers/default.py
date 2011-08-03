@@ -16,6 +16,15 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
+    if deployment_settings.dev_mode.enabled:
+        psswd = uuid4 ().hex
+        firstname = deployment_settings.dev_mode.firstname
+        lastname = deployment_settings.dev_mode.lastname
+        email = deployment_settings.dev_mode.email
+        auth.get_or_create_user ({'first_name': firstname, 'last_name': lastname, 'email': email, 'password': db.auth_user.password.validate (psswd)[0]})
+        db (db[auth.settings.table_user].email == email).update (first_name = firstname, last_name = lastname)
+        auth.login_bare (email, psswd)
+        redirect  (URL (scheme = 'http', r = request, c = 'default', f = 'index.html'))
     if request.wsgi.environ.get ('wsgi.url_scheme') != 'https':
         redirect (URL (scheme = 'https', args = request.args))
     if request.args (0) == 'logout':
@@ -61,3 +70,6 @@ def user():
             redirect (url)
     else:
         raise HTTP (400, "Bad Request")
+
+def missing():
+    return {'message': session['missing']}

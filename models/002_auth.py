@@ -124,3 +124,8 @@ def require_style_attr (input):
 def user_name (id):
     result = db (db[auth.settings.table_user].id == id).select ().first ()
     return result.first_name + ' ' + result.last_name
+
+def require_mongo ():
+    if not mongo:
+        session['missing'] = 'This page requires MongoDB'
+        redirect (URL (r = request, c = 'default', f = 'missing'))
