@@ -2,6 +2,7 @@
 .bzrignore
 *.pyc
 *.py~
+*~
 cache/*
 cron/crontab
 databases/*

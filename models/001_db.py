@@ -1,6 +1,8 @@
-import pymongo
-from pymongo.objectid import ObjectId
 from gluon.tools import Crud
+
+if deployment_settings.postgis.host:
+    import psycopg2
+    deployment_settings.postgis.connection = lambda: psycopg2.connect ('dbname=' + deployment_settings.postgis.database + ' user=' + deployment_settings.postgis.username + ' password=' + deployment_settings.postgis.password + ' host=' + deployment_settings.postgis.host + ' port=' + str (deployment_settings.postgis.port))
 
 if deployment_settings.database.db_type == 'sqlite':
     db = DAL('sqlite://storage.sqlite', check_reserved=['all'])
@@ -10,8 +12,13 @@ else:
 
 crud = Crud(globals(), db)
 
-mongo = pymongo.Connection (deployment_settings.mongodb.host, deployment_settings.mongodb.port)[deployment_settings.mongodb.db]
-mongo.authenticate('skapes','skapes4Web!')
+if deployment_settings.mongodb.host:
+    import pymongo
+    from pymongo.objectid import ObjectId
+    mongo = pymongo.Connection (deployment_settings.mongodb.host, deployment_settings.mongodb.port)[deployment_settings.mongodb.db]
+    mongo.authenticate(deployment_settings.mongodb.username, deployment_settings.mongodb.password)
+else:
+    mongo = None
 
 class MongoCursorWrapper:
     def __init__ (self, cursor):

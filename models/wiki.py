@@ -17,6 +17,7 @@ def parse_wiki_rest ():
     return rest_vars
 
 def render_page ():
+    require_mongo ()
     rest_vars = parse_wiki_rest ()
     #arg, repr = get_arg (request.args (0))
     if not rest_vars.page_op and not rest_vars.page_slug:
