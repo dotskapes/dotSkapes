@@ -1,14 +1,14 @@
 {{ if request.controller == 'map': }}
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/OpenLayers/OpenLayers.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/GeoExt/lib/GeoExt.js"></script>
+<script type="text/javascript" src="http://skapes.org/media/js/OpenLayers/OpenLayers.js"></script>
+<script type="text/javascript" src="http://skapes.org/media/js/GeoExt/lib/GeoExt.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/map.js"></script>
 {{ elif request.controller == 'info': }}
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/info.js"></script>
 {{ elif request.controller == 'find': }}
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js"></script>
 {{ elif request.controller == 'analyze': }}
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/OpenLayers/OpenLayers.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/GeoExt/lib/GeoExt.js"></script>
+<script type="text/javascript" src="http://skapes.org/media/js/OpenLayers/OpenLayers.js"></script>
+<script type="text/javascript" src="http://skapes.org/media/js/GeoExt/lib/GeoExt.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/tool.js"></script>
 {{ elif request.controller == 'wiki': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/plugin_wiki.css" />
