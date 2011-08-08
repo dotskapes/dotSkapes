@@ -1,12 +1,14 @@
-Healthscapes is a web platform for finding, sharing, and analyzing information related to health and disasters. The project has 3 primary goals:
+The dotSkapes Proejct is a web platform for finding, analyzing, sharing, and tagging information--with an emphasis on health and disasters. The project has 3 primary goals:
 
-1) provide the global environmental health research community with a modern web-based resarch platform
+1) provide the global health research community with a web-based resarch platform
 
 2) support service learning and education projects that connect researchers and communities
 
-3) contribute health support and analytical tools to the Sahana Foundation 
+3) contribute health support and analytical tools to the Sahana Eden disaster management platform
 
-For more information on Healthscapes please visit our website: http://www.healthscapes.org
+For more information on Healthscapes please visit our website: http://dot.skapes.org
+
+====
 
 Additional information on Sahana Eden:
 Sahana Eden is an Emergency Development Environment - an Open Source framework to rapidly build powerful applications for Emergency Management.
