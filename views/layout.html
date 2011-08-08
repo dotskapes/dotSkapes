@@ -147,7 +147,7 @@
         {{ if not vars.side_bar: }}{
         xtype: 'panel',
 
-        html: '<div style="text-align: center;"><!--<a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or--><a href="{{=URL (scheme='https', a=request.application, c='default', f='user', args=['login'])}}">Login</a> with Gmail to activate your sidebar</div>',
+        html: '<div style="text-align: center;"><!--<a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or--><a href="{{=URL (scheme='http', a=request.application, c='default', f='user', args=['login'])}}">Login</a> with Gmail to activate your sidebar</div>',
 
         border: false,
         padding: 10,
