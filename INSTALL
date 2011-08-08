@@ -6,5 +6,13 @@ http://dev.skapes.org/wiki/Use
 Please contact us if you are interested in setting up a testing environment:
 dotskapes@gmail.com
 
+Requirements:
+web2py
+python2.6
 
+Python libraries:
+simplejson
+pymongo
+BeautifulSoup
+psycopg2
 
