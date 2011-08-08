@@ -57,7 +57,8 @@ def loadMap (mapName, geomType, mapType, connection = None, location = None):
                     for ob in item:
                         geomList.append (ob)
                     #s = Polygon (feature['geometry']['coordinates'][0], feature['properties'])
-                    s = Polygon (geomList, feature['properties'], True)
+                s = Polygon (geomList, feature['properties'], True)
+                shapes.append (s)
             elif geomType == enum.POINT:
                 ob = feature['geometry']['coordinates']
                 if feature['geometry']['type'] == 'Point':
