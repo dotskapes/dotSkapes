@@ -57,7 +57,7 @@ hs.win.dev = {
 				else
 				    thisPanel.addChild (resp);
 			    };
-			    
+
 			    Ext.Ajax.request ({
 				method: 'POST',
 				url: '/' + hs.application + '/tool/dev/create',
