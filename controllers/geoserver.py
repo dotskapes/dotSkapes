@@ -1,5 +1,6 @@
 from urllib import urlencode
 from urllib2 import urlopen, Request
+from re import search
 
 def ows():
     lookup_id = require_int (request.vars.get ('ID'))
@@ -108,3 +109,40 @@ def xsd():
     response.view = 'geoserver/' + request.args[0] + '.xsd'
     data = json.loads (request.body.read ())
     return {'data': data}
+
+def upload():
+    require_logged_in ()
+    form = FORM (INPUT (_type="file", _name="map"), BR (), INPUT (_type="submit", _value="Upload"))
+    if form.accepts (request, session):
+        from os import mkdir
+        from shutil import rmtree
+        path = getcwd () + '/applications/' + request.application + '/.tmp/' + uuid4 ().hex
+        filename = path + '/' + sub ('/', '', form.vars.map.filename)
+        mkdir (path)
+        buffer = open (filename, 'w')
+        buffer.write (form.vars.map.file.read ())
+        buffer.close ()
+        proc = subprocess.Popen (['tar', '-xvf', filename, '-C', path], stdout = subprocess.PIPE)
+        #proc = subprocess.Popen (['tar', '-tvf', filename], stdout = subprocess.PIPE)
+        files = proc.communicate ()[0].split ('\n')
+        #files = files [:len (files) - 2]
+        matches = map (lambda x: search ('\.shp$', x), files)
+        for item, m in zip (files, matches):
+            if m:
+                table_name = 'upload_' + uuid4 ().hex
+                dp = deployment_settings.postgis
+                dg = deployment_settings.geoserver
+                proc1 = subprocess.Popen (['shp2pgsql', path + '/' + item, table_name], stdout = subprocess.PIPE)
+                proc2 = subprocess.call (['psql', '-h', dp.host, '-p', str (dp.port), '-d', dp.database, '-U', dp.username], stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = proc1.stdout)
+                proc1.communicate ()
+                req_body = '<featureType><name>%s</name><title>%s</title><srs>EPSG:4326</srs></featureType>' % (table_name, sub ('.shp', '', item))
+                req = Request ('%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store), req_body, {
+                        'Content-Type': 'text/xml',
+                        })
+                urlopen (req)
+                rmtree (path)
+                return 'Ok'
+                #return ' '.join(['curl', '-u', '%s:%s' % (deployment_settings.geoserver.username, deployment_settings.geoserver.password), '-XPUT', '-H', '"Content-type: text/plain"', '-d', 'file://%s' % path, 'http://localhost:%d/geoserver/rest/workspaces/%s/datastores/%s/external.shp' % (deployment_settings.geoserver.port, deployment_settings.geoserver.namespace, uuid4 ().hex)])
+                #proc = subprocess.Popen (['curl', '-u', '%s:%s' % (deployment_settings.geoserver.username, deployment_settings.geoserver.password), '-XPUT', '-H', '"Content-type: text/plain"', '-d', 'file://%s' % path, 'http://localhost:%d/geoserver/rest/workspaces/%s/datastores/%s/external.shp' % (deployment_settings.geoserver.port, deployment_settings.geoserver.namespace, uuid4 ().hex)], stdout = subprocess.PIPE)
+                #return str (proc.communicate ()[0])
+    return form
