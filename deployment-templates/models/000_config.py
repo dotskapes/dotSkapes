@@ -19,7 +19,6 @@ deployment_settings.database.password = "hs"
 deployment_settings.database.pool_size = 30
 
 # MongoDB Settings
-# MongoDB Settings
 deployment_settings.mongodb = blank ()
 deployment_settings.mongodb.host = None
 deployment_settings.mongodb.port = 27017
@@ -37,16 +36,6 @@ deployment_settings.postgis.password = "postgis"
 deployment_settings.postgis.pool_size = 10
 
 deployment_settings.geoserver_sources = []
-
-'''
-#Geoserver Settings
-deployment_settings.geoserver_sources = ["http://zk.healthscapes.org/geoserver", 
-                                         "http://skapes.org/geoserver"]
-deployment_settings.geoserver = blank ()
-deployment_settings.geoserver.url = "http://zk.healthscapes.org/geoserver"
-deployment_settings.geoserver.username = "admin"
-deployment_settings.geoserver.password = "geo4Web!"
-deployment_settings.geoserver.wms_capabilities = lambda: deployment_settings.geoserver.url + '/wms?SERVICE=WMS&REQUEST=GetCapabilities'''
 
 # Upload Geoserver Settings
 deployment_settings.geoserver = blank ()
@@ -70,3 +59,7 @@ deployment_settings.dev_mode.enabled = False
 deployment_settings.dev_mode.firstname = 'First'
 deployment_settings.dev_mode.lastname = 'Last'
 deployment_settings.dev_mode.email = 'fake@gmail.com'
+
+# ExtJS Settings
+deployment_settings.extjs = blank ()
+deployment_settings.extjs.location = 'http://skapes.org/media/js/ext'
