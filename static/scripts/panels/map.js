@@ -159,13 +159,17 @@ hs.map = {
 		    });
 
 		    map.addControl (control[node.filename]);
+		    layers[node.filename].events.register ('loadend', layers[node.filename], function (event) {
+			attrPanel.loadMap (node);
+		    });
 
 		}
+		//else {
+		//    attrPanel.loadMap (node);
+		//}
 		selectControl = control[node.filename];
 		map.addLayer (layers[node.filename]);
 		activeLayers[node.filename] = node;
-
-		attrPanel.loadMap (node);
 	    };
 
 	    this.removeMap = function (node) {
@@ -210,6 +214,7 @@ hs.map = {
 				    },
 				}),
 				filterButton,
+				new hs.map.BaseLayer (mapPanel.getMap ()),
 			    ],
 			});
 
@@ -240,8 +245,14 @@ hs.map = {
 		displayProjection: new OpenLayers.Projection("EPSG:4326"),
 	    });
 
-	    var base = new OpenLayers.Layer.OSM ();
+	    /*var base = new OpenLayers.Layer.Google ('Google Base Layer', {
+		type: google.maps.MapTypeId.TERRAIN
+	    });
 	    map.addLayer (base);
+	    map.removeLayer (base);
+	    
+	    var base = new OpenLayers.Layer.OSM ('OSM Base Layer');
+	    map.addLayer (base);*/
 
 	    this.getMap = function () {
 		return map;
@@ -269,33 +280,47 @@ hs.map = {
 	constructor: function (map, config) {
 	    var thisPanel = this;
 	    var current_map;
+	    var fields = [];
+	    var cols = {};
+	    var colModel;
+
+	    var start = 0;
+	    var limit = 50;
 
 	    if (!config)
 		config = {};
 
+	    var reloadStore = function () {
+		var store = new Ext.data.JsonStore ({
+		    root: 'features',
+		    autoLoad: true,
+		    fields: fields,
+		    url: hs.url ('geodata', 'read', [], {
+			id: cols.id,
+			start: start,
+			limit: limit,
+		    }),
+		});
+		thisPanel.reconfigure (store, colModel);
+	    };
+
 	    var setNewModel = function (data) {
-		var cols = JSON.parse (data.responseText);
-		var fields = []
-		var colList = []
+		fields = [];
+		cols = JSON.parse (data.responseText);
+		var colList = [];
 		for (var i = 0; i < cols.columns.length; i ++) {
 		    colList.push ({header: cols.columns[i]});
 		    fields.push (cols.columns[i]);
 		}
 
-		var colModel = new Ext.grid.ColumnModel ({
+		colModel = new Ext.grid.ColumnModel ({
 		    defaults: {
 			sortable: true,
 		    },
 		    columns: colList,
 		});
 
-		var store = new Ext.data.JsonStore ({
-		    root: 'features',
-		    autoLoad: true,
-		    fields: fields,
-		    url: '/' + hs.application + '/geodata/read?id=' + cols.id,
-		});
-		thisPanel.reconfigure (store, colModel);
+		reloadStore ();
 	    };
 
 	    var requestCols = function (map_id) {
@@ -310,6 +335,8 @@ hs.map = {
 	    }
 
 	    this.loadMap = function (map_ob) {
+		if (current_map == map_ob)
+		    return;
 		current_map = map_ob;
 		requestCols (map_ob.id);
 	    };
@@ -345,6 +372,24 @@ hs.map = {
 		    },
 		}),
 		store: [],
+		bbar: [
+		    new Ext.Button ({
+			text: 'Prev',
+			handler: function () {
+			    if (start > 0)
+				start -= limit;
+			    reloadStore ();
+			},
+		    }),
+		    new Ext.Button ({
+			text: 'Next',
+			handler: function () {
+			    //if (start < attr_max)
+			    start += limit;
+			    reloadStore ();
+			},
+		    }),
+		],
 	    });
 	    
 	    hs.map.AttrPanel.superclass.constructor.call (this, config);
@@ -415,6 +460,61 @@ hs.map = {
 	    });
 	    hs.map.FilterButton.superclass.constructor.call (this, config);
 	    
+	},
+    }),
+    BaseLayer: Ext.extend (Ext.Button, {
+	constructor: function (map) {
+	    var thisButton = this;
+
+	    var baseLayers = {
+		/*'none': new OpenLayers.Layer("No Base Layer", {
+		    isBaseLayer: true,
+		    'displayInLayerSwitcher': true,
+		    numZoomLevels: 15,
+		}),*/
+		'osm': new OpenLayers.Layer.OSM ('OSM Base Layer'),
+		'google_street': new OpenLayers.Layer.Google ('Google Base Layer', {
+                    type: google.maps.MapTypeId.STREET
+		}),
+		'google_satellite': new OpenLayers.Layer.Google ('Google Base Layer', {
+                    type: google.maps.MapTypeId.SATELLITE
+		}),
+	    }
+	    
+	    var current = null;
+
+	    var checkOption = function (text, id, checked) {
+		if (checked) {
+		    current = baseLayers[id]
+		    map.addLayer (current);
+		}
+		return {
+		    'text': text,
+		    checked: checked,
+		    group: 'map_base',
+		    checkHandler: function () {
+			map.removeLayer (current);
+			current = baseLayers[id];
+			map.addLayer (current);
+		    },
+		 };
+	     };
+
+	     var menu = new Ext.menu.Menu ({
+		 items: [
+		     //checkOption ('None', 'none', false),
+		     checkOption ('Open Street Map', 'osm', true),
+		     checkOption ('Google Street Map', 'google_street', false),
+		     checkOption ('Google Satellite Map', 'google_satellite', false),
+		],
+	    });
+
+	    var config = {
+		text: 'Base Layer',
+		menu: menu,
+	    };
+	    
+	    hs.map.BaseLayer.superclass.constructor.call (this, config);
 	},
     }),
 };

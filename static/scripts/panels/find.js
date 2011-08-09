@@ -11,10 +11,6 @@ hs.find = {
 			text: text,
 			enableToggle: true,
 			toggleGroup: 'filter',
-			url: 'http://www.google.com/search',
-			//baseParams: {
-			//    q: 'html+anchor+tag'
-			//},
 			handler: function () {
 			    g.reload (name);
 			},

@@ -150,7 +150,7 @@ hs.side = {
 	    if (!config)
 		config = {};
 	    var createButton = new Ext.Button ({
-		icon: '/' + hs.application + '/static/scripts/ext/icons/add.png',
+		icon: hs.extjs + '/examples/shared/icons/fam/add.png',
 		handler: function (b) {
 		    var win = new hs.win.dev.Create (thisPanel);
 		    win.show ();
