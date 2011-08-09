@@ -15,8 +15,8 @@
 {{ include 'web2py_ajax.html' }}
 <!--<script src="/{{=request.application}}/static/scripts/jquery/jquery.min.js"></script>-->
 
-<script src="http://skapes.org/media/js/ext/adapter/jquery/ext-jquery-adapter.js"></script>
-<script src="http://skapes.org/media/js/ext/ext-all.js" type="text/javascript"></script>
+<script src="{{= deployment_settings.extjs.location }}/adapter/jquery/ext-jquery-adapter.js"></script>
+<script src="{{= deployment_settings.extjs.location }}/ext-all.js" type="text/javascript"></script>
 <script type="text/javascript" src="/{{=request.application}}/scripts/base.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/utils.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/scripts/data.js"></script>
