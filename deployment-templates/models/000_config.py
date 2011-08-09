@@ -29,7 +29,7 @@ deployment_settings.mongodb.password = 'mongo'
 
 # PostGIS Settings
 deployment_settings.postgis = blank ()
-deployment_settings.postgis.host = "localhost"
+deployment_settings.postgis.host = None
 deployment_settings.postgis.port = 5432
 deployment_settings.postgis.database = "geodata"
 deployment_settings.postgis.username = "postgis"
