@@ -1,5 +1,3 @@
-import psycopg2
-
 class blank (object):
     def __init__ (self):
         object.__init__ (self)
@@ -37,7 +35,6 @@ deployment_settings.postgis.database = "geodata"
 deployment_settings.postgis.username = "postgis"
 deployment_settings.postgis.password = "postgis"
 deployment_settings.postgis.pool_size = 10
-deployment_settings.postgis.connection = lambda: psycopg2.connect ('dbname=' + deployment_settings.postgis.database + ' user=' + deployment_settings.postgis.username + ' password=' + deployment_settings.postgis.password + ' host=' + deployment_settings.postgis.host + ' port=' + str (deployment_settings.postgis.port))
 
 deployment_settings.geoserver_sources = []
 
