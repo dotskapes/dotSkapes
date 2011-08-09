@@ -10,6 +10,7 @@ hs = {
 	dev: {{if dev_role: }}true{{else:}}false{{pass}},
     },
     application: '{{= request.application }}',
+    extjs: '{{= deployment_settings.extjs.location }}',
     url: function (controller, func, args, params) {
 	if (!args)
 	    args = [];

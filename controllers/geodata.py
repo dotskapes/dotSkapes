@@ -7,7 +7,9 @@ from BeautifulSoup import BeautifulStoneSoup
 def read():
     lookup_id = require_int (request.vars.get ('id'))
     data = dm.get ('maps', lookup_id)
-    return json.dumps (load_map_attributes (data))
+    start = require_int (request.vars.get ('start'))
+    limit = require_int (request.vars.get ('limit'))
+    return json.dumps (load_map_attributes (data, start, limit))
     '''map_data = urlopen (data.src + '/ows', urlencode ({
                 'service': 'wfs',
                 'version': '1.1.0',

@@ -65,23 +65,28 @@ def load_map (data):
             )
     return map_data.read ()
 
-def load_map_attributes (data):
-    map_data = urlopen (data.src + '/ows', urlencode ({
-                'service': 'wfs',
-                'version': '1.1.0',
-                'request': 'GetFeature',
-                'typename': data.prefix + ':' + data.filename,
-                'outputformat': 'json',
-                })
-             )
-    #return map_data.read ()
-    entry_list = []
-    for ob in json.loads (map_data.read ())['features']:
-        result = {'id': ob['id']}
-        result.update (ob['properties'])
-        #result.update ({'geom': ob['geometry']['coordinates'], 'id': ob['id']})
-        entry_list.append (result)
-    return {'features': entry_list}
+def load_map_attributes (data, start = None, limit = None):
+    if not session.has_key ('current_map') or not session['current_map'][0] == data.id:
+        map_data = urlopen (data.src + '/ows', urlencode ({
+                    'service': 'wfs',
+                    'version': '1.1.0',
+                    'request': 'GetFeature',
+                    'typename': data.prefix + ':' + data.filename,
+                    'outputformat': 'json',
+                    })
+                )
+        map_attr = []
+        for ob in json.loads (map_data.read ())['features']:
+            result = {'id': ob['id']}
+            result.update (ob['properties'])
+            map_attr.append (result)
+        session['current_map'] = (data.id, map_attr)
+    else:
+        map_attr = session['current_map'][1]
+    if not limit:
+        return {'features': map_attr}
+    else:
+        return {'features': map_attr[start:start + limit]}
 
 def gen_choropleth (map_index, sort_field, low_color, high_color):
     from savage.graphics.color import ColorMap, color_to_css

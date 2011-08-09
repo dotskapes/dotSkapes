@@ -77,7 +77,7 @@ hs.tree.Panel = Ext.extend (Ext.tree.TreePanel, {
 	else
 	    buttons = [];
 	buttons.push (new Ext.Button ({
-	    icon: '/' + hs.application + '/static/scripts/ext/icons/delete.gif',
+	    icon: hs.extjs + '/examples/shared/icons/fam/delete.gif',
 	    handler: function (b) {
 		var node = this_panel.getSelectionModel ().getSelectedNode ();
 		Ext.Ajax.request ({
