@@ -6,7 +6,7 @@ deployment_settings = blank ()
 
 # Web2py Settings
 deployment_settings.web2py = blank ()
-deployment_settings.web2py.port = 8060
+deployment_settings.web2py.port = 8000
 
 # Database settings
 deployment_settings.database = blank ()
