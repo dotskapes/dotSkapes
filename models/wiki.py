@@ -56,7 +56,6 @@ def render_comment (rest_vars):
 
 def render_index (rest_vars):
     response.view = 'wiki/index.html'
-    from re import finditer
     if check_role (editor_role):
         p_query = {}
     elif check_role (writer_role):
@@ -149,7 +148,8 @@ def render_index (rest_vars):
     newer['start'] = start - max_ret
 
     pages = pages[start:(start + max_ret)]
-    for p in pages:
+    pages = map (lambda p: split_page (p, 300), pages)
+    '''for p in pages:
         start = 0
         widgets = {}
         strings = []
@@ -173,7 +173,7 @@ def render_index (rest_vars):
         p.body = p.body % widgets
         p.body = sub ('&#37;', '%', p.body)
         p.body = sub ('\n ', '\n', p.body)
-        p.cats = []
+        p.cats = []'''
 
     return dict(pages = pages, first = first, last = last, older = older, newer = newer)
 
@@ -326,12 +326,13 @@ def render_categories (rest_vars):
     return {'categories': results}
 
 def split_page (page, length):
+    from re import finditer
     start = 0
     widgets = {}
     strings = []
-    page.body = sub ('%', '&#37;', p.body)
-    page.body = sub ('\n', '\n ', p.body)
-    for i, widget in enumerate (finditer ('``([^`]|(`(?!`)))*``:widget', p.body)):
+    page.body = sub ('%', '&#37;', page.body)
+    page.body = sub ('\n', '\n ', page.body)
+    for i, widget in enumerate (finditer ('``([^`]|(`(?!`)))*``:widget', page.body)):
         strings.append (page.body[start:widget.start (0)])
         key = 'widget_' + str (i)
         strings.append ('%(' + key +')s')
@@ -340,14 +341,14 @@ def split_page (page, length):
     strings.append (page.body[start:])
         
     words = (''.join (strings)).split (' ')
-    if len (words) > 300:
+    if len (words) > length:
         page.more = True
-        page.body = ' '.join (words[0:299])
+        page.body = ' '.join (words[0:(length - 1)])
     else:
         page.more = False
         page.body = ' '.join (words)
-    page.body = p.body % widgets
-    page.body = sub ('&#37;', '%', p.body)
-    page.body = sub ('\n ', '\n', p.body)
+    page.body = page.body % widgets
+    page.body = sub ('&#37;', '%', page.body)
+    page.body = sub ('\n ', '\n', page.body)
     page.cats = []
     return page
