@@ -75,7 +75,7 @@ $(window).load (function () {
         }    
     });
 </script>
-{{ elif request.controller == 'home': }}
+{{ elif request.controller == None or request.controller == 'default': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/home.css" />
 <link rel="stylesheet" type="text/css" href="http://skapes.org/media/css/coin-slider/coin-slider-styles.css" />
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.6.2.min.js'></script>
