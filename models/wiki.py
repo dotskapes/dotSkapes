@@ -357,5 +357,5 @@ def newest_page_preview ():
     query = {
         'public': True
         }
-    page = mongo.blog.find (query).sort ('date', pymongo.DESCENDING)[0]
-    return {'page': split_page (page, 100)}
+    page = MongoWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING)[0])
+    return split_page (page, 100)

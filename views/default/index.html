@@ -6,8 +6,11 @@
     
         <div id='blog'>
             <h1>Blog Post</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta odio metus, vel convallis lectus. Ut eu vehicula dui. In tellus magna, eleifend et consequat rhoncus, hendrerit pretium orci. Mauris rutrum egestas lorem sollicitudin ornare. Suspendisse vehicula nibh quis mi sodales accumsan. Aliquam molestie adipiscing arcu non porttitor. Ut congue porta sem, id laoreet augue eleifend vel. Duis interdum elementum nibh, sed iaculis sapien tincidunt sed. Duis dictum arcu at massa volutpat non lacinia nisl lacinia. Curabitur ligula velit, vestibulum non venenatis nec, commodo auctor erat. Proin scelerisque lorem in orci fermentum cursus. Sed ac enim libero, sit amet vehicula urna. Vestibulum sed massa sit amet turpis volutpat scelerisque. In lobortis rutrum lacus, quis dapibus elit scelerisque eu. Duis sit amet elit ut diam ullamcorper ultrices.</p><p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta odio metus, vel convallis lectus. Ut eu vehicula dui. In tellus magna, eleifend et consequat rhoncus, hendrerit pretium orci. Mauris rutrum egestas lorem sollicitudin ornare. Suspendisse vehicula nibh quis mi sodales accumsan. Aliquam molestie adipiscing arcu non porttitor. Ut congue porta sem, id laoreet augue eleifend vel. Duis interdum elementum nibh, sed iaculis sapien tincidunt sed. Duis dictum arcu at massa volutpat non lacinia nisl lacinia. Curabitur ligula velit, vestibulum non venenatis nec, commodo auctor erat. Proin scelerisque lorem in orci fermentum cursus. Sed ac enim libero, sit amet vehicula urna. Vestibulum sed massa sit amet turpis volutpat scelerisque. In lobortis rutrum lacus, quis dapibus elit scelerisque eu. Duis sit amet elit ut diam ullamcorper ultrices.</p>
+            <p>
+	      {{ page = newest_page_preview () }}
+	      {{= plugin_wiki.render(page.body) }}
+	      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [page.slug, 'view'])}}">MORE &#187;</a></p>{{ pass }}
+	    </p>
         </div>
         
         <div id='icons'>
