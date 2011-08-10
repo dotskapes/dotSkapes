@@ -74,10 +74,8 @@ $(window).load (function () {
         }    
     });
 </script>
-{{ elif request.controller == 'home': }}
-<link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/home.css" />
-<link rel="stylesheet" type="text/css" href="http://skapes.org/media/css/coin-slider/coin-slider-styles.css" />
-<script type='text/javascript' src="http://skapes.org/media/js/coin-slider/coin-slider.min.js"></script>
+{{ elif request.controller == 'main': }}
+<!-- files for main.html -->
 <link rel="stylesheet" href="/{{=request.application}}/static/js/jquery-ui/themes/base/jquery.ui.all.css">
 <script src="/{{=request.application}}/static/js/jquery-ui/ui/jquery.ui.core.js"></script>
 	<script src="/{{=request.application}}/static/js/jquery-ui/ui/jquery.ui.widget.js"></script>
@@ -88,6 +86,12 @@ $(window).load (function () {
 		$( "#tabs" ).tabs();
 	});
 	</script>
+
+<!-- files for home.html -->
+<link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/home.css" />
+<link rel="stylesheet" type="text/css" href="http://skapes.org/media/css/coin-slider/coin-slider-styles.css" />
+<script type='text/javascript' src="http://skapes.org/media/js/coin-slider/coin-slider.min.js"></script>
+
 {{ elif request.controller == 'about': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/about.css" />
 {{ pass }}

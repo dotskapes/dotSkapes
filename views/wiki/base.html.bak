@@ -1,3 +1,5 @@
+{{ extend 'layout.html' }}
+
 <div id="wrapper_wiki">       
   <div id="header">
     <span id='title'>The dotSkapes Project</span>
