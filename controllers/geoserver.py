@@ -112,10 +112,11 @@ def xsd():
 
 def upload():
     require_logged_in ()
-    form = FORM (INPUT (_type="file", _name="map"), BR (), INPUT (_type="submit", _value="Upload"))
+    form = FORM (LABEL ('Map: '), INPUT (_type="file", _name="map"), BR (), LABEL ('EPSG: '), INPUT (_type="text", _name="epsg"), BR (), INPUT (_type="submit", _value="Upload"))
     if form.accepts (request, session):
         from os import mkdir
         from shutil import rmtree
+        epsg = require_int (form.vars.epsg)
         path = getcwd () + '/applications/' + request.application + '/.tmp/' + uuid4 ().hex
         filename = path + '/' + sub ('/', '', form.vars.map.filename)
         mkdir (path)
@@ -135,14 +136,15 @@ def upload():
                 proc1 = subprocess.Popen (['shp2pgsql', path + '/' + item, table_name], stdout = subprocess.PIPE)
                 proc2 = subprocess.call (['psql', '-h', dp.host, '-p', str (dp.port), '-d', dp.database, '-U', dp.username], stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = proc1.stdout)
                 proc1.communicate ()
-                req_body = '<featureType><name>%s</name><title>%s</title><srs>EPSG:4326</srs></featureType>' % (table_name, sub ('.shp', '', item))
+                req_body = '<featureType><name>%s</name><title>%s</title><srs>EPSG:%d</srs></featureType>' % (table_name, sub ('.shp', '', item), epsg)
                 req = Request ('%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store), req_body, {
                         'Content-Type': 'text/xml',
                         })
                 urlopen (req)
                 rmtree (path)
-                return 'Ok'
+                response.flash = 'Map Successfully Uploaded'
+                break
                 #return ' '.join(['curl', '-u', '%s:%s' % (deployment_settings.geoserver.username, deployment_settings.geoserver.password), '-XPUT', '-H', '"Content-type: text/plain"', '-d', 'file://%s' % path, 'http://localhost:%d/geoserver/rest/workspaces/%s/datastores/%s/external.shp' % (deployment_settings.geoserver.port, deployment_settings.geoserver.namespace, uuid4 ().hex)])
                 #proc = subprocess.Popen (['curl', '-u', '%s:%s' % (deployment_settings.geoserver.username, deployment_settings.geoserver.password), '-XPUT', '-H', '"Content-type: text/plain"', '-d', 'file://%s' % path, 'http://localhost:%d/geoserver/rest/workspaces/%s/datastores/%s/external.shp' % (deployment_settings.geoserver.port, deployment_settings.geoserver.namespace, uuid4 ().hex)], stdout = subprocess.PIPE)
                 #return str (proc.communicate ()[0])
-    return form
+    return {'form': form}

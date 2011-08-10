@@ -8,6 +8,7 @@
             <h1>Blog Post</h1>
             <p>
 	      {{ page = newest_page_preview () }}
+	      <p class="title">{{= page.title }}</p>
 	      {{= plugin_wiki.render(page.body) }}
 	      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [page.slug, 'view'])}}">MORE &#187;</a></p>{{ pass }}
 	    </p>
