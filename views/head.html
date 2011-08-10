@@ -1,5 +1,4 @@
 {{ if request.controller == 'map': }}
-
 <script src="{{= deployment_settings.extjs.location }}/adapter/jquery/ext-jquery-adapter.js"></script>
 <script type="text/javascript" src="http://skapes.org/media/js/OpenLayers/OpenLayers.js"></script>
 <script type="text/javascript" src="http://skapes.org/media/js/GeoExt/lib/GeoExt.js"></script> 
@@ -78,7 +77,6 @@ $(window).load (function () {
 {{ elif request.controller == 'home': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/home.css" />
 <link rel="stylesheet" type="text/css" href="http://skapes.org/media/css/coin-slider/coin-slider-styles.css" />
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.2.min.js'></script>
 <script type='text/javascript' src="http://skapes.org/media/js/coin-slider/coin-slider.min.js"></script>
 {{ elif request.controller == 'about': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/about.css" />
