@@ -6,7 +6,7 @@ deployment_settings = blank ()
 
 # Web2py Settings
 deployment_settings.web2py = blank ()
-deployment_settings.web2py.port = 8060
+deployment_settings.web2py.port = 8000
 
 # Database settings
 deployment_settings.database = blank ()
@@ -28,7 +28,7 @@ deployment_settings.mongodb.password = 'mongo'
 
 # PostGIS Settings
 deployment_settings.postgis = blank ()
-deployment_settings.postgis.host = "localhost"
+deployment_settings.postgis.host = None
 deployment_settings.postgis.port = 5432
 deployment_settings.postgis.database = "geodata"
 deployment_settings.postgis.username = "postgis"

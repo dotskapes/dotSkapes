@@ -1,5 +1,5 @@
 def index():
-    redirect (URL (r = request, c = 'wiki', f = 'blog'))
+    redirect (URL (r = request, c = 'home'))
     return {}
 
 def user():

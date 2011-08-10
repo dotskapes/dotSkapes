@@ -83,37 +83,6 @@ Splash Page Header
     background: white url(../images/img01.jpg) repeat-x left top;
 }
 
-#splash_header #introQuote {
-    width: 493px;
-    padding-top: 10px;
-    padding-left: 20px;
-}
-
-#splash_header #introQuote {
-    font-weight: bold;
-}
-
-#splash_header #introQuote h1{
-    font-size: 130%;
-}
-
-#splash_header #flashSS {
-    float:   right;
-    height:  232px;  
-    width:   232px;  
-    padding: 0;  
-    margin:  0;
-}
-
-#splash_header #flashSS img {  
-    padding: 15px;  
-    border:  1px solid #ccc;  
-    background-color: #eee;  
-    width:  200px; 
-    height: 200px; 
-    top:  0; 
-    left: 0 
-} 
 
 #splash_header a {
     float: right;
@@ -180,92 +149,7 @@ Splash Page Header
     margin-bottom: 0;
 }
 
-/*
-Feature
-*/
 
-#feature {
-    width: 986px;
-    height: 240px;
-    margin: 0 auto;
-    padding: 5px 20px 0px 20px;
-    background: #C1D6E2;
-    
-    /-moz-border-radius-topleft: 20px;
-    /-moz-border-radius-topright: 20px;
-    /-moz-border-radius-bottomright: 20px;
-    /-moz-border-radius-bottomleft: 20px;
-    /border-top-left-radius: 20px;
-    /border-top-right-radius: 20px;
-    /border-bottom-right-radius: 20px;
-    /border-bottom-left-radius: 20px;
-}
-
-#feature a {
-    text-decoration: none;
-}
-
-#feature a:hover .box{
-    width: 200px;
-    height: 170px;
-    margin: 10px;
-    padding: 10px;
-    background: #FFFFFF;
-    border: 1px solid #8D9AB0;
-    float: left;
-    
-    -webkit-box-shadow: 5px 5px 10px #064169;        
-    -moz-box-shadow: 5px 5px 10px #064169;
-    box-shadow: 5px 5px 10px #064169;
-    -moz-border-radius-topleft: 20px;
-    -moz-border-radius-topright: 20px;
-    -moz-border-radius-bottomright: 20px;
-    -moz-border-radius-bottomleft: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
-
-#feature .box {
-    width: 200px;
-    height: 170px;
-    margin: 10px;
-    padding: 10px;
-    background: #FFFFFF;
-    border: 1px solid #8D9AB0;
-    float: left;
-    position:relative;
-    
-    -webkit-box-shadow: 3px 3px 8px #386699;        
-    -moz-box-shadow: 3px 3px 8px #386699;
-    box-shadow: 3px 3px 8px #386699;
-    -moz-border-radius-topleft: 20px;
-    -moz-border-radius-topright: 20px;
-    -moz-border-radius-bottomright: 20px;
-    -moz-border-radius-bottomleft: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
-
-
-#feature .box h2{
-    margin-top: 0px;
-    text-align: left;
-    float: left;
-}
-
-#feature .box p{
-    width: 80px;
-    float: right;
-    text-align: left;
-    margin: 40px 5px 0 0;
-    padding-right: 8px; 
-    font-size: 1.2em;
-    line-height: 120%;
-}
 
 
 h2.letter {
@@ -307,6 +191,29 @@ p.subscript {
     height: 390px;
 }
 
+/* Sidebar */
+#sidebar {
+    float: right;
+    height: 100%;
+    width: 15%;
+    padding: 20px;
+    margin: 0 15px 10px 10px;
+    
+    -webkit-box-shadow: 5px 5px 5px 5px #bbb;
+    -moz-box-shadow: 5px 5px 5px 5px #bbb;
+    box-shadow: 5px 5px 5px 5px #bbb; 
+    
+}
+
+#sidebar h2 {
+    font-size: 1.6em;
+}
+
+#sidebar ul {
+    margin: 5px;
+    margin-left: 30px;
+    font-size: 1.3em;
+}
 
 /* Footer */
 /* html5: changed #wrapper2 to footer */

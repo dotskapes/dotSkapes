@@ -1,0 +1,147 @@
+#home .clear {
+    clear: both;
+}
+
+
+#home #wrapper{
+    margin-top: 10px;
+    width: 1000px;
+}
+
+/* header.html section */
+
+#home #header {
+    margin: 0 auto;
+    height: 140px;
+    border-bottom: 5px solid #ccc;
+}
+
+#home #header img{
+    float: left;
+    margin: 5px 0 0 10px;
+}
+
+#home #header .letter{
+    text-decoration: none;
+
+    width: 120px;
+    height: 120px;
+    float: left;
+    margin: 5px 40px 5px 40px;
+    padding: 0;
+    line-height: 120%;
+    font-size: 100px;
+    text-align: center;
+    
+    background: #FFFFFF;
+    border: 1px solid #8D9AB0;
+    position:relative;
+
+    -webkit-box-shadow: 3px 3px 8px #386699;        
+    -moz-box-shadow: 3px 3px 8px #386699;
+    box-shadow: 3px 3px 8px #386699;
+    -moz-border-radius-topleft: 20px;
+    -moz-border-radius-topright: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;    
+}
+
+#home #header a:hover {
+
+    -webkit-box-shadow: 5px 5px 10px #064169;        
+    -moz-box-shadow: 5px 5px 10px #064169;
+    box-shadow: 5px 5px 10px #064169;
+    -moz-border-radius-topleft: 20px;
+    -moz-border-radius-topright: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    
+}
+/* index.html section */
+
+#home #index {
+   width: 1000px;
+   height: 700px;
+   margin: 10px 0 0 0;
+}
+
+#home #main {
+    float: left;
+    width: 595px;
+    height: 100%;
+}
+
+#home #main #blog {
+    height: 39%;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 6px;
+   overflow: auto;
+}
+
+#home #main #blog p {
+    padding: 0 10px;
+    text-align: justify;
+}
+
+#home #main #icons {
+    height: 60%;
+}
+
+#home #main #icons .icon {
+    margin: 2px;
+    float: left;
+    width: 49%;
+    height: 32%;
+}
+
+#home #main #icons .icon p {
+    font-size: 12px;
+    text-indent: 2px;
+    float: left;
+    margin: 10px;
+    width: 140px;
+    height: 110px;
+}
+
+#home #main #icons .icon a {
+    text-decoration: none;
+    float: left;
+    height: 90%;
+    width: 40%;
+    margin: 10px 0;
+    margin-left: 10px;
+}
+
+#home #sidebar {
+    float: left;
+    width: 392px;
+    height: 100%;
+    border-left: 2px solid #ddd;
+}
+
+#home #sidebar #twitter{
+    height: 30%;
+    margin-left: 6px;
+}
+
+#home #sidebar #status{
+    height: 30%;
+    margin-left: 6px;
+}
+
+#home #sidebar #events{
+    height: 40%;
+    margin-left: 6px;
+}
+
+/* footer.html section */
+#home #footer {
+}
