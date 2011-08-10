@@ -324,3 +324,30 @@ def render_categories (rest_vars):
             mongo.categories.update ({'_id': ObjectId (vars._id)}, {'$set': cat})
     results = MongoWrapper (mongo.categories.find ())
     return {'categories': results}
+
+def split_page (page, length):
+    start = 0
+    widgets = {}
+    strings = []
+    page.body = sub ('%', '&#37;', p.body)
+    page.body = sub ('\n', '\n ', p.body)
+    for i, widget in enumerate (finditer ('``([^`]|(`(?!`)))*``:widget', p.body)):
+        strings.append (page.body[start:widget.start (0)])
+        key = 'widget_' + str (i)
+        strings.append ('%(' + key +')s')
+        widgets[key] = page.body[widget.start (0):widget.end (0)]
+        start = widget.end (0)
+    strings.append (page.body[start:])
+        
+    words = (''.join (strings)).split (' ')
+    if len (words) > 300:
+        page.more = True
+        page.body = ' '.join (words[0:299])
+    else:
+        page.more = False
+        page.body = ' '.join (words)
+    page.body = p.body % widgets
+    page.body = sub ('&#37;', '%', p.body)
+    page.body = sub ('\n ', '\n', p.body)
+    page.cats = []
+    return page
