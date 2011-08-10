@@ -78,6 +78,16 @@ $(window).load (function () {
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/home.css" />
 <link rel="stylesheet" type="text/css" href="http://skapes.org/media/css/coin-slider/coin-slider-styles.css" />
 <script type='text/javascript' src="http://skapes.org/media/js/coin-slider/coin-slider.min.js"></script>
+<link rel="stylesheet" href="/{{=request.application}}/static/js/jquery-ui/themes/base/jquery.ui.all.css">
+<script src="/{{=request.application}}/static/js/jquery-ui/ui/jquery.ui.core.js"></script>
+	<script src="/{{=request.application}}/static/js/jquery-ui/ui/jquery.ui.widget.js"></script>
+	<script src="/{{=request.application}}/static/js/jquery-ui/ui/jquery.ui.tabs.js"></script>
+	<link rel="stylesheet" href="/{{=request.application}}/static/js/jquery-ui/demos.css">
+	<script>
+	$(function() {
+		$( "#tabs" ).tabs();
+	});
+	</script>
 {{ elif request.controller == 'about': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/about.css" />
 {{ pass }}
