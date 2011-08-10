@@ -1,5 +1,8 @@
 def index():
+<<<<<<< HEAD
     redirect (URL (r = request, c = 'main'))
+=======
+>>>>>>> upstream/master
     return {}
 
 def user():

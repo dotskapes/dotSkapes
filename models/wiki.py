@@ -56,7 +56,6 @@ def render_comment (rest_vars):
 
 def render_index (rest_vars):
     response.view = 'wiki/index.html'
-    from re import finditer
     if check_role (editor_role):
         p_query = {}
     elif check_role (writer_role):
@@ -149,7 +148,8 @@ def render_index (rest_vars):
     newer['start'] = start - max_ret
 
     pages = pages[start:(start + max_ret)]
-    for p in pages:
+    pages = map (lambda p: split_page (p, 300), pages)
+    '''for p in pages:
         start = 0
         widgets = {}
         strings = []
@@ -173,7 +173,7 @@ def render_index (rest_vars):
         p.body = p.body % widgets
         p.body = sub ('&#37;', '%', p.body)
         p.body = sub ('\n ', '\n', p.body)
-        p.cats = []
+        p.cats = []'''
 
     return dict(pages = pages, first = first, last = last, older = older, newer = newer)
 
@@ -324,3 +324,38 @@ def render_categories (rest_vars):
             mongo.categories.update ({'_id': ObjectId (vars._id)}, {'$set': cat})
     results = MongoWrapper (mongo.categories.find ())
     return {'categories': results}
+
+def split_page (page, length):
+    from re import finditer
+    start = 0
+    widgets = {}
+    strings = []
+    page.body = sub ('%', '&#37;', page.body)
+    page.body = sub ('\n', '\n ', page.body)
+    for i, widget in enumerate (finditer ('``([^`]|(`(?!`)))*``:widget', page.body)):
+        strings.append (page.body[start:widget.start (0)])
+        key = 'widget_' + str (i)
+        strings.append ('%(' + key +')s')
+        widgets[key] = page.body[widget.start (0):widget.end (0)]
+        start = widget.end (0)
+    strings.append (page.body[start:])
+        
+    words = (''.join (strings)).split (' ')
+    if len (words) > length:
+        page.more = True
+        page.body = ' '.join (words[0:(length - 1)])
+    else:
+        page.more = False
+        page.body = ' '.join (words)
+    page.body = page.body % widgets
+    page.body = sub ('&#37;', '%', page.body)
+    page.body = sub ('\n ', '\n', page.body)
+    page.cats = []
+    return page
+
+def newest_page_preview ():
+    query = {
+        'public': True
+        }
+    page = MongoWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING)[0])
+    return split_page (page, 100)
