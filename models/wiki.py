@@ -352,3 +352,10 @@ def split_page (page, length):
     page.body = sub ('\n ', '\n', page.body)
     page.cats = []
     return page
+
+def newest_page_preview ():
+    query = {
+        'public': True
+        }
+    page = mongo.blog.find (query).sort ('date', pymongo.DESCENDING)[0]
+    return {'page': split_page (page, 100)}
