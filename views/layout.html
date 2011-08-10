@@ -41,7 +41,7 @@
         console = {
             log: function () {},
             err: function () {},
-	};
+    };
     }
     hs.app.user = {};
 
@@ -72,65 +72,65 @@
 
     headPanel = new Ext.Panel ({
         activeTab: 0,
-	autoScroll: true,
-	layoutOnChange: true,
-	region: 'north',
+    autoScroll: true,
+    layoutOnChange: true,
+    region: 'north',
         autoHeight: true,
-	contentEl: 'head_panel'
+    contentEl: 'head_panel'
     });
 
 
     {{ if request.controller == 'map': }}
     hs.app.map = mapTab = new hs.map.Panel ({
-	title: 'Map',
-	region: 'center',
+    title: 'Map',
+    region: 'center',
     });
     {{ mainElement = 'hs.app.map' }}
     if (hs.app.user.maps)
         hs.app.user.maps.linkMap (hs.app.map);  
     {{ elif request.controller == 'info': }}
     hs.app.info = new hs.info.Panel ({
-	title: 'Info',
-	region: 'center',
-	layout: 'border',
+    title: 'Info',
+    region: 'center',
+    layout: 'border',
     });
     {{ mainElement = 'hs.app.info' }}
     {{ elif request.controller == 'find': }}
     hs.app.find = new hs.find.Panel ({
-	title: 'Find',
-	region: 'center',
+    title: 'Find',
+    region: 'center',
     });
     {{ mainElement = 'hs.app.find' }}
     {{ elif request.controller == 'analyze': }}
-	hs.app.tool = new hs.tool.Panel (hs.app.user.results, hs.app.user.analyses, {
-	    region: 'center',
-	});
+    hs.app.tool = new hs.tool.Panel (hs.app.user.results, hs.app.user.analyses, {
+        region: 'center',
+    });
     {{ mainElement = 'hs.app.tool' }}
     {{ else: }}
-	{{ mainElement = None }}
+    {{ mainElement = None }}
     {{ pass }}
     
 
     contentPanel = new Ext.Panel ({
         activeTab: 0,
-	autoScroll: true,
-	layoutOnChange: true,
-	region: 'center',
+    autoScroll: true,
+    layoutOnChange: true,
+    region: 'center',
         {{ if mainElement: }}
         layout: 'border',
         items: [
             {{= mainElement }}
         ]
         {{ else: }}   
-	contentEl: 'main_panel',
+    contentEl: 'main_panel',
         {{ pass }}
     });
  
     mainPanel = new Ext.Panel ({
         activeTab: 0,
-	autoScroll: true,
-	layoutOnChange: true,
-	region: 'center',
+    autoScroll: true,
+    layoutOnChange: true,
+    region: 'center',
         layout: 'border',
         items: [
             headPanel,
@@ -185,13 +185,13 @@
             hs.side,
             mainPanel, 
         ],
-	{{ if request.controller == 'analyze' and tool: }}
-	listeners: {
-	    afterrender: function () {
-		hs.app.tool.dropTool ({{ response.write (tool, escape = False) }});
-	    }
-	},
-	{{ pass }}
+    {{ if request.controller == 'analyze' and tool: }}
+    listeners: {
+        afterrender: function () {
+        hs.app.tool.dropTool ({{ response.write (tool, escape = False) }});
+        }
+    },
+    {{ pass }}
     });
     //win.show ();
     //win.toBack();
@@ -206,7 +206,8 @@
 <body>
     <div class="flash">{{=response.flash or ''}}</div>
     <div id="head_panel">
-      <a href="/{{= request.application }}">Main</a>
+      <a href="/{{= request.application }}/home">Home</a>
+      <a href="/{{= request.application }}/wiki/blog">Blog</a>
       <a href="/{{= request.application }}/map">Map</a>
       <a href="/{{= request.application }}/info">Info</a>
       <a href="/{{= request.application }}/find">Find</a>
@@ -214,9 +215,15 @@
       <a href="/{{= request.application }}/wiki/case">Case Studies</a>
       <a href="/{{= request.application }}/wiki/tutorials">Tutorials</a>
       <a href="/{{= request.application }}/wiki/docs">Documentation</a>
+      <a href="#">Team</a>
+      <a href="/{{= request.application }}/about">About</a>
+      
     </div>
     <div id="main_panel">
       {{ include }}
     </div>
 </body>
+
+
+
 </html>

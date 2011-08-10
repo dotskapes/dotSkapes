@@ -1,0 +1,64 @@
+{{extend 'layout.html'}}
+
+<div id='about'>
+
+    <div id='main'>
+    
+        <div class='box' id='mission'>
+        
+            <h1>Mission</h1>
+            
+            <p>Build a web platform for global environmental health research that fosters collaboration across disciplines and national boundaries--accelerating discovery, advancing outbreak detection, and improving prevention. Make the platform available to multiple disciplines and regions as skapes.org</p>
+        
+        </div>
+        
+        <div class='box' id='status'>
+        
+            <h1>Development status</h1>
+            <p>This version (v0.4) was released in June 2011 to showcase web approaches to global health research. This website and alpha application are under active development. Through open and public development practices (e.g. Launchpad) we hope to to encourage the global environmental health and open source communities to join us in the development of a new analytical cyberinfrasture
+
+NOTE: This alpha release (v.04) is not yet stable ... it is a proof of concept and contents may change on short notice. Please join our Google Group Mailing List (sidebar) for updates or visit the documentation on our <a>Trac Wiki</a>. Please check back often.
+            </p>
+        
+        </div>
+        
+        <div class='box' id='discovery'>
+        
+            <h1>Opening a web of knowledge discovery</h1>
+            
+            <p>Global public health in the 21st century will require careful attention to processes of global environmental change. These challenges necessitate open, interdisciplinary access to cross-cutting tools and data. The flow of information is currently limited by a lack of tools to integrate datasets, maps, and local knowledge. Advances in computing hold the promise of a new cyberinfrastructure for studying global environmental change and human health. Healthscapes leverages these advances to address: difficulties finding relevant information, limited access to analytical tools, and poor knowledge transfer across a fractured social network.</p>
+        
+        </div>
+    
+        <div class='box' id='acknowledgements'>
+        
+            <h1>Acknowledgements</h1>
+            
+            <p>This website is being developed with numerous open source technologies, including: web2py, openstreetmap, python, geoserver, openlayers, geoext, extjs, jquery, and <a>others</a>. Our technology stack is inspired and powered by the work of the Sahana Foundation (open source disaster management system). As such, it is designed extend the geospatial analytical capacity of the Sahana Eden platform.</p>
+        
+        </div>
+    
+    </div>
+    
+    <div id='sidebar'>
+    
+        <div class='sidebox'>
+        
+            <h1>Headlines</h1>
+            
+            <ul>
+            
+                <li><span class='date'>11-Jun-2011 - [v0.4]</span>Alpha soft-launch at WhereCampDC (Washinton, USA)</li>
+                <li><span class='date'>14-Feb-2011 - [v0.3]</span>App released at One Health Congress (Melbourne, Australia)</li>
+                <li><span class='date'>16-Jan-2011 - [v0.2]</span>Map viewing client switched to GeoExplorer</li>
+                <li><span class='date'>22-Oct-2010 - [v0.1.5]</span>Demo released</li>
+                <li><span class='date'>21-Oct-2010 </span>Source code moved to Launchpad</li>
+                <li><span class='date'>20-Aug-2010 - [v0.1]</span>Prototype launched at Ecohealth (London)</li>
+            
+            </ul>
+        
+        </div>
+    
+    </div>
+
+</div>

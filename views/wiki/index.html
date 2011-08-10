@@ -1,11 +1,62 @@
 {{ extend 'wiki/base.html' }}
 
+<div id='sidebar'>
+
+    <div id='categories'>
+    
+    <h2>Category</h2>
+    
+    <ul>
+        {{ for cat in MongoWrapper (mongo.categories.find ({request.function: True})): }}
+        <li>
+        <a href="{{= URL (r = request, args = request.args, vars = {'cat': str (cat._id)}) }}">{{= cat.name }}</a>
+        </li>
+        {{ pass }}
+    </ul>
+    
+    </div>
+    
+    <div id='titles'>
+    <h2>Titles</h2>
+    <ul>
+        <li>
+        testing title 1
+        </li>
+        <li>
+        testing title 2
+        </li>
+        <li>
+        testing title 3
+        </li>
+        <li>
+        testing title 4
+        </li>
+    </ul>
+    </div>
+    
+    <div id='tags'>
+    <h2>Tags</h2>
+    <ul>
+        <li>
+        testing tag 1
+        </li>
+        <li>
+        testing tag 2
+        </li>
+        <li>
+        testing tag 3
+        </li>
+        <li>
+        testing tag 4
+        </li>
+    </ul>
+    </div>
+    
+</div>
+
+
 <div id="plugin_wiki">
-  <div style="float: right;">
-    {{ for cat in MongoWrapper (mongo.categories.find ({request.function: True})): }}
-    <a href="{{= URL (r = request, args = request.args, vars = {'cat': str (cat._id)}) }}">{{= cat.name }}</a><br />
-    {{ pass }}
-  </div>
+
   
   {{request.args.append (None) }}
   {{ for page in pages: }}
@@ -16,14 +67,20 @@
       <a href="{{= URL (r = request, args = [page.slug, 'view'], anchor = 'comments') }}">COMMENTS ({{= len (page.comments) }})</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if (check_role (editor_role) or check_user (page.owner)): }}<a href="{{= URL(r=request, args = [page.slug, 'delete_confirm']) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if page.public: }}<a href="{{= URL(r=request, args=[page.slug, 'unpublish']) }}">UNPUBLISH</a>{{ else: }}<a href="{{= URL(r=request, args=[page.slug, 'publish']) }}">PUBLISH</a>{{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request, args=[page.slug, 'edit']) }}">EDIT</a>{{ pass }}
     </div>
   </div>
-</div>
-  {{ pass }}
+  
+</div><!-- end of plugin_wiki -->
+
+
+{{ pass }}
+
   <div style="text-align: right;">
     {{if not first: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = older) }}">OLDER POSTS</a>{{ else: }} OLDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
     {{if not last: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = newer) }}">NEWER POSTS</a>{{ else: }} NEWER POSTS {{ pass }}
   </div>
 
-        <div class='clear'></div>
+
+  <div class='clear'></div>
+
 
 <div id="fatfooter">
   <p id="legal">

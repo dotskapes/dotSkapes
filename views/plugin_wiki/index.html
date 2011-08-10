@@ -55,8 +55,8 @@
     <div class="page_head">
       <p class="title">{{= page.title }} {{if not page.public: }} <span style="color:red;">UNPUBLISHED</span>{{ pass }}</p>
       <p class="date">
-	{{= page.date }} by {{= user_name (page.owner) }}{{ if len (page.categories): }} in {{= ' | '.join (map (lambda x: lookup_cat_id (str (x)), page.categories)) }}{{ pass }}<br />
-	{{ if len (page.tags): }}Tags: {{ pass }}{{= ', '.join (page.tags) }}
+    {{= page.date }} by {{= user_name (page.owner) }}{{ if len (page.categories): }} in {{= ' | '.join (map (lambda x: lookup_cat_id (str (x)), page.categories)) }}{{ pass }}<br />
+    {{ if len (page.tags): }}Tags: {{ pass }}{{= ', '.join (page.tags) }}
       </p>
     </div>
     <div class="page_body">
@@ -65,12 +65,17 @@
       <div class="page_foot">
     <a href="{{= URL (r = request, c = 'plugin_wiki', f = 'page', args = [request.args (0), page.slug], anchor = 'comments') }}">COMMENTS ({{= len (page.comments) }})</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ if (check_role (editor_role) or check_user (page.owner)): }}<a href="{{= URL(r=request,f='page_delete', args = [request.args (0), page.slug]) }}">DELETE</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_publish_toggle',args=[request.args (0), page.slug]) }}">{{if page.public: }}UN{{ pass }}PUBLISH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request,f='page_edit',args=[request.args (0), page.slug]) }}">EDIT</a>{{ pass }}
     </div>
-    </div>
-  </div>
+   </div>
+</div>
   {{ pass }}
   <div style="text-align: right;">
-    {{if not first: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = older) }}">OLDER POSTS</a>{{ else: }} OLDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
+    {{if not first: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = older) }}">OLDER POSTS</a>{{ else: }} O!LDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
     {{if not last: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = newer) }}">NEWER POSTS</a>{{ else: }} NEWER POSTS {{ pass }}
+  </div>
+  
+  
+  <div class="sidebar">
+       <p>defeffffffffffffffffffffffff</p>
   </div>
 
         <div class='clear'></div>
@@ -98,6 +103,7 @@
 
   </p>
 
+</div>
 
 </div>
 
