@@ -210,13 +210,13 @@
     <div class="flash">{{=response.flash or ''}}</div>
     <div id="head_panel">
 
-	<a id='head_panel_main' href="/{{= request.application }}/default">Main</a>
-	<a href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/></a>
-	<a href="/{{= request.application }}/find">F</a>
-	<a href="/{{= request.application }}/analyze">A</a>
-	<a href="#">S</a>
-	<a href="#">T</a>
-	<a href="/{{= request.application }}/wiki/docs">Docs</a>
+	<a id='head_panel_main'  class='menu_button' href="/{{= request.application }}/default">Main</a>
+	<a class='menu_button' href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/></a>
+	<a class='menu_button' href="/{{= request.application }}/find">F</a>
+	<a class='menu_button' href="/{{= request.application }}/analyze">A</a>
+	<a class='menu_button' href="#">S</a>
+	<a class='menu_button' href="#">T</a>
+	<a class='menu_button' href="/{{= request.application }}/wiki/docs">Docs</a>
 
 	<br />
 	
@@ -240,9 +240,9 @@
 	<div id='mouseleave' style='height:20px'>
 		<div id='submenu' style="display:none;">	
 
-			<a href="/{{= request.application }}/wiki/blog">Blog</a>
-			<a href="/{{= request.application }}/about">About</a>
-			<a href="/{{= request.application }}/wiki/docs">Documentation</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/blog">Blog</a>
+			<a class='menu_button' href="/{{= request.application }}/about">About</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/docs">Documentation</a>
 
 		</div>
 	</div>
