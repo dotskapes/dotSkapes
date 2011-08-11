@@ -280,6 +280,29 @@ p.subscript {
     height: 390px;
 }
 
+/* Sidebar */
+#sidebar {
+    float: right;
+    height: 100%;
+    width: 15%;
+    padding: 20px;
+    margin: 0 15px 10px 10px;
+    
+    -webkit-box-shadow: 5px 5px 5px 5px #bbb;
+    -moz-box-shadow: 5px 5px 5px 5px #bbb;
+    box-shadow: 5px 5px 5px 5px #bbb; 
+    
+}
+
+#sidebar h2 {
+    font-size: 1.6em;
+}
+
+#sidebar ul {
+    margin: 5px;
+    margin-left: 30px;
+    font-size: 1.3em;
+}
 
 /* Footer */
 /* html5: changed #wrapper2 to footer */
