@@ -354,8 +354,12 @@ def split_page (page, length):
     return page
 
 def newest_page_preview ():
+    cat = MongoWrapper (mongo.categories.find_one ({'blog': True}))
     query = {
-        'public': True
+        'public': True,
+        'categories': {
+            '$in': [cat._id]
+            }
         }
     page = MongoWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING)[0])
     return split_page (page, 100)
