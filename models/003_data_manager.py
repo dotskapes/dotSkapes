@@ -184,6 +184,11 @@ class DM_Table:
             db (db[self.writeback[0]].id == self.writeback[1]).update (**{self.writeback[2]: self.name})
         self.ex = True
 
+    def count (self):
+        if not self.ex:
+            self.create (self.model)
+        return db (db[self.name].id >= 0).count ()
+
     def all (self):
         if not self.ex:
             self.create (self.model)
@@ -313,6 +318,12 @@ class DataManager:
         lookup.data.create (self.models[datatype])
         id = lookup.data.insert (**kw)
         return id
+    
+    def count (self, datatype):
+        user_id = require_logged_in ()
+        lookup = self.root.query (datatype = datatype).first ()
+        lookup.data.create (self.models[datatype])
+        return lookup.data.count ()
 
     def update (self, datatype, entry_id, **kw):
         user_id = require_logged_in ()

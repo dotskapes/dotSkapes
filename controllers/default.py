@@ -1,6 +1,7 @@
 def index():
-    redirect (URL (r = request, c = 'main'))
-    return {}
+
+    redirect (URL (r = request, c = 'home'))
+
 
 def user():
     """
