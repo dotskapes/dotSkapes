@@ -1,6 +1,6 @@
 def index():
 
-    return()
+    redirect (URL(r=request,c='main'))
 
 
 def user():
