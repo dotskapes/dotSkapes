@@ -3,6 +3,7 @@
 *.pyc
 *.py~
 *~
+#*
 cache/*
 cron/crontab
 databases/*
