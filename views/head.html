@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-{{ if request.controller == 'map': }}
-<script src="{{= deployment_settings.extjs.location }}/adapter/jquery/ext-jquery-adapter.js"></script>
-=======
+
 {{ if request.controller == None or request.controller == 'default': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/home.css" />
 <link rel="stylesheet" type="text/css" href="http://skapes.org/media/css/coin-slider/coin-slider-styles.css" />
@@ -9,7 +6,6 @@
 <script type='text/javascript' src="http://skapes.org/media/js/coin-slider/coin-slider.min.js"></script>
 {{ elif request.controller == 'map': }}
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
->>>>>>> upstream/master
 <script type="text/javascript" src="http://skapes.org/media/js/OpenLayers/OpenLayers.js"></script>
 <script type="text/javascript" src="http://skapes.org/media/js/GeoExt/lib/GeoExt.js"></script> 
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/map.js"></script>
@@ -28,7 +24,7 @@
 <link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Varela&v2' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica+SC&v2' rel='stylesheet' type='text/css'>
-<<<<<<< HEAD
+
 <script type="text/javascript">   
 $(window).load (function () {
     var elem = $ ('.hs_map');    
@@ -165,10 +161,9 @@ $(window).load (function () {
     });
 </script>
 
-<!-- files for about.html -->
-=======
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/wiki.js"></script>
-{{ elif request.controller == 'about': }}
->>>>>>> upstream/master
+<!-- files for about.html -->
+
+
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/about.css" />
 {{ pass }}
