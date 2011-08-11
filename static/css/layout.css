@@ -1,3 +1,8 @@
-#head_panel {
-	
+#submenu {
+	display: none;
+	margin: 0px 0px 0 5px;
+}
+
+#submenu a {
+	margin: 0 10px 0 0px;
 }

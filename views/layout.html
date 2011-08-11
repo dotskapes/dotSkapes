@@ -208,7 +208,7 @@
 </head>
 <body>
     <div class="flash">{{=response.flash or ''}}</div>
-    <div id="head_panel" style='height:40px;'>
+    <div id="head_panel">
 
 	<a id='head_panel_main' href="/{{= request.application }}/default">Main</a>
 	<a href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/></a>
@@ -220,13 +220,7 @@
 
 	<br />
 	
-	<div id='submenu' style='display:none;'>	
 
-		<a href="/{{= request.application }}/wiki/blog">Blog</a>
-		<a href="/{{= request.application }}/about">About</a>
-		<a href="/{{= request.application }}/wiki/docs">Documentation</a>
-
-	</div>
 <!--
       <a href="/{{= request.application }}/wiki/blog">Blog</a>
       <a href="/{{= request.application }}/map">Map</a>
@@ -242,6 +236,17 @@
     </div>
 
     <div id="main_panel">
+
+	<div id='mouseleave' style='height:20px'>
+		<div id='submenu' style="display:none;">	
+
+			<a href="/{{= request.application }}/wiki/blog">Blog</a>
+			<a href="/{{= request.application }}/about">About</a>
+			<a href="/{{= request.application }}/wiki/docs">Documentation</a>
+
+		</div>
+	</div>
+
       {{ include }}
     </div>
 </body>
