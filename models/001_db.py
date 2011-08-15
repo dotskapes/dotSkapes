@@ -28,7 +28,11 @@ class MongoCursorWrapper:
         return getattr (self.__cursor, key)
 
     def __getitem__ (self, index):
-        return map (lambda x : MongoWrapper (x), self.__cursor[index])
+        return MongoWrapper (self.__cursor[index])
+        #return map (lambda x : MongoWrapper (x), self.__cursor[index])
+
+    def __len__ (self):
+        return self.__cursor.count ()
     
     def __iter__ (self):
         return MongoWrapperIter (self.__cursor)
