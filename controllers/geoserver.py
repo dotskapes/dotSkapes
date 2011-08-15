@@ -116,7 +116,10 @@ def upload():
     if form.accepts (request, session):
         from os import mkdir
         from shutil import rmtree
-        epsg = require_int (form.vars.epsg)
+        if form.vars.epsg:
+            epsg = require_int (form.vars.epsg)
+        else:
+            epsg = 4326
         path = getcwd () + '/applications/' + request.application + '/.tmp/' + uuid4 ().hex
         filename = path + '/' + sub ('/', '', form.vars.map.filename)
         mkdir (path)
@@ -134,18 +137,14 @@ def upload():
                 dp = deployment_settings.postgis
                 dg = deployment_settings.geoserver
                 proc1 = subprocess.Popen (['shp2pgsql', path + '/' + item, table_name], stdout = subprocess.PIPE)
-                proc2 = subprocess.call (['psql', '-h', dp.host, '-p', str (dp.port), '-d', dp.database, '-U', dp.username], stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = proc1.stdout)
-                proc1.communicate ()
+                #proc2 = subprocess.call (['psql', '-h', dp.host, '-p', str (dp.port), '-d', dp.database, '-U', dp.username], stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = proc1.stdout)
+                psql_dump = proc1.communicate ()[0]
+                cursor = dp.connection ().cursor ()
+                cursor.execute (psql_dump)
                 req_body = '<featureType><name>%s</name><title>%s</title><srs>EPSG:%d</srs></featureType>' % (table_name, sub ('.shp', '', item), epsg)
-                proc3 = subprocess.call (['curl', '-u', '%s:%s' % (dg.username, dg.password), '-v', '-XPOST', 'Content-type:', 'text/xml', '-d', req_body, '%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store)])
-                #req = Request ('%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store), req_body, {
-                #        'Content-Type': 'text/xml',
-                #        })
-                #urlopen (req)
+                proc3 = subprocess.Popen (['curl', '-u', '%s:%s' % (dg.username, dg.password), '-v', '-XPOST', '-H', 'Content-type: text/xml', '-d', req_body, '%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store)], stdout = subprocess.PIPE)
+                proc3.communicate ()
                 rmtree (path)
                 response.flash = 'Map Successfully Uploaded'
                 break
-                #return ' '.join(['curl', '-u', '%s:%s' % (deployment_settings.geoserver.username, deployment_settings.geoserver.password), '-XPUT', '-H', '"Content-type: text/plain"', '-d', 'file://%s' % path, 'http://localhost:%d/geoserver/rest/workspaces/%s/datastores/%s/external.shp' % (deployment_settings.geoserver.port, deployment_settings.geoserver.namespace, uuid4 ().hex)])
-                #proc = subprocess.Popen (['curl', '-u', '%s:%s' % (deployment_settings.geoserver.username, deployment_settings.geoserver.password), '-XPUT', '-H', '"Content-type: text/plain"', '-d', 'file://%s' % path, 'http://localhost:%d/geoserver/rest/workspaces/%s/datastores/%s/external.shp' % (deployment_settings.geoserver.port, deployment_settings.geoserver.namespace, uuid4 ().hex)], stdout = subprocess.PIPE)
-                #return str (proc.communicate ()[0])
     return {'form': form}
