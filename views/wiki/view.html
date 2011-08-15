@@ -1,5 +1,6 @@
 {{ extend 'wiki/base.html' }}
 <div id="plugin_wiki">
+  {{ if page: }}
   <div class="page">
     {{ include 'wiki/page_base.html' }}
     <div class="page_foot">
@@ -32,4 +33,9 @@
       {{ pass }}
     </div>
   </div>
+  {{ else: }}
+  <p>
+    This page does not exist yet.
+    {{ if check_role (writer_role): }}You can <a href="{{= URL (r = request, args = [request.args (0), 'create']) }}">create this page</a>.{{ pass }}
+  {{ pass }}
 </div>
