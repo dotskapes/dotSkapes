@@ -3,6 +3,7 @@
 *.pyc
 *.py~
 *~
+#*
 cache/*
 cron/crontab
 databases/*
@@ -12,10 +13,6 @@ models/config.py
 sessions/*
 static/scripts/tools/httpserver.log
 uploads/*
-tool/*
-tool/tmp/*
-tool/results/*
-tool/files/*
 .openid/*
 .tmp/*
 .raw/*
