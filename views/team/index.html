@@ -1,7 +1,13 @@
-{{ extend 'layout.html' }}
-<h1>Current Images</h1>
-<ul>
-{{for image in images:}}
-{{=LI(A(image.people_id, _href=URL("show", args=image.id)))}}
-{{pass}}
-</ul>
+{{extend 'layout.html'}}
+
+<div class='category'>
+
+	<h1 class='category_title'></h1>
+	
+	{{ for image in images: }}
+	<div class='contributor'>	
+		<img width="200px" src="{{=URL('download', args=image.file)}}" />		
+	</div>
+	{{ pass }}
+
+</div>
