@@ -6,8 +6,7 @@
 {{ elif request.controller == 'info': }}
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/info.js"></script>
 {{ elif request.controller == 'find': }}
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js">
-</script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js"></script>
 {{ elif request.controller == 'analyze': }}
 <script type="text/javascript" src="http://skapes.org/media/js/OpenLayers/OpenLayers.js"></script>
 <script type="text/javascript" src="http://skapes.org/media/js/GeoExt/lib/GeoExt.js"></script>
@@ -18,6 +17,7 @@
 <link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Varela&v2' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica+SC&v2' rel='stylesheet' type='text/css'>
+
 <script type="text/javascript">   
 $(window).load (function () {
     var elem = $ ('.hs_map');    
@@ -77,8 +77,25 @@ $(window).load (function () {
 {{ elif request.controller == None or request.controller == 'default': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/home.css" />
 <link rel="stylesheet" type="text/css" href="http://skapes.org/media/css/coin-slider/coin-slider-styles.css" />
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.2.min.js'></script>
 <script type='text/javascript' src="http://skapes.org/media/js/coin-slider/coin-slider.min.js"></script>
+
 {{ elif request.controller == 'about': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/about.css" />
+
+{{ elif request.controller == 'splash': }}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="/{{= request.application }}/static/styles/reset.css" type="text/css" />
+<link rel="stylesheet" href="/{{= request.application }}/static/styles/splash.css" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css' />
+
+<script src="/{{= request.application }}/static/scripts/jquery/jquery.min.js" type="text/javascript"></script>   
+
+<script src="/{{= request.application }}/static/js/video-js/video.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="/{{= request.application }}/static/js/video-js/video-js.css" type="text/css" media="screen" title="Video JS" charset="utf-8">
+<script type="text/javascript" charset="utf-8">
+	VideoJS.setupAllWhenReady();
+</script>
+
+{{ elif request.controller == 'team': }}
+<link rel="stylesheet" href="/{{= request.application }}/static/styles/team.css" type="text/css" />
 {{ pass }}

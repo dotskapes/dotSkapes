@@ -1,146 +1,169 @@
-{{extend 'default/layout.html'}}
+{{ extend 'layout.html' }}
 
-<div id='index'>
+<div id='home'>
 
-    <div id='main'>
+    <div id='wrapper'>
     
-        <div id='blog'>
-            <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Blog</a></h3>
-            <p>
-	      {{ page = newest_page_preview () }}
-	      {{if page: }}
-	      {{= plugin_wiki.render(page.body, page_url = URL (r = request, c = 'wiki', f = 'blog')) }}
-	      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [page.slug, 'view'])}}">MORE &#187;</a></p>{{ pass }}
-	      {{ pass }}
-	    </p>
+ 
+        <div id = 'header'>
+            {{include 'default/header.html'}}
+	</div>
+
+    
+        <div id = 'content'>
+           
+		<div id='index'>
+
+		    <div id='main'>
+		    
+			<div id='blog'>
+			    <h1>Blog Post</h1>
+			    <p>
+			      {{ page = newest_page_preview () }}
+			      <p class="title">{{= page.title }}</p>
+			      {{= plugin_wiki.render(page.body) }}
+			      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [page.slug, 'view'])}}">MORE &#187;</a></p>{{ pass }}
+			    </p>
+			</div>
+		
+			<div id='icons'>
+			    
+			    <div class='icon'>
+				<a href='#'>
+				    <img src="{{=URL('static','images/tutorial.svg')}}"/>
+				    <h3>Tutorial</h3>
+				</a>
+				<p>Lorem ipsum doloiscing elit. Maecenas porttitor.</p>
+			    </div>
+			    
+			    <div class='icon'>
+				<a href='#'>
+				    <img src="{{=URL('static','images/documents.svg')}}"/>
+				    <h3>Documents</h3>
+				</a>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor.</p>
+			    </div>
+			    
+			    <div class='icon'>
+				<a href='#'>
+				    <img src="{{=URL('static','images/researcher.svg')}}"/>
+				    <h3>Researcher</h3>
+				</a>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscinnas porttitor.</p>
+			    </div>
+			    
+			    <div class='icon'>
+				<a href='#'>
+				    <img src="{{=URL('static','images/developer.svg')}}"/>
+				    <h3>Developer</h3>
+				</a>
+				<p>Lorem ipsum dolor sitetur adipiscing elit. Maecenas porttitor.</p>
+			    </div>
+			    
+			    <div class='icon'>
+				<a href='#'>
+				    <img src="{{=URL('static','images/casestudy.svg')}}"/>
+				    <h3>Case Study</h3>
+				</a>
+				<p>Lorem ipsum dolor sit amet, consectetg elit. Maecenas pr.</p>
+			    </div>
+			    
+			    <div class='icon'>
+				<a href='#'>
+				    <img src="{{=URL('static','images/about.svg')}}"/>
+				    <h3>About</h3>
+				</a>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor.</p>
+			    </div>
+			    
+			</div>
+		    
+		    </div>
+		    
+		    <div id='sidebar'>
+		    
+			<div id='twitter'>
+		
+			    <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+			    <script>
+			    new TWTR.Widget({
+			      version: 2,
+			      type: 'profile',
+			      rpp: 2,
+			      interval: 6000,
+			      width: 'auto',
+			      height: 115,
+			      theme: {
+				shell: {
+				  background: '#e0e0e0',
+				  color: '#75acff'
+				},
+				tweets: {
+				  background: '#f5f5f5',
+				  color: '#000000',
+				  links: '#aea3ff'
+				}
+			      },
+			      features: {
+				scrollbar: true,
+				loop: false,
+				live: false,
+				hashtags: true,
+				timestamp: true,
+				avatars: false,
+				behavior: 'all'
+			      }
+			    }).render().setUser('dotskapes').start();
+			    </script>
+			    
+			</div>
+		
+			<div id='status'>
+			    <h2>Status</h2>
+			    <ul>
+				<li>Skapes</li>
+				<li>GeoServer</li>
+				<li>NetServer</li>
+			    </ul>
+			</div>
+		
+			<div id='events'>
+			    <div id="coin-slider">
+				<a href="#" target="_blank">
+				    <img src="{{=URL('static','images/hs-screenshot1.png')}}" >
+				    <span>
+				        Description for img01
+				    </span>
+				</a>
+				<a href="#" target="_blank">
+				    <img src="{{=URL('static','images/hs-screenshot2.png')}}" >
+				    <span>
+				        Description for img02
+				    </span>
+				</a>
+			    </div>
+			</div>
+		
+			<script type="text/javascript">
+			    $(document).ready(function() {
+				$('#coin-slider').coinslider({ width: 400, height: 255, hoverPause: true, links : false, effect: '', navigation: true, delay: 5000 });
+			    });
+			</script>
+
+		
+		    
+		    </div>
+
+		</div>
+
         </div>
         
-        <div id='icons'>
-            
-            <div class='icon'>
-                <a href='#'>
-                    <img src="{{=URL('static','images/tutorial.svg')}}"/>
-                    <h3>Tutorial</h3>
-                </a>
-                <p>Lorem ipsum doloiscing elit. Maecenas porttitor.</p>
-            </div>
-            
-            <div class='icon'>
-                <a href='#'>
-                    <img src="{{=URL('static','images/documents.svg')}}"/>
-                    <h3>Documents</h3>
-                </a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor.</p>
-            </div>
-            
-            <div class='icon'>
-                <a href='#'>
-                    <img src="{{=URL('static','images/researcher.svg')}}"/>
-                    <h3>Researcher</h3>
-                </a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscinnas porttitor.</p>
-            </div>
-            
-            <div class='icon'>
-                <a href='#'>
-                    <img src="{{=URL('static','images/developer.svg')}}"/>
-                    <h3>Developer</h3>
-                </a>
-                <p>Lorem ipsum dolor sitetur adipiscing elit. Maecenas porttitor.</p>
-            </div>
-            
-            <div class='icon'>
-                <a href='#'>
-                    <img src="{{=URL('static','images/casestudy.svg')}}"/>
-                    <h3>Case Study</h3>
-                </a>
-                <p>Lorem ipsum dolor sit amet, consectetg elit. Maecenas pr.</p>
-            </div>
-            
-            <div class='icon'>
-                <a href='#'>
-                    <img src="{{=URL('static','images/about.svg')}}"/>
-                    <h3>About</h3>
-                </a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porttitor.</p>
-            </div>
-            
+        <div class='clear'></div>
+        
+        <div id = 'footer'>
+            {{include 'default/footer.html'}}
         </div>
     
     </div>
     
-    <div id='sidebar'>
-    
-        <div id='twitter'>
-        
-            <script src="http://widgets.twimg.com/j/2/widget.js"></script>
-            <script>
-            new TWTR.Widget({
-              version: 2,
-              type: 'profile',
-              rpp: 2,
-              interval: 6000,
-              width: 'auto',
-              height: 115,
-              theme: {
-                shell: {
-                  background: '#e0e0e0',
-                  color: '#75acff'
-                },
-                tweets: {
-                  background: '#f5f5f5',
-                  color: '#000000',
-                  links: '#aea3ff'
-                }
-              },
-              features: {
-                scrollbar: true,
-                loop: false,
-                live: false,
-                hashtags: true,
-                timestamp: true,
-                avatars: false,
-                behavior: 'all'
-              }
-            }).render().setUser('dotskapes').start();
-            </script>
-            
-        </div>
-        
-        <div id='status'>
-            <h2>Status</h2>
-            <ul>
-                <li>Skapes</li>
-                <li>GeoServer</li>
-                <li>NetServer</li>
-            </ul>
-        </div>
-        
-        <div id='events'>
-            <div id="coin-slider">
-                <a href="#" target="_blank">
-                    <img src="{{=URL('static','images/hs-screenshot1.png')}}" >
-                    <span>
-                        Description for img01
-                    </span>
-                </a>
-                <a href="#" target="_blank">
-                    <img src="{{=URL('static','images/hs-screenshot2.png')}}" >
-                    <span>
-                        Description for img02
-                    </span>
-                </a>
-            </div>
-        </div>
-        
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#coin-slider').coinslider({ width: 400, height: 255, hoverPause: true, links : false, effect: '', navigation: true, delay: 5000 });
-            });
-        </script>
-
-        
-    
-    </div>
-
 </div>

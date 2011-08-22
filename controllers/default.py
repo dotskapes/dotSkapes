@@ -1,5 +1,7 @@
 def index():
-    return {}
+    return dict()
+"""    redirect (URL(r=request,c='default'))  """
+
 
 def user():
     """

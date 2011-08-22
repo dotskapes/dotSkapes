@@ -1,4 +1,4 @@
-{{extend 'layout.html'}}
+{{ extend 'layout.html' }}
 
 <div id='home'>
 
@@ -9,7 +9,7 @@
         </div>
     
         <div id = 'content'>
-            {{include}}
+           
         </div>
         
         <div class='clear'></div>

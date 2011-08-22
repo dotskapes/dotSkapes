@@ -1,4 +1,4 @@
-{{extend 'splash/layout.html'}}
+{{extend 'layout.html'}}
 
 <div class='subPage' id='analyze'>
 
@@ -30,10 +30,12 @@
         
     </div>   
     
-    <video controls preload='none' poster="{{= URL(r=request, c='static', f='images/logo_white_alpha.png')}}">
-      <source src="{{= URL(r=request, c='static', f='videos/analyze.iphone.mp4')}}"  type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-      <source src="{{= URL(r=request, c='static', f='videos/analyze.webm')}}" type='video/webm; codecs="vp8, vorbis"'>   
-      <source src="{{= URL(r=request, c='static', f='videos/analyze.theora.ogv')}}"  type='video/ogg; codecs="theora, vorbis"'>
-    </video>
-    
+	<div class="video-js-box" style="margin:0 auto;">
+	    <video class="video-js" controls preload='none' poster="{{= URL(r=request, c='static', f='images/logo_white_alpha.png')}}">
+	      <source src="{{= URL(r=request, c='static', f='videos/analyze.iphone.mp4')}}"  type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+	      <source src="{{= URL(r=request, c='static', f='videos/analyze.webm')}}" type='video/webm; codecs="vp8, vorbis"'>   
+	      <source src="{{= URL(r=request, c='static', f='videos/analyze.theora.ogv')}}"  type='video/ogg; codecs="theora, vorbis"'>
+	    </video>
+	</div>
+
 </div>
