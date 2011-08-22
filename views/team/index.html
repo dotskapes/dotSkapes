@@ -1,0 +1,53 @@
+{{extend 'layout.html'}}
+
+<div id='team'>
+
+<div id='toggle_display' class='category' >Click here to list by <span id='listbyname'>name</span><span id='listbygroup' style='display:none;'>group</span></div>
+
+<div style='clear:both;'></div>
+
+<div id='sortbygroup'>
+{{ for category in categories: }}
+	<div class='category'>
+
+		<h1 class='category_title'>{{=category.title}}</h1>
+	
+		{{ for image in images: }}
+			
+			{{ if image.category_id == category.id: }}
+			<div class='contributor'>	
+				<img src="{{=URL('download', args=image.file)}}" />	
+				<div class='name'><a href={{=image.website}}>{{=image.first_name}} {{=image.last_name}}</a></div>
+				{{ if image.email: }}
+					<div class='email'>Email: {{=image.email}}</div>
+				{{ pass }}
+			</div>
+			{{ pass }}
+
+		{{ pass }}
+
+	</div>
+{{ pass }}
+</div>
+
+<div id='sortbyname' class='category' style='display:none;'>
+{{ images = team_db().select(team_db.image.ALL, orderby=team_db.image.last_name) }}
+	
+		{{ for image in images: }}
+
+			<div class='contributor'>	
+				<img src="{{=URL('download', args=image.file)}}" />	
+				<div class='name'>{{=image.first_name}} {{=image.last_name}}</div>
+				{{ if image.email: }}
+					<div class='email'>Email: {{=image.email}}</div>
+				{{ pass }}
+			</div>
+
+		{{ pass }}
+
+	</div>
+
+</div>
+
+</div>
+

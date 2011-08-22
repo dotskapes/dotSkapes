@@ -10,6 +10,7 @@
 <link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
 
 {{response.files.append(URL('static','css/base.css'))}}
+{{response.files.append(URL('static','css/layout.css'))}}
 {{response.files.append(URL('static','css/superfish.css'))}}
 {{response.files.append(URL('static','js/superfish.js'))}}
 {{ include 'web2py_ajax.html' }}
@@ -26,6 +27,9 @@
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/base.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/dev.js"></script>
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/result.js"></script>
+
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.2.min.js'></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/jquery-functions.js"></script>
 
 {{ include 'head.html' }}
 
@@ -205,7 +209,19 @@
 <body>
     <div class="flash">{{=response.flash or ''}}</div>
     <div id="head_panel">
-      <a href="/{{= request.application }}/">Home</a>
+
+	<a id='head_panel_main'  class='menu_button' href="/{{= request.application }}/default">Main</a>
+	<a class='menu_button' href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/></a>
+	<a class='menu_button' href="/{{= request.application }}/find">F</a>
+	<a class='menu_button' href="/{{= request.application }}/analyze">A</a>
+	<a class='menu_button' href="#">S</a>
+	<a class='menu_button' href="#">T</a>
+	<a id='head_panel_docs' class='menu_button' href="/{{= request.application }}/wiki/docs">Docs</a>
+
+	<br />
+	
+
+<!--
       <a href="/{{= request.application }}/wiki/blog">Blog</a>
       <a href="/{{= request.application }}/map">Map</a>
       <a href="/{{= request.application }}/info">Info</a>
@@ -216,10 +232,32 @@
       <a href="/{{= request.application }}/wiki/docs">Documentation</a>
       <a href="#">Team</a>
       <a href="/{{= request.application }}/about">About</a>
-      
+-->
     </div>
+
     <div id="main_panel">
+
+	<div id='mouseleave' style='height:20px'>
+		<div id='submenu' style="display:none;">	
+
+			<a class='menu_button' href="/{{= request.application }}/wiki/blog">Blog</a>
+			<a class='menu_button' href="/{{= request.application }}/about">About</a>
+			<a class='menu_button' href="/{{= request.application }}/team">Team</a>
+
+		</div>
+
+		<div id='submenu_docs' style="display:none;">	
+
+			<a class='menu_button' href="/{{= request.application }}/wiki/case">Case Studies</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/tutorials">Tutorials</a>
+			<a class='menu_button' href="#">Researcher</a>
+			<a class='menu_button' href="#">Developer</a>
+
+		</div>
+	</div>
+
       {{ include }}
+
     </div>
 </body>
 

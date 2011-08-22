@@ -1,0 +1,17 @@
+.menu_button {
+	font-size: 1.2em;
+	font-weight: bold;
+	text-decoration: none;
+	margin: 5px 0;
+	border-left: 1px solid #ccb;
+}
+
+#submenu {
+	display: none;
+	margin: 0px 0px 0 5px;
+}
+
+#submenu a {
+	margin: 0 10px 0 0px;
+}
+
