@@ -353,6 +353,51 @@ def split_page (page, length):
     page.cats = []
     return page
 
+def require_page_authorized (page):
+    if not check_user (page.owner):
+        require_role (editor_role)
+
+def check_page_authorized (page):
+    if check_user (page.owner):
+        return True
+    return check_role (editor_role)
+
+cat_keys = None
+def load_category_keys ():
+    global cat_keys
+    if not cat_keys:
+        cat_keys = {}
+        #keys_lookup = db (db.plugin_wiki_categories.id > 0).select ()
+        keys_lookup = MongoWrapper (mongo.categories.find ())
+        for entry in keys_lookup:
+            cat_keys[str (entry._id)] = entry.name
+
+def lookup_cat_id (id):
+    load_category_keys ()
+    return cat_keys[id]
+
+def load_categories (page = None):
+    if page:
+        load_category_keys ()
+        lookup = db (db.plugin_wiki_page_categories.pid == page.id).select ()
+        cats = []
+        for item in lookup:
+            cats.append (attr_dict (cid = item.cid, category = lookup_cat_id (item.cid)))
+        return cats
+    else:
+        return MongoWrapper (mongo.categories.find ())
+
+def load_page (slug):
+    if not slug:
+        raise HTTP (400, "No page URL given")
+    page = MongoWrapper (mongo.blog.find_one ({'slug': slug}))
+    #page = db (db.plugin_wiki_page.slug == slug).select ().first ()
+    if not page:
+        return None
+    if not page.public:
+        require_page_authorized (page)
+    return page
+
 def newest_page_preview ():
     cat = MongoWrapper (mongo.categories.find_one ({'blog': True}))
     query = {
@@ -361,5 +406,8 @@ def newest_page_preview ():
             '$in': [cat._id]
             }
         }
-    page = MongoWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING)[0])
-    return split_page (page, 100)
+    pages = MongoCursorWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING))
+    if len (pages):
+        return split_page (pages[0], 100)
+    else:
+        return None
