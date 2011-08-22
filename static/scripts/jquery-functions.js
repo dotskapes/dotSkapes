@@ -28,7 +28,14 @@ $(document).ready(function(){
 
 		$('#submenu_docs').hide('slow');
 		});
-	
+
+	// toggle display method on team/index.html
+	$("#toggle_display").click(function () {
+	$("#sortbygroup").toggle();
+	$("#sortbyname").toggle();
+	$("#listbygroup").toggle();
+	$("#listbyname").toggle();
+	});
 
 });
 

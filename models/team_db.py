@@ -1,7 +1,9 @@
 team_db = DAL("sqlite://storage.sqlite")
 
 team_db.define_table('category',
-   Field('title'))
+   Field('title'),
+   Field('div_id'),
+   Field('priority'))
 
 team_db.define_table('image',
    Field('category_id', team_db.category),

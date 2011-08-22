@@ -1,6 +1,4 @@
-
 {{ if request.controller == 'map': }}
-
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
 <script type="text/javascript" src="http://skapes.org/media/js/OpenLayers/OpenLayers.js"></script>
 <script type="text/javascript" src="http://skapes.org/media/js/GeoExt/lib/GeoExt.js"></script> 
@@ -8,8 +6,7 @@
 {{ elif request.controller == 'info': }}
 <script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/info.js"></script>
 {{ elif request.controller == 'find': }}
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js">
-</script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/find.js"></script>
 {{ elif request.controller == 'analyze': }}
 <script type="text/javascript" src="http://skapes.org/media/js/OpenLayers/OpenLayers.js"></script>
 <script type="text/javascript" src="http://skapes.org/media/js/GeoExt/lib/GeoExt.js"></script>
@@ -99,4 +96,7 @@ $(window).load (function () {
 <script type="text/javascript" charset="utf-8">
 	VideoJS.setupAllWhenReady();
 </script>
+
+{{ elif request.controller == 'team': }}
+<link rel="stylesheet" href="/{{= request.application }}/static/styles/team.css" type="text/css" />
 {{ pass }}
