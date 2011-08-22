@@ -135,12 +135,13 @@ def upload():
                 dg = deployment_settings.geoserver
                 proc1 = subprocess.Popen (['shp2pgsql', path + '/' + item, table_name], stdout = subprocess.PIPE)
                 proc2 = subprocess.call (['psql', '-h', dp.host, '-p', str (dp.port), '-d', dp.database, '-U', dp.username], stdout = subprocess.PIPE, stderr = subprocess.PIPE, stdin = proc1.stdout)
-                proc1.communicate ()
                 req_body = '<featureType><name>%s</name><title>%s</title><srs>EPSG:%d</srs></featureType>' % (table_name, sub ('.shp', '', item), epsg)
-                req = Request ('%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store), req_body, {
-                        'Content-Type': 'text/xml',
-                        })
-                urlopen (req)
+                proc3 = subprocess.Popen (['curl', '-u', '%s:%s' % (dg.username, dg.password), '-v', '-XPOST', '-H', 'Content-type: text/xml', '-d', req_body, '%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store)], stdout = subprocess.PIPE)
+                proc3.communicate ()
+                #req = Request ('%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store), req_body, {
+                #        'Content-Type': 'text/xml',
+                #        })
+                #urlopen (req)
                 rmtree (path)
                 response.flash = 'Map Successfully Uploaded'
                 break
