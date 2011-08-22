@@ -10,7 +10,7 @@ team_db.define_table('image',
    Field('last_name'),
    Field('first_name'),
    Field('email'),
-   Field('body','text'),
+   Field('website'),
    Field('file', 'upload'))
 
 team_db.image.category_id.requires = IS_IN_DB(team_db, team_db.category.id, '%(title)s')
