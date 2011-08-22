@@ -5,7 +5,7 @@
     <div id='main'>
     
         <div id='blog'>
-            <h1>Blog Post</h1>
+            <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Blog</a></h3>
             <p>
 	      {{ page = newest_page_preview () }}
 	      {{if page: }}
