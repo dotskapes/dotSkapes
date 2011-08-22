@@ -55,6 +55,8 @@ def render_comment (rest_vars):
         raise HTTP (400, "Bad Comment Operation")
 
 def render_index (rest_vars):
+    if request.function != 'blog':
+        redirect (URL (r = request, args=[request.function, 'view']))
     response.view = 'wiki/index.html'
     if check_role (editor_role):
         p_query = {}
