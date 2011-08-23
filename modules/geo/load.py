@@ -40,7 +40,7 @@ def loadMap (mapName, geomType, mapType, connection = None, location = None):
             shapes.append (s)
         return shapes
     elif mapType == enum.GEOSERVER:
-        map_data = urlopen (location + '/wfs', urlencode ({
+        map_data = urlopen (location, urlencode ({
                     'service': 'wfs',
                     'version': '1.1.0',
                     'request': 'GetFeature',
