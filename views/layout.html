@@ -15,25 +15,8 @@
 {{response.files.append(URL('static','js/superfish.js'))}}
 {{ include 'web2py_ajax.html' }}
 
-<script src="{{= deployment_settings.extjs.location}}/adapter/jquery/ext-jquery-adapter.js"></script>
-<script src="{{= deployment_settings.extjs.location}}/ext-all.js" type="text/javascript"></script>
-<script type="text/javascript" src="/{{=request.application}}/scripts/base.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/utils.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/scripts/data.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/tree.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/grid.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side.js"></script>
-<script language="javascript" type="text/javascript" src="/{{=request.application}}/static/scripts/edit_area/edit_area_full.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/base.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/dev.js"></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/result.js"></script>
-
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.2.min.js'></script>
-<script type="text/javascript" src="/{{=request.application}}/static/scripts/jquery-functions.js"></script>
-
 {{ include 'head.html' }}
 
-<link rel="stylesheet" type="text/css" href="http://skapes.org/media/js/ext/resources/css/ext-all.css" />
 
 <script type="text/javascript">
     hs.app = {};
@@ -214,8 +197,8 @@
 	<a class='menu_button' href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/></a>
 	<a class='menu_button' href="/{{= request.application }}/find">F</a>
 	<a class='menu_button' href="/{{= request.application }}/analyze">A</a>
-	<a class='menu_button' href="#">S</a>
-	<a class='menu_button' href="#">T</a>
+	<a class='menu_button' href="#" style="background-color:grey;">S</a>
+	<a class='menu_button' href="#" style="background-color:grey;">T</a>
 	<a id='head_panel_docs' class='menu_button' href="/{{= request.application }}/wiki/docs">Docs</a>
 
 	<br />
@@ -237,6 +220,7 @@
 
     <div id="main_panel">
 
+
 	<div id='mouseleave' style='height:20px'>
 		<div id='submenu' style="display:none;">	
 
@@ -248,10 +232,10 @@
 
 		<div id='submenu_docs' style="display:none;">	
 
-			<a class='menu_button' href="/{{= request.application }}/wiki/case">Case Studies</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/cases">Case Studies</a>
 			<a class='menu_button' href="/{{= request.application }}/wiki/tutorials">Tutorials</a>
-			<a class='menu_button' href="#">Researcher</a>
-			<a class='menu_button' href="#">Developer</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/researcher">Researcher</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/dev">Developer</a>
 
 		</div>
 	</div>

@@ -1,3 +1,17 @@
+<link rel="stylesheet" type="text/css" href="http://skapes.org/media/js/ext/resources/css/ext-all.css" />
+<script src="{{= deployment_settings.extjs.location}}/adapter/jquery/ext-jquery-adapter.js"></script>
+<script src="{{= deployment_settings.extjs.location}}/ext-all.js" type="text/javascript"></script>
+<script type="text/javascript" src="/{{=request.application}}/scripts/base.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/utils.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/scripts/data.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/tree.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/grid.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/panels/side.js"></script>
+<script language="javascript" type="text/javascript" src="/{{=request.application}}/static/scripts/edit_area/edit_area_full.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/base.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/dev.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/windows/result.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/scripts/jquery-functions.js"></script>
 {{ if request.controller == 'map': }}
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
 <script type="text/javascript" src="http://skapes.org/media/js/OpenLayers/OpenLayers.js"></script>
@@ -15,9 +29,8 @@
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/plugin_wiki.css" />
 <link rel="stylesheet" href="/{{= request.application }}/static/styles/splash.css" type="text/css" />
 <link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" type="text/css" />
-<link href='http://fonts.googleapis.com/css?family=Varela&v2' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica+SC&v2' rel='stylesheet' type='text/css'>
-
+<link href="http://fonts.googleapis.com/css?family=Varela&v2" rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica+SC&v2" rel='stylesheet' type='text/css'>
 <script type="text/javascript">   
 $(window).ready (function () {
     var elem = $ ('.hs_map');    
@@ -77,8 +90,8 @@ $(window).ready (function () {
 {{ elif request.controller == None or request.controller == 'default': }}
 <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/home.css" />
 <link rel="stylesheet" type="text/css" href="http://skapes.org/media/css/coin-slider/coin-slider-styles.css" />
-<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js'></script>
-<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js'></script>
+<!--<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>-->
 <script type='text/javascript' src="http://skapes.org/media/js/coin-slider/coin-slider.min.js"></script>
 
 {{ elif request.controller == 'about': }}
@@ -90,7 +103,7 @@ $(window).ready (function () {
 <link rel="stylesheet" href="/{{= request.application }}/static/styles/splash.css" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css' />
 
-<script src="/{{= request.application }}/static/scripts/jquery/jquery.min.js" type="text/javascript"></script>   
+<!--<script src="/{{= request.application }}/static/scripts/jquery/jquery.min.js" type="text/javascript"></script>-->   
 
 <script src="/{{= request.application }}/static/js/video-js/video.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="/{{= request.application }}/static/js/video-js/video-js.css" type="text/css" media="screen" title="Video JS" charset="utf-8">
@@ -101,3 +114,5 @@ $(window).ready (function () {
 {{ elif request.controller == 'team': }}
 <link rel="stylesheet" href="/{{= request.application }}/static/styles/team.css" type="text/css" />
 {{ pass }}
+
+
