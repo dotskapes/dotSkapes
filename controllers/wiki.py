@@ -1,7 +1,7 @@
 def blog():
     return render_page ()
 
-def case():
+def cases():
     return render_page ()
 
 def tutorials():
@@ -10,4 +10,8 @@ def tutorials():
 def docs():
     return render_page ()
     
+def researcher():
+    return render_page()
 
+def dev():
+    return render_page()

@@ -410,6 +410,6 @@ def newest_page_preview ():
         }
     pages = MongoCursorWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING))
     if len (pages):
-        return split_page (pages[0], 100)
+        return split_page (pages[0], 80)
     else:
         return None
