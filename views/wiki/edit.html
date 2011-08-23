@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{=URL('static','plugin_wiki/elrte-1.0rc4/css/elrte.full.css')}}" type="text/css" media="screen" charset="utf-8">
 
 <script type="text/javascript">
-    $ (window).load (function () {
+    $ (document).ready (function () {
 
 	var cat_exists = {};
 	cat_exists[''] = true;
@@ -85,106 +85,6 @@
 	});
 
     });
-/*    function ListFactory (lst_id, add_url, remove_url) {
-	var exists = {};
-	
-	this.check = function (id) {
-	    if (id in exists) return false;
-	    else return true;
-	};
-
-	this.add = function (id, data, callback) {
-	    exists[id] = true;
-	    jQuery.ajax ({
-		url: '{{=request.application}}/plugin_wiki/' + add_url + '/{{=request.args (0)}}/{{=request.args (1)}}',
-		method: 'GET',
-		data: data,
-		success: callback,
-	    });
-	};
-
-	this.force = function (id) {
-	    exists[id] = true;
-	};
-
-	this.remove = function (id, data, callback) {
-	    jQuery.ajax ({
-		url:  '{{=request.application}}/plugin_wiki/' + remove_url + '/{{=request.args (0)}}/{{=request.args (1)}}',
-		method: 'GET',
-		data: data,
-		success: callback,
-	    });
-	};
-	return false;
-    };
-
-    $ (window).load (function () {
-	var cat_man = new ListFactory ('#lst_cat', 'category_add', 'category_remove');
-	cat_man.force ('');
-	{{ for c in page.categories: }}
-	cat_man.force ('{{= str (c) }}');
-	{{ pass }}
-	var cat_remove = function () {
-	    var ob = $(this);
-	    var val = ob.attr ('cid');
-	    cat_man.remove (val, {cid: val}, 
-	    ob.parent ().remove ();
-	};
-	$ ('#add_cat').click (function () {
-	    if (cat_man.check ($('#sel_cat').val ())) {
-		var val = $('#sel_cat').val ();
-		cat_man.add (val, {cid: val}, function (data) {
-		    $ ('#lst_cat').append ('<li>' + $('#sel_cat option[value="' + val + '"]').text ()  + '&nbsp;&nbsp;&nbsp;&nbsp;<a class ="remove_cat" cid="' + val  + '" href="#">remove</a></li>');
-		    #$ ('.remove_cat[cid="' + val  + '"]').click (cat_remove);
-		});
-	    }
-	    return false;
-	});
-    });*/
-
-/*    var cats = []; 
-    var cat_link = function () {
-	var ob = $(this);
-	var val = ob.attr ('cid');
-	jQuery.ajax ({
-	    url: '{{= URL (r = request, f = 'category_delete', args = request.args) }}',
-	    method: 'GET',
-	    data: {
-		cid: val,
-	    },
-	    success: function (data) {
-		delete cats[val];
-		ob.parent ().remove ();
-	    },
-	});
-	return false;
-    };
-    cats[''] = true;
-    {{ for c in page.categories: }}
-    cats['{{= c }}'] = true;
-    {{ pass }}
-
-    $ (window).load (function () {
-	$ ('#add_cat').click (function () {
-	    var val = $('#sel_cat').val ();
-	    if (!cats[val]) {
-		cats[val] = true;
-		jQuery.ajax ({
-		    url: '{{= URL (r = request, f = 'category_add', args = request.args) }}',
-		    method: 'GET',
-		    data: {
-			cid: val,
-		    },
-		    success: function (data) {
-			$ ('#lst_cat').append ('<li>' + $('#sel_cat option[value="' + val + '"]').text ()  + '&nbsp;&nbsp;&nbsp;&nbsp;<a class ="remove_cat" cid="' + val  + '" href="#">remove</a></li>');
-			$ ('.remove_cat[cid="' + val  + '"]').click (cat_link);
-		    },
-		});
-	    }
-	    return false;
-	});
-	$ ('.remove_cat').click (cat_link);
-    });*/
 </script>
 
 <div id="plugin_wiki_form">
