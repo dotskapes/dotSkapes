@@ -39,11 +39,11 @@ for _f in ['plugin_wiki/ui/css/%s/jquery-ui-1.8.5.custom.css' % plugin_wiki_them
            'plugin_wiki/jqgrid/ui.jqgrid.css',
            'plugin_wiki/jqgrid/i18n/grid.locale-en.js',              
            'plugin_wiki/jqgrid/jquery.jqGrid.min.js',
-           'plugin_wiki/slideshow/jquery.cycle.min.js',
-           'plugin_wiki/multiselect/jquery.multiselect.css',
-           'plugin_wiki/multiselect/jquery.multiselect.js',
-           'plugin_wiki/rating/jquery.rating.css',
-           'plugin_wiki/rating/jquery.rating.js']:          
+           'plugin_wiki/slideshow/jquery.cycle.min.js',]:
+           #'plugin_wiki/multiselect/jquery.multiselect.css',
+           #'plugin_wiki/multiselect/jquery.multiselect.js',
+           #'plugin_wiki/rating/jquery.rating.css',
+           #'plugin_wiki/rating/jquery.rating.js']:          
     response.files.append(URL('static',_f))
 
 ###################################################

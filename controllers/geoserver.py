@@ -143,7 +143,6 @@ def upload():
                 req_body = '<featureType><name>%s</name><title>%s</title><srs>EPSG:%d</srs></featureType>' % (table_name, sub ('.shp', '', item), epsg)
                 proc3 = subprocess.Popen (['curl', '-u', '%s:%s' % (dg.username, dg.password), '-v', '-XPOST', '-H', 'Content-type: text/xml', '-d', req_body, '%s:%d/geoserver/rest/workspaces/%s/datastores/%s/featuretypes' % (dg.host, dg.port, dg.workspace, dg.pgis_store)], stdout = subprocess.PIPE)
                 proc3.communicate ()
->>>>>>> 199ddd56639ac80987a613e3b75daa95932c5c2f
                 rmtree (path)
                 response.flash = 'Map Successfully Uploaded'
                 break
