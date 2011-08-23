@@ -3,15 +3,14 @@
 <div id='home'>
 
     <div id='wrapper'>
-    
  
         <div id = 'header'>
             {{include 'default/header.html'}}
 	</div>
 
-    
+	
         <div id = 'content'>
-           
+
 		<div id='index'>
 
 		    <div id='main'>
@@ -27,49 +26,51 @@
 			</div>
 		
 			<div id='icons'>
+
+			    <div class='icon'>
+				<a href="{{=URL(r=request, c='wiki', f='tutorials')}}">
+			    	    <img src="{{=URL('static','images/tutorial.svg')}}"/>
+			    	    <h3>Tutorials</h3>
+			    	</a>
+			    	<p>Resources for doing science with the dotSkapes platform.</p>
+			    </div>
+
 			    
 			    <div class='icon'>
-				<a href='#'>
-				    <img src="{{=URL('static','images/tutorial.svg')}}"/>
-				    <h3>Tutorials</h3>
-				</a>
-				<p>Resources for doing science with the dotSkapes platform.</p>
+				<a href="{{=URL(r=request, c='wiki', f='docs')}}">
+			    	    <img src="{{=URL('static','images/documents.svg')}}"/>
+			    	    <h3>Documents</h3>
+			    	</a>
+			    	<p>Our nascent documentation system.</p>
 			    </div>
 			    
 			    <div class='icon'>
-				<a href='#'>
-				    <img src="{{=URL('static','images/documents.svg')}}"/>
-				    <h3>Documents</h3>
-				</a>
-				<p>Our nascent documentation system.</p>
+			    	<a href="{{=URL(r=request, c='wiki', f='researcher')}}">
+			    	    <img src="{{=URL('static','images/researcher.svg')}}"/>
+			    	    <h3>Researcher</h3>
+			    	</a>
+			    	<p>Resources for doing research with dotSkapes.</p>
+			    </div>
+
+			    <div class='icon'>
+			    	<a href="{{=URL(r=request, c='wiki', f='dev')}}">
+			    	    <img src="{{=URL('static','images/developer.svg')}}"/>
+			    	    <h3>Developer</h3>
+			    	</a>
+			    	<p>Resources for understanding or contributing to our infrastracture.</p>
 			    </div>
 			    
 			    <div class='icon'>
-				<a href='#'>
-				    <img src="{{=URL('static','images/researcher.svg')}}"/>
-				    <h3>Researcher</h3>
-				</a>
-				<p>Resources for doing research with dotSkapes.</p>
+			    	<a href="{{=URL(r=request, c='wiki', f='case')}}">
+
+			    	    <img src="{{=URL('static','images/casestudy.svg')}}"/>
+			    	    <h3>Case Study</h3>
+			    	</a>
+			    	<p>Examples of dotSkapes in the wild.</p>
 			    </div>
 			    
 			    <div class='icon'>
-				<a href='#'>
-				    <img src="{{=URL('static','images/developer.svg')}}"/>
-				    <h3>Developer</h3>
-				</a>
-				<p>Resources for understanding or contributing to our infrastracture.</p>
-			    </div>
-			    
-			    <div class='icon'>
-				<a href='#'>
-				    <img src="{{=URL('static','images/casestudy.svg')}}"/>
-				    <h3>Case Study</h3>
-				</a>
-				<p>Examples of dotSkapes in the wild.</p>
-			    </div>
-			    
-			    <div class='icon'>
-				<a href='#'>
+				<a href="{{=URL(r=request, c='about')}}">
 				    <img src="{{=URL('static','images/about.svg')}}"/>
 				    <h3>About</h3>
 				</a>
@@ -125,13 +126,13 @@
 				<a href="#" target="_blank">
 				    <img src="{{=URL('static','images/hs-screenshot1.png')}}" >
 				    <span>
-				        Description for img01
+				        Pre-alpha Ecohealth London launch
 				    </span>
 				</a>
 				<a href="#" target="_blank">
 				    <img src="{{=URL('static','images/hs-screenshot2.png')}}" >
 				    <span>
-				        Description for img02
+				        Alpha Amazon analysis
 				    </span>
 				</a>
 			    </div>
