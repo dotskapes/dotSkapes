@@ -88,7 +88,7 @@
 
 #home #main #blog p {
     padding: 0 10px;
-    text-align: justify;
+    text-align: left;
 }
 
 #home #main #icons {
@@ -104,7 +104,7 @@
 
 #home #main #icons .icon p {
     font-size: 12px;
-    text-indent: 2px;
+    text-indent: 0px;
     float: left;
     margin: 10px;
     width: 140px;
