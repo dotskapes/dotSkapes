@@ -9,45 +9,5 @@
     <div style="clear: both;"></div>
   </div>
 
-{{ if request.function == 'blog': }}
-  <div id='splash_header'>
-    
-    <img style="float:left; height:130px; margin-top: 5px;" src="/{{= request.application}}/static/images/logo_white_alpha.png" />
-    <a  href="http://dot.skapes.org" target="_blank">
-      <div class='box'>
-        <img style="float:right; height:124px; width:129px;" src="/{{= request.application}}/static/images/Home.png" />
-      </div>
-    </a>
-    
-    <a href="#">       
-      <div class='box' style="background-color:#C0C0C0;">
-        <h2 class="letter">T</h2>
-        <p class="subscript">tag</p>
-      </div>
-    </a>
-    
-    <a href="/{{= request.application }}/splash/share.html">       
-      <div class='box'>
-        <h2 class="letter">S</h2>
-        <p class="subscript">share</p>
-      </div>
-    </a>
-    
-    <a href="/{{= request.application }}/splash/analyze.html">       
-      <div class='box'>
-        <h2 class="letter">A</h2>
-        <p class="subscript">analyze</p>
-      </div>
-    </a>
-    
-    <a href="/{{= request.application }}/splash/find.html">       
-      <div class='box'>
-        <h2 class="letter">F</h2>
-        <p class="subscript">find</p>
-      </div>
-    </a>
-    
-  </div>
-  {{ pass }}
   {{ include }}
 </div>
