@@ -284,7 +284,7 @@ p.subscript {
 #sidebar {
     float: right;
     height: 100%;
-    width: 15%;
+    width: 200px;
     padding: 20px;
     margin: 0 15px 10px 10px;
     
@@ -313,7 +313,7 @@ p.subscript {
 /* } */
 
 #fatfooter {
-   width: 900px;
+   width: 800px;
    margin: 0 auto;
    color: #757E82;
 }
