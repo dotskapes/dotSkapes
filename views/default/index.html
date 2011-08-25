@@ -19,7 +19,7 @@
 			  <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Blog</a></
 			    <p>
 			      {{ page = newest_page_preview () }}
-			      <p class="title">{{= page.title }}</p>
+			      <h4 class="title">{{= page.title }}</h4>
 			      {{= plugin_wiki.render(page.body) }}
 			      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [page.slug, 'view'])}}">MORE &#187;</a></p>{{ pass }}
 			    </p>
