@@ -3361,6 +3361,7 @@
 'The token associated with this application on': 'The token associated with this application on',
 'The unique identifier which identifies this instance to other instances.': 'The unique identifier which identifies this instance to other instances.',
 'The weight in kg.': 'The weight in kg.',
+'TheDotSkapes Project': 'TheDotSkapes Project',
 'Theme': 'Theme',
 'Theme Details': 'Theme Details',
 'Theme added': 'Theme added',
