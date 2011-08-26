@@ -37,7 +37,7 @@
 
 			<div class='contributor'>	
 				<img src="{{=URL('download', args=image.file)}}" />	
-				<div class='name'>{{=image.first_name}} {{=image.last_name}}</div>
+				<div class='name'><a href={{=image.website}}>{{=image.first_name}} {{=image.last_name}}</a></div>
 				{{ if image.email: }}
 					<div class='email'>Email: {{=image.email}}</div>
 				{{ pass }}
