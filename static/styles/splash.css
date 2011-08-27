@@ -286,7 +286,7 @@ p.subscript {
     height: 100%;
     width: 200px;
     padding: 20px;
-    margin: 0 15px 10px 10px;
+    margin: 20px 15px 10px 10px;
     
     -webkit-box-shadow: 5px 5px 5px 5px #bbb;
     -moz-box-shadow: 5px 5px 5px 5px #bbb;
