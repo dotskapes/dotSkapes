@@ -6,6 +6,8 @@
 #home #wrapper{
     margin-top: 10px;
     width: 1000px;
+    font-family: 'Varela', sans-serif;
+    font-size: 120%;
 }
 
 /* header.html section */
