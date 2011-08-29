@@ -142,7 +142,8 @@
     margin-left: 6px;
 }
 
-ul {
-	list-style-type:circle
+ul, li {
+	list-style-type:circle;
+	margin-left: 10px;
 }	
 
