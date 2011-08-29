@@ -1,9 +1,13 @@
+#wrapper_wiki {
+	
+}
+
 div#plugin_wiki {
     font-family: 'Varela', sans-serif;
     line-height: 170%;
-    width: 800px;
-    float: left;
     font-size: 120%;
+    float: left;
+    width: 70%;
 }
 
 div#plugin_wiki p.title {
@@ -48,8 +52,6 @@ div#plugin_wiki ul, li {
 
 div#plugin_wiki div.page {
     margin: 0px 20px 50px 20px;
-    clear: both;
-    width: 100%;
 }
 
 div#plugin_wiki div.page_head p {
@@ -58,7 +60,6 @@ div#plugin_wiki div.page_head p {
 
 div#plugin_wiki div.page_foot {
     text-align: right;
-    clear: both;
 }
 
 div#plugin_wiki div.comment_body {

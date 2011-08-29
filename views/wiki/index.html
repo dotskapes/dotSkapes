@@ -1,21 +1,4 @@
 {{ extend 'wiki/base.html' }}
-
-<div id='sidebar'>
-
-    <div id='categories'>
-    
-    <h2>Category</h2>
-    
-    <ul>
-        {{ for cat in MongoWrapper (mongo.categories.find ({request.function: True})): }}
-        <li>
-        <a href="{{= URL (r = request, args = request.args, vars = {'cat': str (cat._id)}) }}">{{= cat.name }}</a>
-        </li>
-        {{ pass }}
-    </ul>
-    
-    </div>
-    
     <!-- <div id='titles'> -->
     <!-- <h2>Titles</h2> -->
     <!-- <ul> -->
@@ -51,8 +34,6 @@
     <!--     </li> -->
     <!-- </ul> -->
     <!-- </div> -->
-    
-</div>
 
 
 <div id="plugin_wiki">
@@ -69,16 +50,35 @@
   
 </div><!-- end of plugin_wiki -->
 
-
 {{ pass }}
+
+</div>
+
+<div id='sidebar'>
+
+    <div id='categories'>
+    
+    <h2>Category</h2>
+    
+    <ul>
+        {{ for cat in MongoWrapper (mongo.categories.find ({request.function: True})): }}
+        <li>
+        <a href="{{= URL (r = request, args = request.args, vars = {'cat': str (cat._id)}) }}">{{= cat.name }}</a>
+        </li>
+        {{ pass }}
+    </ul>
+    
+    </div>
+
+</div>
+
+<div class='clear'></div>
+
 
   <div style="text-align: right;">
     {{if not first: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = older) }}">OLDER POSTS</a>{{ else: }} OLDER POSTS {{ pass }}&nbsp;&nbsp;&nbsp;&nbsp;
     {{if not last: }}<a href = "{{= URL (r = request, args = [request.args (0)], vars = newer) }}">NEWER POSTS</a>{{ else: }} NEWER POSTS {{ pass }}
   </div>
-
-
-  <div class='clear'></div>
 
 
 <div id="fatfooter">
