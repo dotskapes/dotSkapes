@@ -2,9 +2,9 @@ $(document).ready(function(){
 
 	// slide down sub menu bar from head_panel
 	$('#head_panel_main').mouseover(function() {
+		$('#submenu_docs').slideUp('slow');
 		$('#submenu').slideDown('slow', function() {
 		});
-		$('#submenu_docs').slideUp('slow');
 	});
 
 	// hide sub menu when mouse leave
@@ -16,9 +16,9 @@ $(document).ready(function(){
 
 	// slide down sub menu bar from head_panel
 	$('#head_panel_docs').mouseover(function() {
+		$('#submenu').slideUp('slow');
 		$('#submenu_docs').slideDown('slow', function() {
 		});
-		$('#submenu').slideUp('slow');
 	});
 
 
