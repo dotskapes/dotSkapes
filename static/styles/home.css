@@ -91,6 +91,10 @@
 #home #main #blog p {
     padding: 0 10px;
     text-align: left;
+    font-family: 'Varela',sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 26px;
 }
 
 #home #main #icons {
