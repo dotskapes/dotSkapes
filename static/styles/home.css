@@ -6,6 +6,8 @@
 #home #wrapper{
     margin-top: 10px;
     width: 1000px;
+    font-family: 'Varela', sans-serif;
+    font-size: 120%;
 }
 
 /* header.html section */
@@ -141,4 +143,9 @@
     height: 40%;
     margin-left: 6px;
 }
+
+ul, li {
+	list-style-type:circle;
+	margin-left: 10px;
+}	
 
