@@ -53,13 +53,6 @@ a img {
     clear: both; 
 }
 
-#wrapper_wiki {
-    margin: auto;
-    width: 100%;
-    float: left;
-    background: white;
-}
-
 #banner {
     position: absolute;
     z-index: -1;
@@ -282,15 +275,14 @@ p.subscript {
 
 /* Sidebar */
 #sidebar {
-    float: right;
-    height: 100%;
-    width: 200px;
-    padding: 20px;
+    padding: 10px;
     margin: 20px 15px 10px 10px;
-    
+    float: left;    
+    width: 20%;
     -webkit-box-shadow: 5px 5px 5px 5px #bbb;
     -moz-box-shadow: 5px 5px 5px 5px #bbb;
     box-shadow: 5px 5px 5px 5px #bbb; 
+	overflow: auto;
     
 }
 
@@ -301,7 +293,7 @@ p.subscript {
 #sidebar ul {
     margin: 5px;
     margin-left: 30px;
-    font-size: 1.3em;
+    font-size: 120%;
 }
 
 /* Footer */
