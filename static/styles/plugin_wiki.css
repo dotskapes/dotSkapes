@@ -48,9 +48,9 @@ div#plugin_wiki p {
     line-height: 26px;
 }
 
-div#plugin_wiki ul, li {
-	list-style-type: circle;
-	margin-left: 10px;
+div#plugin_wiki ul{
+	list-style-type:disc;
+	padding-left: 30px;
 }
 
 div#plugin_wiki div.page {

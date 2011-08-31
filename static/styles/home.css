@@ -148,8 +148,8 @@
     margin-left: 6px;
 }
 
-ul, li {
-	list-style-type:circle;
-	margin-left: 10px;
+#home #main #blog ul {
+	list-style-type:disc;
+	padding-left: 30px;
 }	
 
