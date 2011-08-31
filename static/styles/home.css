@@ -88,9 +88,22 @@
     overflow: auto;
 }
 
+#home #main #blog .title{
+    font-size: 20px;
+}
+
+#home #main #blog ul {
+	list-style-type:disc;
+	padding-left: 30px;
+}
+
 #home #main #blog p {
     padding: 0 10px;
     text-align: left;
+    font-family: 'Varela',sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 26px;
 }
 
 #home #main #icons {
@@ -144,8 +157,5 @@
     margin-left: 6px;
 }
 
-ul, li {
-	list-style-type:circle;
-	margin-left: 10px;
-}	
+	
 

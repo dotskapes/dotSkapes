@@ -40,14 +40,17 @@ div#plugin_wiki h2 {
 }
 
 div#plugin_wiki p {
-    margin-top: 5px;
-    margin-bottom: 0px;
-    text-align: justify;
+    padding: 0 10px;
+    text-align: left;
+    font-family: 'Varela',sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 26px;
 }
 
-div#plugin_wiki ul, li {
-	list-style-type: circle;
-	margin-left: 10px;
+div#plugin_wiki ul{
+	list-style-type:disc;
+	padding-left: 30px;
 }
 
 div#plugin_wiki div.page {
