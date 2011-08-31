@@ -40,8 +40,12 @@ def user():
                 psswd = uuid4 ().hex
                 ax_resp = resp.getSignedNS (ax.FetchRequest.ns_uri)
                 email = ax_resp['value.email']
-                firstname = ax_resp['value.firstname']
-                lastname = ax_resp['value.lastname']
+                try:
+                    firstname = ax_resp['value.firstname']
+                    lastname = ax_resp['value.lastname']
+                except:
+                    firstname = email
+                    lastname = ''
                 auth.get_or_create_user ({'first_name': firstname, 'last_name': lastname, 'email': email, 'password': db.auth_user.password.validate (psswd)[0]})
                 db (db[auth.settings.table_user].email == email).update (first_name = firstname, last_name = lastname)
                 auth.login_bare (email, psswd)

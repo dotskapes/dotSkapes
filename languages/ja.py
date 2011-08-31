@@ -14,6 +14,7 @@
 '# of People Deceased': '死亡者数',
 '# of People Injured': '負傷者数',
 '# of Vehicles': '車両数',
+'%Y-%m-%d': '%Y-%m-%d',
 '%Y-%m-%d %H:%M:%S': '%Y年-%m月-%d日 %H:%M:%S',
 '%s rows deleted': '%s 行が削除されました。',
 '%s rows updated': '%s 行が更新されました。',
