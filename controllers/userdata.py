@@ -4,7 +4,7 @@ def load():
 
 def get():
     data_type = require_alphanumeric (request.args[0])
-    data_id = require_int (request.vars.get ('id'))
+    data_id = require_alphanumeric (request.vars.get ('id'))
     return dm.get (data_type, data_id).json ()
 
 def append():

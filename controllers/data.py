@@ -1,6 +1,6 @@
 def save():
     datatype = require_alphanumeric (request.args[0])
-    lookup_id = require_int (request.vars.get ('id'))
+    lookup_id = require_alphanumeric (request.vars.get ('id'))
     dm.link (datatype, lookup_id)
     return dm.get (datatype, lookup_id).json ()
 
@@ -47,5 +47,5 @@ def load():
 
 def unlink():
     datatype = require_alphanumeric (request.args[0])
-    lookup_id = require_int (request.vars.get ('id'))
+    lookup_id = require_alphanumeric (request.vars.get ('id'))
     dm.unlink (datatype, lookup_id)

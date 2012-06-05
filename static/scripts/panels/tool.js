@@ -269,7 +269,7 @@ hs.tool = {
 		this.paramReady = false;
 		var el = {
 		    xtype: 'panel',
-		    html: '<b>Tool: </b>' + ob.name + '<br /><b>Description: </b>' + ob.desc,
+		    html: '<b>Tool: </b>' + ob.name + '<br /><b>Description: </b>' + ob.description,
 		};
 		
 		tool_ob = ob;

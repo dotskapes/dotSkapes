@@ -3,7 +3,7 @@ from urllib2 import urlopen, Request
 from re import search
 
 def ows():
-    lookup_id = require_int (request.vars.get ('ID'))
+    lookup_id = require_alphanumeric (request.vars.get ('ID'))
     data = dm.get ('maps', lookup_id)
     request.get_vars['layers'] = data.prefix + ':' + data.filename
     content_type = request.vars.get ('Content-Type') or 'text'
@@ -13,7 +13,7 @@ def ows():
     #    req = Request (data.src + '/ows', urlencode (req_body))
     #else:
     req_body = request.body.read ()
-    req = Request (data.src + '/wfs?' + urlencode (request.get_vars), req_body, {
+    req = Request (data.src + '?' + urlencode (request.get_vars), req_body, {
             'Content-Type': content_type,
             })
     map_data = urlopen (req)
@@ -28,6 +28,7 @@ def wms():
     return map_data.read ()'''
 
 def wfs():
+    request.get_vars['SERVICE'] = 'WFS'
     return ows ()
     '''lookup_id = require_int (request.vars.get ('id'))
     data = dm.get ('maps', lookup_id)
@@ -45,6 +46,7 @@ def sources():
 def sync():
     require_role (admin_role)
     path = require_http (request.vars.get ('path'))
+    sync_geoserver (path)
     try:
         sync_geoserver (path)
         if not db (db.geoserver_sources.loc == path).select ().first ():
@@ -65,7 +67,7 @@ def desync():
     return json.dumps ({'code': 0})
 
 def filter():
-    lookup_id = require_int (request.vars.get ('ID'))
+    lookup_id = require_alphanumeric (request.vars.get ('ID'))
     filter_field = require_alphanumeric (request.vars.get ('FIELD'))
     filter_mode = require_alphanumeric (request.vars.get ('MODE'))
     filter_value = require_decimal (request.vars.get ('VALUE'))
@@ -85,7 +87,7 @@ def filter():
 
 def choropleth():
     from savage.graphics.color import ColorMap, color_to_css
-    lookup_id = require_int (request.vars.get ('ID'))
+    lookup_id = require_alphanumeric (request.vars.get ('ID'))
     data = dm.get ('maps', lookup_id)
     filter_field = require_alphanumeric (request.vars.get ('FIELD'))
     low_color = require_color (request.vars.get ('LOW_COLOR'))
@@ -93,7 +95,7 @@ def choropleth():
     style = gen_choropleth (data, filter_field, low_color, high_color);
     req_body = {'sld_body': style}
     req_body.update (request.get_vars)
-    req = Request (data.src + '/wms', urlencode (req_body))
+    req = Request (data.src + '?', urlencode (req_body))
     response.headers['Content-Type'] = 'image/png'
     return urlopen (req).read ();
 

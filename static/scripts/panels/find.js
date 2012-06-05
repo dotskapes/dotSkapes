@@ -44,13 +44,14 @@ hs.find = {
 		if (!config)
 		    config = {};
 		Ext.apply (config, {
+                    enableKeyEvents: true,
 		    listeners: {
-			specialkey: function (field, e) {
-			    console.log ("EVENT");
-			    if (e.getKey () == e.ENTER) {
+			keyup: function (field, e) {
+			    //console.log ("EVENT");
+			    //if (e.getKey () == e.ENTER) {
 				g.recommend (det.getValue ());
 				g.keyword (field.getValue ());
-			    }
+			    //}
 			},
 		    },
 		});

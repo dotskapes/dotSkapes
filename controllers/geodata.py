@@ -5,7 +5,7 @@ from urllib2 import urlopen
 from BeautifulSoup import BeautifulStoneSoup
 
 def read():
-    lookup_id = require_int (request.vars.get ('id'))
+    lookup_id = require_alphanumeric (request.vars.get ('id'))
     data = dm.get ('maps', lookup_id)
     start = require_int (request.vars.get ('start'))
     limit = require_int (request.vars.get ('limit'))
@@ -28,7 +28,7 @@ def read():
     return json.dumps ({'features': entry_list})'''
 
 def columns():
-    lookup_id = require_int (request.vars.get ('id'))
+    lookup_id = require_alphanumeric (request.vars.get ('id'))
     data = dm.get ('maps', lookup_id)
     return json.dumps ({'id': lookup_id, 'columns': load_fields (data)})
 

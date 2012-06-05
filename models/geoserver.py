@@ -6,10 +6,10 @@ db.define_table ('geoserver_sources',
                  Field ('loc', 'string', required = True))
 
 def sync_geoserver (path):
-    file = urlopen (path + '/wms?SERVICE=WMS&REQUEST=GetCapabilities')
+    file = urlopen (path + '?SERVICE=WFS&REQUEST=GetCapabilities')
     buffer = file.read ()
     soup = BeautifulStoneSoup (buffer)
-    layers = soup.findAll (name = 'layer')
+    layers = soup.findAll (name = 'featuretype')
     results = []
     for l in layers:
         name = l.find ('title')
@@ -55,7 +55,7 @@ def load_fields (data):
     return names
 
 def load_map (data):
-    map_data = urlopen (data.src + '/wfs', urlencode ({
+    map_data = urlopen (data.src + '?', urlencode ({
                 'service': 'wfs',
                 'version': '1.1.0',
                 'request': 'GetFeature',
@@ -80,7 +80,7 @@ def load_map_attributes (data, start = None, limit = None):
             result = {'id': ob['id']}
             result.update (ob['properties'])
             map_attr.append (result)
-        session['current_map'] = (data.id, map_attr)
+        #session['current_map'] = (data.id, map_attr)
     else:
         map_attr = session['current_map'][1]
     if not limit:

@@ -3415,6 +3415,7 @@
 'Rescue and recovery': 'Rescue and recovery',
 'Reset': 'Restablecer',
 'Reset Password': 'Reset Password',
+'Reset Password key': 'Reset Password key',
 'Reset form': 'Reset form',
 'Resize Feature: Select the feature you wish to resize & then Drag the associated dot to your desired size': 'Cambiar el tamaño de características: Seleccione la función que desea cambiar el tamaño y luego arrastrar el punto asociado a su tamaño deseado',
 'Resolve': 'Resolve',

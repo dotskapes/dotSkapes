@@ -15,19 +15,19 @@ def dev():
         tool_type = require_alphanumeric (request.vars.get ('type'))
         return dev_create_tool (name, desc, tool_type).json ()
     elif request.args[0] == 'code':
-        lookup_id = require_int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         tool_data = dm.get ('dev_tools', lookup_id)
         buffer = dev_read_code (tool_data.filename)
         return buffer
     elif request.args[0] == 'save':
-        lookup_id = require_int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         buffer = request.vars.get ('text')
         tool_data = dm.get ('dev_tools', lookup_id)
         dev_save_code (tool_data.filename, buffer)
     elif request.args[0] == 'delete':
         raise NotImplementedError ()
     elif request.args[0] == 'publish':
-        lookup_id = int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         dm.unlink ('dev_tools', lookup_id)
         dm.public ('tools', lookup_id, True)
     elif request.args[0] == 'fork':
@@ -36,7 +36,7 @@ def dev():
 def tool():
     user_id = require_logged_in ()
     if request.args[0] == 'read':
-        lookup_id = require_int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         tool_data = dm.get ('tools', lookup_id)
         buffer = dev_read_code (tool_data.filename)
         buffer = dev_format_code (buffer)
@@ -44,10 +44,10 @@ def tool():
         val['text'] = buffer
         return json.dumps (val)
     elif request.args[0] == 'args':
-        lookup_id = require_int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         return json.dumps (get_tool (lookup_id)['args'])
     elif request.args[0] == 'run':
-        lookup_id = require_int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         m = get_tool (lookup_id)
         if m['python']:
             return call_py (m).json ()
@@ -84,12 +84,12 @@ def result():
     elif request.args[0] == 'publish':
         require_logged_in ()
         perm = boolean (require_int (request.vars.get ('perm')))
-        lookup_id = int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         dm.update ('results', lookup_id, public = perm)
         return str (perm)
     elif request.args[0] == 'export_available':
         require_logged_in ()
-        lookup_id = require_int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         r_type = dm.get ('results', lookup_id).type
         if r_type == mime.PNG:
             return json.dumps ([{'name': 'png', 'id': mime.PNG}])
@@ -101,7 +101,7 @@ def result():
         from re import search
         from urllib import unquote
         require_logged_in ()
-        lookup_id = require_int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         export_type = request.vars.get ('mode')
         export_type = unquote (export_type)
         filename = require_alphanumeric (request.vars.get ('filename'))
@@ -171,7 +171,7 @@ def result():
 def analysis():
     if request.args[0] == 'save':
         require_logged_in ()
-        lookup_id = int (request.vars.get ('id'))
+        lookup_id = require_alphanumeric (request.vars.get ('id'))
         name = require_text (request.vars.get ('name'))
         tool_data = dm.get ('tools', lookup_id)
         data = format_analysis (request.vars, lookup_id)

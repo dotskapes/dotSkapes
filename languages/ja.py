@@ -2701,6 +2701,7 @@
 'Poultry restocking, Rank': '家禽の補充、ランク',
 'Pounds': 'ポンド',
 'Power Failure': '停電',
+'Powered By': 'Powered By',
 'Powered by Sahana Eden': 'Powered by Sahana Eden',
 'Preferred Name': '愛称',
 'Pregnant women': '妊婦の数',
