@@ -1,7 +1,12 @@
-The dotSkapes Project is a suite of tools for finding, analyzing, sharing, and tagging research.
+The dotSkapes Project is a suite of tools for collaborative research. The platform is being developed at EcoHealth Alliance (http://ecohealthalliance.org) and the Center for Sustainability and the Global Environment at UW-Madison (http://sage.wisc.edu).
 
-The platform is being developed at the Center for Sustainability and the Global Environment at UW-Madison (http://sage.wisc.edu).
-
-This is a Web2Py application, that requires a Python environment running Web2Py (http://web2py.com/). The application is being designed to be compatible with Sahana Eden disaster management tools (http://eden.sahanafoundation.org/). Our code has been inspired by the work of the Sahana Foundation (http://sahanafoundation.org/).
+This is a Web2Py application, that requires a Python environment running Web2Py (http://web2py.com/). The application is being designed to be compatible with Sahana Eden disaster management tools (http://eden.sahanafoundation.org/). Our development model has been inspired by the work of the Sahana Foundation (http://sahanafoundation.org/).
 
 Please visit our website for more details: http://dot.skapes.org
+
+Sponsors:
+University of Wisconsin - Madison
+EcoHealth Alliance
+
+News:
+Development of the GitHub repository has been on hold while the project lead (nicopresto) moved to a new research position in New York City. As of June 2012 we are back in active development and look forward to pushing out new components.
