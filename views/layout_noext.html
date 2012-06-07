@@ -1,0 +1,67 @@
+{{ vars = load_user_globals () }}
+{{ if not globals ().has_key ('hs_component'): }}
+  {{ hs_component = None }}
+{{ pass }}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<style>div#head_panel a {padding: 5px;}</style>
+
+<link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
+
+{{response.files.append(URL('static','css/base.css'))}}
+{{response.files.append(URL('static','css/layout.css'))}}
+{{response.files.append(URL('static','css/superfish.css'))}}
+{{response.files.append(URL('static','js/superfish.js'))}}
+{{ include 'web2py_ajax.html' }}
+
+{{ include 'head.html' }}
+
+
+</head>
+<body>
+    <div class="flash">{{=response.flash or ''}}</div>
+    <div id="head_panel">
+
+	<a id='head_panel_main'  class='menu_button' href="/{{= request.application }}/default">Main</a>
+	<a class='menu_button' href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/></a>
+	<a class='menu_button' href="/{{= request.application }}/find" title='fast'>F</a>
+	<a class='menu_button' href="/{{= request.application }}/analyze" title='analyze'>A</a>
+	<a class='menu_button' href="#" style="background-color:grey;" title='share'>S</a>
+	<a class='menu_button' href="#" style="background-color:grey;" title='tag'>T</a>
+	<a id='head_panel_docs' class='menu_button' href="/{{= request.application }}/wiki/docs">Docs</a>
+
+	<br />
+
+    </div>
+
+    <div id="main_panel">
+
+
+	<div id='mouseleave' style='height:20px'>
+		<div id='submenu' style="display:none;">	
+
+			<a class='menu_button' href="/{{= request.application }}/wiki/blog">Blog</a>
+			<a class='menu_button' href="/{{= request.application }}/about">About</a>
+			<a class='menu_button' href="/{{= request.application }}/team">Team</a>
+
+		</div>
+
+		<div id='submenu_docs' style="display:none;">	
+
+			<a class='menu_button' href="/{{= request.application }}/wiki/cases">Case Studies</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/tutorials">Tutorials</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/researcher">Researcher</a>
+			<a class='menu_button' href="/{{= request.application }}/wiki/dev">Developer</a>
+
+		</div>
+	</div>
+
+      {{ include }}
+
+    </div>
+</body>
+
+
+
+</html>
