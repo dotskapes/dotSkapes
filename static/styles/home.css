@@ -131,12 +131,13 @@
 }
 
 #home #main #icons .icon p {
-    font-size: 12px;
+    font-size: 15px;
     text-indent: 0px;
     float: left;
     margin: 10px;
     width: 140px;
     height: 110px;
+    font-family: 'Varela',sans-serif;
 }
 
 #home #main #icons .icon a {

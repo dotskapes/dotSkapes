@@ -6,8 +6,6 @@
 
 		    <div id='main'>
 		    
-
-		
 			<div id='icons'>
 
 			    <div class='icon'>
@@ -15,7 +13,7 @@
 			    	    <img src="{{=URL('static','images/tutorial.png')}}"/>
 			    	    <h3>Tutorials</h3>
 			    	</a>
-			    	<p>Resources for doing science with the dotSkapes platform.</p>
+			    	<p>Resources for using the dotSkapes platform.</p>
 			    </div>
 
 			    
@@ -30,34 +28,34 @@
 			    <div class='icon'>
 			    	<a href="{{=URL(r=request, c='wiki', f='researcher')}}">
 			    	    <img src="{{=URL('static','images/researcher.png')}}"/>
-			    	    <h3>Researcher</h3>
+			    	    <h3>Researchers</h3>
 			    	</a>
-			    	<p>Resources for doing research with dotSkapes.</p>
+			    	<p>Resources for researchers interested in using dotSkapes.</p>
 			    </div>
 
 			    <div class='icon'>
 			    	<a href="{{=URL(r=request, c='wiki', f='dev')}}">
 			    	    <img src="{{=URL('static','images/developer.png')}}"/>
-			    	    <h3>Developer</h3>
+			    	    <h3>Developers</h3>
 			    	</a>
-			    	<p>Resources for understanding or contributing to our infrastracture.</p>
+			    	<p>Resources for viewing source code and submitting tickets.</p>
 			    </div>
 			    
 			    <div class='icon'>
 			    	<a href="{{=URL(r=request, c='wiki', f='case')}}">
 
 			    	    <img src="{{=URL('static','images/casestudy.png')}}"/>
-			    	    <h3>Case Study</h3>
+			    	    <h3>Case Studies</h3>
 			    	</a>
-			    	<p>Examples of dotSkapes in the wild.</p>
+			    	<p>Examples of dotSkapes in action.</p>
 			    </div>
 			    
 			    <div class='icon'>
 				<a href="{{=URL(r=request, c='about')}}">
 				    <img src="{{=URL('static','images/about.png')}}"/>
-				    <h3>About</h3>
+				    <h3>About Us</h3>
 				</a>
-				<p>Information on our team and our collaborators.</p>
+				<p>Information on our development team and collaborators.</p>
 			    </div>
 			    
 			</div>
@@ -67,7 +65,7 @@
 		    <div id='sidebar'>
 
 			<div id='blog'>
-			  <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Blog</a></
+			  <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Recent blog posts</a></
 			    <p>
 			      {{ page = newest_page_preview () }}
 			      <h2 class="title">{{= page.title }}</h2>
