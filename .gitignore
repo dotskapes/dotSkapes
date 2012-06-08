@@ -4,6 +4,7 @@
 *.py~
 *~
 #*
+*.bak
 cache/*
 cron/crontab
 databases/*
