@@ -90,7 +90,7 @@
 
 #home #main {
     float: left;
-    width: 595px;
+    width: 575px;
     height: 100%;
 }
 
@@ -151,6 +151,7 @@
 #home #sidebar {
     float: left;
     width: 392px;
+    padding-left: 20px;
     height: 100%;
     border-left: 2px solid #ddd;
 }

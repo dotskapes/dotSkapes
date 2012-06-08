@@ -1,13 +1,4 @@
 {{ extend 'layout_noext.html' }}
-
-<div id='home'>
-
-    <div id='wrapper'>
- 
-        <div id = 'header'>
-            {{include 'default/header.html'}}
-	</div>
-
 	
         <div id = 'content'>
 
@@ -15,15 +6,7 @@
 
 		    <div id='main'>
 		    
-			<div id='blog'>
-			  <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Blog</a></
-			    <p>
-			      {{ page = newest_page_preview () }}
-			      <h2 class="title">{{= page.title }}</h2>
-			      {{= plugin_wiki.render(page.body) }}
-			      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [page.slug, 'view'])}}">MORE &#187;</a></p>{{ pass }}
-			    </p>
-			</div>
+
 		
 			<div id='icons'>
 
@@ -82,42 +65,52 @@
 		    </div>
 		    
 		    <div id='sidebar'>
-		    
-			<div id='twitter'>
-		
-			    <script src="http://widgets.twimg.com/j/2/widget.js"></script>
-			    <script>
-			    new TWTR.Widget({
-			      version: 2,
-			      type: 'profile',
-			      rpp: 2,
-			      interval: 6000,
-			      width: 'auto',
-			      height: 115,
-			      theme: {
-				shell: {
-				  background: '#e0e0e0',
-				  color: '#75acff'
-				},
-				tweets: {
-				  background: '#f5f5f5',
-				  color: '#000000',
-				  links: '#aea3ff'
-				}
-			      },
-			      features: {
-				scrollbar: true,
-				loop: false,
-				live: false,
-				hashtags: true,
-				timestamp: true,
-				avatars: false,
-				behavior: 'all'
-			      }
-			    }).render().setUser('dotskapes').start();
-			    </script>
-			    
+
+			<div id='blog'>
+			  <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Blog</a></
+			    <p>
+			      {{ page = newest_page_preview () }}
+			      <h2 class="title">{{= page.title }}</h2>
+			      {{= plugin_wiki.render(page.body) }}
+			      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [page.slug, 'view'])}}">MORE &#187;</a></p>{{ pass }}
+			    </p>
 			</div>
+		    
+			<!-- <div id='twitter'> -->
+		
+			<!--     <script src="http://widgets.twimg.com/j/2/widget.js"></script> -->
+			<!--     <script> -->
+			<!--     new TWTR.Widget({ -->
+			<!--       version: 2, -->
+			<!--       type: 'profile', -->
+			<!--       rpp: 2, -->
+			<!--       interval: 6000, -->
+			<!--       width: 'auto', -->
+			<!--       height: 115, -->
+			<!--       theme: { -->
+			<!-- 	shell: { -->
+			<!-- 	  background: '#e0e0e0', -->
+			<!-- 	  color: '#75acff' -->
+			<!-- 	}, -->
+			<!-- 	tweets: { -->
+			<!-- 	  background: '#f5f5f5', -->
+			<!-- 	  color: '#000000', -->
+			<!-- 	  links: '#aea3ff' -->
+			<!-- 	} -->
+			<!--       }, -->
+			<!--       features: { -->
+			<!-- 	scrollbar: true, -->
+			<!-- 	loop: false, -->
+			<!-- 	live: false, -->
+			<!-- 	hashtags: true, -->
+			<!-- 	timestamp: true, -->
+			<!-- 	avatars: false, -->
+			<!-- 	behavior: 'all' -->
+			<!--       } -->
+			<!--     }).render().setUser('dotskapes').start(); -->
+			<!--     </script> -->
+			    
+			<!-- </div> -->
 		
 <br />
 		
@@ -158,6 +151,5 @@
             {{include 'default/footer.html'}}
         </div>
     
-    </div>
     
-</div>
+
