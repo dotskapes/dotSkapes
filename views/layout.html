@@ -83,7 +83,7 @@
     {{ mainElement = 'hs.app.info' }}
     {{ elif request.controller == 'find': }}
     hs.app.find = new hs.find.Panel ({
-    title: 'Find',
+    title: 'Depot',
     region: 'center',
     });
     {{ mainElement = 'hs.app.find' }}
@@ -153,7 +153,7 @@
         ],
     });
     win = new Ext.Viewport ({
-        title: 'skapes v0.4.1',
+        title: 'skapes v0.4.2',
         //layoutOnChange: true,
         //collapsible: false,
         //maximizable: true,
@@ -163,7 +163,7 @@
         id: 'main_window',
         items:  [
         {
-        title: 'Skapes v0.4.1',
+        title: 'Skapes v0.4.2',
         height: 'autoHeight',
         region: 'north',
         border: false,
@@ -193,12 +193,11 @@
     <div class="flash">{{=response.flash or ''}}</div>
     <div id="head_panel">
 
-	<a id='head_panel_main'  class='menu_button' href="/{{= request.application }}/default">Main</a>
-	<a class='menu_button' href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/></a>
-	<a class='menu_button' href="/{{= request.application }}/find" title='fast'>F</a>
-	<a class='menu_button' href="/{{= request.application }}/analyze" title='analyze'>A</a>
-	<a class='menu_button' href="#" style="background-color:grey;" title='share'>S</a>
-	<a class='menu_button' href="#" style="background-color:grey;" title='tag'>T</a>
+	<a id='head_panel_main'  class='menu_button' href="/{{= request.application }}/default">Home</a>
+	<a class='menu_button' href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/>Map</a>
+	<a class='menu_button' href="/{{= request.application }}/find" title='depot'>Depot</a>
+	<a class='menu_button' href="/{{= request.application }}/analyze"title='lab'>Lab</a>
+	<a class='menu_button' href="#" style="background-color:grey;" title='dash'>Dash</a>
 	<a id='head_panel_docs' class='menu_button' href="/{{= request.application }}/wiki/docs">Docs</a>
 
 	<br />
