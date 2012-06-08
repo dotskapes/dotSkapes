@@ -1,8 +1,7 @@
-{{ extend 'layout.html' }}
+{{ extend 'layout_noext.html' }}
 
 <div id="wrapper_wiki">       
   <div id="header">
-    <span id='title'>The dotSkapes Project</span>
     <div style="text-align: right">
       <form style="display: inline;" method="GET" action="{{= URL (r = request) }}"><input name="search" id="search_box" type="text" value="{{ if request.vars.has_key ('search'): }}{{= request.vars.get ('search') }}{{ pass }}" /></form><a href="{{= URL(r=request) }}">Main</a>{{if check_role (writer_role): }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request, args=['categories']) }}">Edit Categories</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{= URL(r=request, args=['create']) }}">Create New Page</a>{{ pass }}
     </div>
