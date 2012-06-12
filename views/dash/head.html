@@ -1,39 +1,40 @@
-    <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/dash/screen.css" />
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery.hotkeys.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/d3.v2.min.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/webgl_maps.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/engine.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/camera.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/select.js"></script>
+<link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/css/core.css" />
+<link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/dash/screen.css" />
+<script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/d3.v2.min.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/webgl_maps.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/engine.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/camera.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/select.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/color.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/table.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/mds.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/time.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/query.js"></script>
+<script type="text/javascript" src="/{{=request.application}}/static/dash/selector.js"></script>
+<script type="text/javascript">
 
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/color.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/table.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/mds.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/time.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/query.js"></script>
-    <script type="text/javascript" src="/{{=request.application}}/static/dash/selector.js"></script>
-    <script type="text/javascript">
     $ (document).ready (function () {
 	WIDTH = 500;
 	HEIGHT = 500;
 
 	AGG = 0;
 
-        var y = $ ('#header').position ().top + $ ('#header').height ();
-        console.log ('y', $ ('#header').position ().top, $ ('#header').height ());
+        var y = $ ('header').position ().top + $ ('header').height ();
+        console.log ('y', $ ('header').position ().top, $ ('header').height ());
 
         $ ('#content').css ({
             width: $ (window).width (),
             left: 0,
-            top: 175
+            top: 75
         });
 
 	WIDTH = ($ ('#content').width () / 2);
 
 	var height = $ ('#step').innerHeight ();
-	HEIGHT = $ (window).height () - 175 - height - 50 - 5;
+	HEIGHT = $ (window).height () - 75 - height - 50 - 5;
 	$ ('#options').css ('top', HEIGHT + 50);
 
 	$ ('#options').css ({
@@ -86,10 +87,10 @@
 	};
 
 	/*var force_move = function (elem, index, other) {
-	    if (other == index) {
-		change_view (elem, (index + 1) % div_names.length);
-	    }
-	};*/
+	  if (other == index) {
+	  change_view (elem, (index + 1) % div_names.length);
+	  }
+	  };*/
 
 	var highlighted = new LayerSelector ([]);
 
@@ -123,24 +124,24 @@
 	};
 
         /*$ ('#tabs1').tabs ({
-	    select: function (event, ui) {
-		current1 = ui.index;
-		change_view (event, ui);
-		force_move ($ ('#tabs2'), ui.index, current2);
-	    },
-	    selected: 3
-	});
+	  select: function (event, ui) {
+	  current1 = ui.index;
+	  change_view (event, ui);
+	  force_move ($ ('#tabs2'), ui.index, current2);
+	  },
+	  selected: 3
+	  });
 
-        $ ('#tabs2').tabs ({
-	    select: function (event, ui) {
-		current2 = ui.index;
-		change_view (event, ui);
-		force_move ($ ('#tabs1'), ui.index, current1);
-	    }
-	});
+          $ ('#tabs2').tabs ({
+	  select: function (event, ui) {
+	  current2 = ui.index;
+	  change_view (event, ui);
+	  force_move ($ ('#tabs1'), ui.index, current1);
+	  }
+	  });
 
-	$ ('#tabs1').tabs ('select', 0);
-	$ ('#tabs2').tabs ('select', 1);*/
+	  $ ('#tabs1').tabs ('select', 0);
+	  $ ('#tabs2').tabs ('select', 1);*/
 
 	$.each ($ ('#tabs1 a'), function (index, elem) {
 	    $ (elem).click (function () {
@@ -167,10 +168,10 @@
 		return false;
 	    });
 	});
-		
+	
 	change_view ($ ('#panel1'), current1);
 	change_view ($ ('#panel2'), current2);
-			    
+	
 
 	$ ('#map').css ({
 	    height: HEIGHT,
@@ -226,9 +227,9 @@
 	var selected = null;
 	var map_search = function (box) {
 	    /*if (selected) 
-		selected.style ('fill', function (f) {
-		    return color_map.map (f);
-		});*/
+	      selected.style ('fill', function (f) {
+	      return color_map.map (f);
+	      });*/
 	    selected = br_precip.search (box);
 	    var remain = active_queries.get (selected)
 
@@ -276,25 +277,25 @@
 		var query_box = new QueryBox ($ ('#query .container #make'), order, active_queries);
 		
 		/*var slider_label = $ ('<div>' + order[0] + '</div>')
-		    .css ({
-			position: 'absolute',
-			'font-size': 14
-		    });
-		slider = new Slider (new vect (0, 700), new vect (300, 15), order.length);
-		slider.change (function (index) {
-		    slider_label.text (order[index]);
-		});
-		slider.release (function (index) {
-		    color_map.key (order[index]);
-		    reset_colors ();
-		});
-		$ ('body').append (slider.dom);
-		$ ('body').append (slider_label);
-		
-		slider_label.css ({
-		    left: slider.dom.position ().left + slider.dom.innerWidth () + 5,
-		    top: slider.dom.position ().top
-		});*/
+		  .css ({
+		  position: 'absolute',
+		  'font-size': 14
+		  });
+		  slider = new Slider (new vect (0, 700), new vect (300, 15), order.length);
+		  slider.change (function (index) {
+		  slider_label.text (order[index]);
+		  });
+		  slider.release (function (index) {
+		  color_map.key (order[index]);
+		  reset_colors ();
+		  });
+		  $ ('body').append (slider.dom);
+		  $ ('body').append (slider_label);
+		  
+		  slider_label.css ({
+		  left: slider.dom.position ().left + slider.dom.innerWidth () + 5,
+		  top: slider.dom.position ().top
+		  });*/
 
 		$.ajax ({
 		    url: 'static/dash/2011_mds.json',
@@ -308,21 +309,21 @@
 		});
 
 		/*var agg_sel = $ ('<select></select>')
-		    .css ({
-			position: 'absolute',
-			left: 500,
-			top: 600
-		    })
-		    .change (function () {
-			var val = $ (this).children ().filter (':selected').val ();
-			AGG = val;
-			highlight_subset (highlighted);
-		    });
-		agg_sel.append ('<option value="0">Mean</option>');
-		agg_sel.append ('<option value="1">Max</option>');
-		agg_sel.append ('<option value="2">Min</option>');
+		  .css ({
+		  position: 'absolute',
+		  left: 500,
+		  top: 600
+		  })
+		  .change (function () {
+		  var val = $ (this).children ().filter (':selected').val ();
+		  AGG = val;
+		  highlight_subset (highlighted);
+		  });
+		  agg_sel.append ('<option value="0">Mean</option>');
+		  agg_sel.append ('<option value="1">Max</option>');
+		  agg_sel.append ('<option value="2">Min</option>');
 
-		$ ('body').append (agg_sel);*/
+		  $ ('body').append (agg_sel);*/
 		$.each (order, function (i, v) {
 		    var div = $ ('<div></div>');
 		    var input = $ ('<input type="radio" name="step" />')
@@ -372,7 +373,7 @@
 	    }
 	});
     });
-    </script>
-{{ pass }}
+</script>
+    {{ pass }}
 
 

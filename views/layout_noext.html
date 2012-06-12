@@ -21,16 +21,19 @@
       {{include 'header.html'}}
     </header>
 
+{{if request.controller != 'dash':}}
     <nav>
       {{include 'nav.html'}}
     </nav>
+{{pass}}
 
     {{include}}
 
+{{if request.controller != 'dash':}}
     <footer>
       {{include 'footer.html'}}
     </footer> 
-
+{{pass}}
 
   </body>
 
