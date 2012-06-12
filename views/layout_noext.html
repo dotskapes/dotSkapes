@@ -1,91 +1,43 @@
 {{ vars = load_user_globals () }}
 {{ if not globals ().has_key ('hs_component'): }}
-  {{ hs_component = None }}
+{{ hs_component = None }}
 {{ pass }}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-<head>
-<style>div#head_panel a {padding: 5px;}</style>
+  <head>
+    <style>div#head_panel a {padding: 5px;}</style>
 
-<link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
 
-{{response.files.append(URL('static','css/base.css'))}}
-{{response.files.append(URL('static','css/layout.css'))}}
-{{response.files.append(URL('static','css/superfish.css'))}}
-{{response.files.append(URL('static','js/superfish.js'))}}
+      {{response.files.append(URL('static','css/base.css'))}}
+      {{response.files.append(URL('static','css/layout.css'))}}
+      {{response.files.append(URL('static','css/superfish.css'))}}
+      {{response.files.append(URL('static','js/superfish.js'))}}
 
-{{ include 'web2py_ajax.html' }}
+      {{ include 'web2py_ajax.html' }}
+      {{ include 'head.html' }}
 
-{{ include 'head.html' }}
+    </head>
+    <body>
+      <div class="flash">{{=response.flash or ''}}</div>
 
+      <div id="main_panel">
 
-</head>
-<body>
-    <div class="flash">{{=response.flash or ''}}</div>
+        <div id='home'>
+          
+          <div id='wrapper'>
+            
+            <div id = 'header'>
+              {{include 'header.html'}}
+	    </div>
 
-<!-- <img src="{{=URL('static','images/130px_logo_white_alpha.png')}}"/> -->
- 
-<!--  <div style='clear: right;'></div> -->
-<!--   <a href="/{{= request.application }}/wiki/blog" class='letter' title='blog'>Blog</a> -->
-<!--  <a href="/{{= request.application }}/map" class='letter' title='map'>Map</a> -->
-<!--  <a href="/{{= request.application }}/find" class='letter' title='depot'>Depot</a> -->
-<!--  <a href="/{{= request.application }}/analyze" class='letter' title='lab'>Lab</a> -->
-<!-- <\!-- <a href="/{{= request.application }}/splash/analyze" class='letter' title='analyze'>Dash</a>-\-> -->
-<!--  <a href="#" class='letter' style="background-color:grey;"  title='dash'>Dash</a> -->
-<!--  <a href="/{{= request.application }}/wiki/docs/docs/view" class='letter' title='docs'>Docs</a> -->
-<!--  <a href="/{{= request.application }}/about" class='letter' title='about'>About</a> -->
-<!-- <br /> -->
-<!--  <span class='title'>The dotSkapes Project</span> -->
-    <!-- <div id="head_panel"> -->
+            {{ include }}
 
-    <!-- 	<a id='head_panel_main'  class='menu_button' href="/{{= request.application }}/default">Main</a> -->
-    <!-- 	<a class='menu_button' href="/{{= request.application }}/map"><img src="/{{=request.application}}/static/images/favicon.png" alt="Map"/></a> -->
-    <!-- 	<a class='menu_button' href="/{{= request.application }}/find" title='fast'>F</a> -->
-    <!-- 	<a class='menu_button' href="/{{= request.application }}/analyze" title='analyze'>A</a> -->
-    <!-- 	<a class='menu_button' href="#" style="background-color:grey;" title='share'>S</a> -->
-    <!-- 	<a class='menu_button' href="#" style="background-color:grey;" title='tag'>T</a> -->
-    <!-- 	<a id='head_panel_docs' class='menu_button' href="/{{= request.application }}/wiki/docs">Docs</a> -->
-
-    <!-- 	<br /> -->
-
-    <!-- </div> -->
-
-    <div id="main_panel">
-
-
-	<!-- <div id='mouseleave' style='height:20px'> -->
-	<!-- 	<div id='submenu' style="display:none;">	 -->
-
-	<!-- 		<a class='menu_button' href="/{{= request.application }}/wiki/blog">Blog</a> -->
-	<!-- 		<a class='menu_button' href="/{{= request.application }}/about">About</a> -->
-	<!-- 		<a class='menu_button' href="/{{= request.application }}/team">Team</a> -->
-
-	<!-- 	</div> -->
-
-	<!-- 	<div id='submenu_docs' style="display:none;">	 -->
-
-	<!-- 		<a class='menu_button' href="/{{= request.application }}/wiki/cases">Case Studies</a> -->
-	<!-- 		<a class='menu_button' href="/{{= request.application }}/wiki/tutorials">Tutorials</a> -->
-	<!-- 		<a class='menu_button' href="/{{= request.application }}/wiki/researcher">Researcher</a> -->
-	<!-- 		<a class='menu_button' href="/{{= request.application }}/wiki/dev">Developer</a> -->
-
-	<!-- 	</div> -->
-	<!-- </div> -->
-<div id='home'>
-      
-    <div id='wrapper'>
- 
-        <div id = 'header'>
-            {{include 'default/header.html'}} <!--move up ..-->
-	</div>
-
-{{ include }}
-
-	</div>
-</div>
-    </div>
-</body>
+	  </div>
+        </div>
+      </div>
+    </body>
 
 
 
-</html>
+  </html>

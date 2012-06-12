@@ -14,7 +14,7 @@
 
 #home #header {
     margin: 0 auto;
-    height: 140px;
+    height: 120px;
     border-bottom: 5px solid #ccc;
 }
 
@@ -131,11 +131,11 @@
 }
 
 #home #main #icons .icon p {
-    font-size: 15px;
+    font-size: 14px;
     text-indent: 0px;
     float: left;
     margin: 10px;
-    width: 140px;
+    width: 130px;
     height: 110px;
     font-family: 'Varela',sans-serif;
 }
@@ -147,6 +147,10 @@
     width: 40%;
     margin: 10px 0;
     margin-left: 10px;
+}
+
+#home #main #icons .icon img {
+    text-align:center;
 }
 
 #home #sidebar {
