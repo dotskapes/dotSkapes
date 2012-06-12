@@ -1,0 +1,378 @@
+    <link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/dash/screen.css" />
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/jquery/js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/d3.v2.min.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/webgl_maps.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/engine.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/camera.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/webgl_maps/js/select.js"></script>
+
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/color.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/table.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/mds.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/time.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/query.js"></script>
+    <script type="text/javascript" src="/{{=request.application}}/static/dash/selector.js"></script>
+    <script type="text/javascript">
+    $ (document).ready (function () {
+	WIDTH = 500;
+	HEIGHT = 500;
+
+	AGG = 0;
+
+        var y = $ ('#header').position ().top + $ ('#header').height ();
+        console.log ('y', $ ('#header').position ().top, $ ('#header').height ());
+
+        $ ('#content').css ({
+            width: $ (window).width (),
+            left: 0,
+            top: 175
+        });
+
+	WIDTH = ($ ('#content').width () / 2);
+
+	var height = $ ('#step').innerHeight ();
+	HEIGHT = $ (window).height () - 175 - height - 50 - 5;
+	$ ('#options').css ('top', HEIGHT + 50);
+
+	$ ('#options').css ({
+	    'width': $ (window).innerWidth (),
+	    'height': height + 5
+	});
+
+	$('#panel').css ('width', WIDTH);
+	$('#panel').css ('height', HEIGHT);
+
+	$('#panel2').css ('width', WIDTH);
+	$('#panel2').css ('height', HEIGHT);
+	//$ ('#panel2').css ('overflow', 'auto');
+
+	$('#table').css ('width', WIDTH);
+	$('#table').css ('height', HEIGHT);
+
+	$ ('#tabs2').css ('left', WIDTH);
+	
+	var order;
+	var time_series;
+	var mds;
+
+	var active_queries;
+
+	var change_subset = function () {
+	    var selector = active_queries.get (br_precip.features ());
+
+	    br_precip.features ().style ('fill-opacity', 0);
+            br_precip.features ().style ('stroke-opacity', 0);  
+
+	    selector.style ('stroke-opacity', 1.0);
+	    selector.style ('fill-opacity', .75);
+
+	    time_series.filter (selector);
+	    table.filter (selector);
+	    mds.filter (selector);
+	};
+	
+	var color_map;
+	var div_names = ['#map', '#time', '#history', '#table'];
+	var current1 = 0; current2 = 1;
+	var change_view = function (panel, index) {
+	    var div = $ (div_names[index]);
+	    panel.children ().css ('display', 'none');
+	    panel.append (div);
+	    div.css ('display', 'block');
+	    if (div_names[index] == '#table')
+		table.resize ();
+	};
+
+	/*var force_move = function (elem, index, other) {
+	    if (other == index) {
+		change_view (elem, (index + 1) % div_names.length);
+	    }
+	};*/
+
+	var highlighted = new LayerSelector ([]);
+
+	highlight_subset = function (selector) {
+	    
+	    highlighted = selector;
+	    
+	    var attr;
+	    if (AGG == 0)
+		attr = average_vals (selector, order);	    
+	    else if (AGG == 1)
+		attr = max_vals (selector, order);
+	    else if (AGG == 2)
+		attr = min_vals (selector, order);
+
+	    var selected = br_precip.features ();
+	    var remain = active_queries.get (selected)
+	    remain.style ('fill', function (f) {
+		return color_map.map (f);
+	    });
+	    selector.style ('fill', color_map.highlight ());
+	    
+	    time_series.highlight (selector);
+	    time_series.aggregate (attr);
+	    
+	    table.highlight (selector);
+	    table.aggregate (attr);	    
+
+	    if (mds)
+		mds.highlight (selector);
+	};
+
+        /*$ ('#tabs1').tabs ({
+	    select: function (event, ui) {
+		current1 = ui.index;
+		change_view (event, ui);
+		force_move ($ ('#tabs2'), ui.index, current2);
+	    },
+	    selected: 3
+	});
+
+        $ ('#tabs2').tabs ({
+	    select: function (event, ui) {
+		current2 = ui.index;
+		change_view (event, ui);
+		force_move ($ ('#tabs1'), ui.index, current1);
+	    }
+	});
+
+	$ ('#tabs1').tabs ('select', 0);
+	$ ('#tabs2').tabs ('select', 1);*/
+
+	$.each ($ ('#tabs1 a'), function (index, elem) {
+	    $ (elem).click (function () {
+		console.log ('click');
+		current1 = index;
+		change_view ($ ('#panel1'), current1);
+		if (current1 == current2) {
+		    current2 = (current2 + 1) % div_names.length;
+		    change_view ($ ('#panel2'), current2);
+		}
+		return false;
+	    });
+	});
+
+	$.each ($ ('#tabs2 a'), function (index, elem) {
+	    $ (elem).click (function () {
+		console.log ('click');
+		current2 = index;
+		change_view ($ ('#panel2'), current2);
+		if (current1 == current2) {
+		    current1 = (current1 + 1) % div_names.length;
+		    change_view ($ ('#panel1'), current1);
+		}
+		return false;
+	    });
+	});
+		
+	change_view ($ ('#panel1'), current1);
+	change_view ($ ('#panel2'), current2);
+			    
+
+	$ ('#map').css ({
+	    height: HEIGHT,
+	    width: WIDTH,
+	    overflow: 'hidden'
+	});
+
+	var map = new Map ('#map');
+	map.center (-98.35, 39.5);
+
+	var average_vals = function (selector, order) {
+	    if (selector.length == 0)
+		return null;
+	    var attr = {};
+	    $.each (order, function (i, key) {
+		attr[key] = 0;
+		selector.each (function (j, feature) {
+		    attr[key] += feature.attr[key];
+		});
+		attr[key] /= selector.length;
+	    });
+	    return attr;
+	};
+
+	var max_vals = function (selector, order) {
+	    if (selector.length == 0)
+		return null;
+	    var attr = {};
+	    $.each (order, function (i, key) {
+		attr[key] = -Infinity;
+		selector.each (function (j, feature) {
+		    if (feature.attr[key] > attr[key])
+			attr[key] = feature.attr[key];
+		});
+	    });
+	    return attr;
+	};
+
+	var min_vals = function (selector, order) {
+	    if (selector.length == 0)
+		return null;
+	    var attr = {};
+	    $.each (order, function (i, key) {
+		attr[key] = Infinity;
+		selector.each (function (j, feature) {
+		    if (feature.attr[key] < attr[key])
+			attr[key] = feature.attr[key];
+		});
+	    });
+	    return attr;
+	};
+
+	var selected = null;
+	var map_search = function (box) {
+	    /*if (selected) 
+		selected.style ('fill', function (f) {
+		    return color_map.map (f);
+		});*/
+	    selected = br_precip.search (box);
+	    var remain = active_queries.get (selected)
+
+	    highlight_subset (remain);
+	};
+
+	var STEP = 0;
+	var reset_colors = function () {
+	    var key = order[STEP];
+	    color_map.key (key);
+	    br_precip.features ().style ('fill', function (f) {
+		return color_map.map (f);
+	    });
+	    table.color ();
+	    time_series.color ();
+	    if (mds)
+		mds.color ();
+	    highlight_subset (new LayerSelector ([]));
+	}
+
+	$.ajax ({
+	    url: 'static/dash/2011.json',
+	    dataType: 'json',
+	    success: function (data) {
+		//order = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+		//order = ['1/3/2011', '1/4/2011', '1/5/2011', '1/6/2011', '1/7/2011', '1/8/2011', '1/9/2011', '1/10/2011', '1/11/2011', '1/12/2011', '1/13/2011', '1/14/2011', '1/15/2011', '1/16/2011', '1/17/2011', '1/18/2011', '1/19/2011', '1/20/2011', '1/21/2011', '1/22/2011', '1/23/2011', '1/24/2011', '1/25/2011', '1/26/2011', '1/27/2011', '1/28/2011', '1/29/2011', '1/30/2011', '7/24/2011', '7/31/2011', '8/7/2011', '8/14/2011', '8/21/2011', '8/28/2011', '9/4/2011', '9/11/2011', '9/18/2011', '9/25/2011', '10/2/2011', '10/9/2011', '10/16/2011', '10/23/2011', '10/30/2011', '11/6/2011', '11/13/2011', '11/20/2011', '11/27/2011', '12/4/2011', '12/11/2011', '12/18/2011', '12/25/2011'];
+		order = ['1/2/2011', '1/9/2011', '1/16/2011', '1/23/2011', '1/30/2011', '2/6/2011', '2/13/2011', '2/20/2011', '2/27/2011', '3/6/2011', '3/13/2011', '3/20/2011', '3/27/2011', '4/3/2011', '4/10/2011', '4/17/2011', '4/24/2011', '5/1/2011', '5/8/2011', '5/15/2011', '5/22/2011', '5/29/2011', '6/5/2011', '6/12/2011', '6/19/2011', '6/26/2011', '7/3/2011', '7/10/2011', '7/17/2011', '7/24/2011', '7/31/2011', '8/7/2011', '8/14/2011', '8/21/2011', '8/28/2011', '9/4/2011', '9/11/2011', '9/18/2011', '9/25/2011', '10/2/2011', '10/9/2011', '10/16/2011', '10/23/2011', '10/30/2011', '11/6/2011', '11/13/2011', '11/20/2011', '11/27/2011', '12/4/2011', '12/11/2011', '12/18/2011', '12/25/2011'];
+
+		br_precip = GeoJSON (data);
+		br_precip.features ().style ('fill-opacity', .75);
+		br_precip.features ().style ('stroke-opacity', 1.0);
+		br_precip.features ().style ('stroke', new Color (.3, .3, .3, 1.0));
+		map.append (br_precip);
+
+		color_map = new ColorMap (data, order);
+
+		map.select (map_search);
+
+		time_series = new TimeSeries ('#time', br_precip.features (), order, color_map);
+
+		table = new Table ($ ('#table_c'), br_precip, order, color_map);
+		//table.color (color_map);
+
+		active_queries = new ActiveQueries ($ ('#query .container #set'), br_precip, change_subset);
+		var query_box = new QueryBox ($ ('#query .container #make'), order, active_queries);
+		
+		/*var slider_label = $ ('<div>' + order[0] + '</div>')
+		    .css ({
+			position: 'absolute',
+			'font-size': 14
+		    });
+		slider = new Slider (new vect (0, 700), new vect (300, 15), order.length);
+		slider.change (function (index) {
+		    slider_label.text (order[index]);
+		});
+		slider.release (function (index) {
+		    color_map.key (order[index]);
+		    reset_colors ();
+		});
+		$ ('body').append (slider.dom);
+		$ ('body').append (slider_label);
+		
+		slider_label.css ({
+		    left: slider.dom.position ().left + slider.dom.innerWidth () + 5,
+		    top: slider.dom.position ().top
+		});*/
+
+		$.ajax ({
+		    url: 'static/dash/2011_mds.json',
+		    dataType: 'json',
+		    success: function (data) {
+			mds = new MDS ('#history', br_precip.features (), data, color_map);
+		    },
+		    error: function (xhr, text) {
+			throw text;
+		    }
+		});
+
+		/*var agg_sel = $ ('<select></select>')
+		    .css ({
+			position: 'absolute',
+			left: 500,
+			top: 600
+		    })
+		    .change (function () {
+			var val = $ (this).children ().filter (':selected').val ();
+			AGG = val;
+			highlight_subset (highlighted);
+		    });
+		agg_sel.append ('<option value="0">Mean</option>');
+		agg_sel.append ('<option value="1">Max</option>');
+		agg_sel.append ('<option value="2">Min</option>');
+
+		$ ('body').append (agg_sel);*/
+		$.each (order, function (i, v) {
+		    var div = $ ('<div></div>');
+		    var input = $ ('<input type="radio" name="step" />')
+			.attr ('value', i);
+		    div.append (input);
+		    div.append (v);
+		    $ ('#step .container').append (div);
+		});
+		$ ('#step input').first ().attr ('checked', 'checked');
+
+		// Change Time Step
+		$ ('#step input').change (function () {
+		    var val = parseInt ($  (this).val ());
+		    STEP = val;
+		    reset_colors ();
+		});
+
+		// Change Color Ramp
+		$ ('#ramp input').change (function () {
+		    var val = parseInt ($  (this).val ());
+		    color_map.color (val);
+		    reset_colors ();
+		});
+
+		// Change Distribution
+		$ ('#dist input').change (function () {
+		    var val = parseInt ($  (this).val ());
+		    color_map.dist (val);
+		    reset_colors ();
+		});
+
+		// Change Range
+		$ ('#range input').change (function () {
+		    var val = parseInt ($  (this).val ());
+		    color_map.range (val);
+		    reset_colors ();
+		});
+
+		// Change Agg
+		$ ('#agg input').change (function () {
+		    var val = parseInt ($  (this).val ());
+		    AGG = val;
+		    highlight_subset (highlighted);
+		});
+
+		reset_colors ();
+	    }
+	});
+    });
+    </script>
+{{ pass }}
+
+

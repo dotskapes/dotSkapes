@@ -1,0 +1,136 @@
+{{ extend 'layout_noext.html' }}
+<div id="content" style="position: absolute; top: 200px">
+    <div class="tabs" style="position: absolute; left: 0px; top: 0px;" id="tabs1">
+      <a href="#panel">Map</a>
+      <a href="#panel">Time Series</a>
+      <a href="#panel">MDS</a>
+      <a href="#panel">Data Table</a>
+      <div style="height: 500px;" id="panel1">
+      </div>
+    </div>
+    <div class="tabs" style="position: absolute; left: 550px; top: 0px;" id="tabs2">
+      <a href="#panel2">Map</a>
+      <a href="#panel2">Time Series</a>
+      <a href="#panel2">MDS</a>
+      <a href="#panel2">Data Table</a>
+      <div style="height: 500px;" id="panel2">
+      </div>
+    </div>
+    <div class="view" id="map">
+    </div>
+    <div class="view" id="time">
+    </div>
+    <div class="view" id="history">
+    </div>
+    <div class="view" id="table" style="overflow: auto">
+      <div id="table_c">
+      </div>
+    </div>
+    <div id="options" style="position: absolute; overflow-x: auto">
+      <div id="query" style="width: 200px; position: absolute; left: 0px;">
+	<h2>Filter</h2>
+	<div class="container">
+	  <div id="make" style="margin-left: 5px"></div>
+	  <div id="set"></div>
+	</div>
+      </div>
+      
+      <div id="step" style="width: 200px; position: absolute; left: 250px;">
+	<h2>Time Step</h2>
+	<div class="container">
+	  <!--<div>
+	    <input type="radio" name="step" value="0" checked />jan
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="1" />feb
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="2" />mar
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="3" />apr
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="4" />may
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="5" />jun
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="6" />jul
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="7" />aug
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="8" />sep
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="9" />oct
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="10" />nov
+	  </div>
+	  <div>
+	    <input type="radio" name="step" value="11" />dec
+	  </div>-->
+	</div>
+      </div>
+      <div id="ramp" style="width: 200px; position: absolute; left: 500px;">
+	<h2>Color Ramp</h2>
+	<div class="container">
+	  <div>
+	    <input type="radio" name="ramp" value="0" checked /><img style="vertical-align: middle" src="/{{=request.application}}/static/dash/ramp1.png" />
+	  </div>
+	  <div>
+	    <input type="radio" name="ramp" value="1" /><img style="vertical-align: middle" src="/{{=request.application}}/static/dash/ramp2.png" />
+	  </div>
+	  <div>
+	    <input type="radio" name="ramp" value="2" /><img style="vertical-align: middle" src="/{{=request.application}}/static/dash/ramp3.png" />
+	  </div>
+	  <div>
+	    <input type="radio" name="ramp" value="3" /><img style="vertical-align: middle" src="/{{=request.application}}/static/dash/ramp4.png" />
+	  </div>
+	  <div>
+	    <input type="radio" name="ramp" value="4" /><img style="vertical-align: middle" src="/{{=request.application}}/static/dash/ramp5.png" />
+	  </div>
+	</div>
+      </div>
+      <div id="dist" style="width: 200px; position: absolute; left: 750px;">
+	<h2>Color Distribtuion</h2>
+	<div class="container">
+	  <div>
+	    <input type="radio" name="dist" value="0" checked />Quantile
+	  </div>
+	  <div>
+	    <input type="radio" name="dist" value="1" />Uniform
+	  </div>
+	</div>
+      </div>
+      <div id="range" style="width: 200px; position: absolute; left: 1000px;">
+	<h2>Color Scale</h2>
+	<div class="container">
+	  <div>
+	    <input type="radio" name="range" value="0" checked />Local
+	  </div>
+	  <div>
+	    <input type="radio" name="range" value="1" />Global
+	  </div>
+	</div>
+      </div>
+      <div id="agg" style="width: 200px; position: absolute; left: 1250px;">
+        <h2>Aggregate</h2>
+          <div class="container">
+	  <div>
+	    <input type="radio" name="agg" value="0" checked />Mean
+	  </div>
+	  <div>
+	    <input type="radio" name="agg" value="1" />Max
+	  </div>
+	  <div>
+	    <input type="radio" name="agg" value="2" />Min
+	  </div>
+	</div>
+      </div>
+    </div>
+</div>
