@@ -1,0 +1,64 @@
+<link rel="stylesheet" type="text/css" href="/{{=request.application}}/static/styles/plugin_wiki.css" />
+<link rel="stylesheet" href="/{{= request.application }}/static/styles/splash.css" type="text/css" />
+<link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Varela&v2' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica+SC&v2' rel='stylesheet' type='text/css'>
+<script type="text/javascript">
+    $(window).load (function () {
+	var elem = $ ('.hs_map');
+	for (var i = 0; i < elem.length; i ++) {
+            var map_id = elem[i].attr ('map_id');
+            var map = new OpenLayers.Map(elem[i].attr ('id'), {
+		projection: new OpenLayers.Projection("EPSG:900913"),
+		displayProjection: new OpenLayers.Projection("EPSG:4326"),
+	    });
+	    var base = new OpenLayers.Layer.OSM ();
+	    map.addLayer (base);
+	    
+	    var center = new OpenLayers.LonLat (-55.0, -10.0);
+	    var proj4326 = new OpenLayers.Projection('EPSG:4326');
+	    var projection_current = new OpenLayers.Projection('EPSG:900913');
+	    center.transform(proj4326, projection_current);
+	    map.setCenter (center, 4);
+	    var overlay = new OpenLayers.Layer.WMS (
+		"Map",
+		'/{{= request.application }}/geoserver/ows?ID=' + map_id, {
+		    SERVICE: 'WMS',
+		    //layers: 'hsd:br_pop',
+		    transparent: true,
+		    format: "image/png",
+		    projection: 'EPSG:900913',
+		    //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
+		    styles: null,
+		}, {
+		    isBaseLayer: false,
+		    displayOutsideMaxExtent: true,
+		}
+	    );
+	    map.addLayer (overlay);
+	    
+	    $ ('.map_add').click (function () {
+		var map_id = $ (this).attr ('map_id');
+		jQuery.ajax ({
+		    url: '/{{= request.application }}/data/save/maps',
+		    method: 'GET',
+		    dataType: 'json',
+		    data: {
+			id: map_id
+		    },
+		    success: function (data, status, jqXHR) {
+			var nodes = top.hs.app.user.maps.getRootNode ().childNodes;
+			for (var i = 0; i < nodes.length; i ++) {
+			    if (nodes[i].id == map_id) {
+				console.log ("Node Already Exists. Stopping");
+				return false;
+			    }
+			}
+			top.hs.app.user.maps.addChild (data);
+		    },
+		});
+		return false;
+	    });
+	}
+    });
+</script>

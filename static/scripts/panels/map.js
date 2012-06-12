@@ -47,6 +47,7 @@ hs.map = {
 			    projection: 'EPSG:900913',
 			    //sld: 'http://zk.healthscapes.org/healthscapes/static/test.xsd',
 			    styles: null,
+			    buffer: 0
 			},
 			{
 			    isBaseLayer: false,

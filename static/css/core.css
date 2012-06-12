@@ -19,17 +19,16 @@ body {
 h1{
     font-size: 60px;
     text-align: left;
+    padding: 10px 0;  
 }
 
 h2 {  
     font-size: 28px;  
-    line-height: 44px;  
-    padding: 22px 0;  
+    padding: 7px 0;  
 }  
 
 h3 {  
     font-size: 18px;  
-    line-height: 22px;  
     padding: 5px 0;  
 }  
 
@@ -117,6 +116,11 @@ nav a:hover {
 
 #content{
     display:table;
+}
+
+.wiki{
+    width:1000px     !important;
+
 }
 
 #main {

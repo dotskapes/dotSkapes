@@ -49,3 +49,9 @@ def unlink():
     datatype = require_alphanumeric (request.args[0])
     lookup_id = require_alphanumeric (request.vars.get ('id'))
     dm.unlink (datatype, lookup_id)
+
+def tag():
+    datatype = require_alphanumeric (request.args[0])
+    lookup_id = require_alphanumeric (request.vars.get ('id'))
+    kw = require_alphanumeric (request.vars.get ('kw'))
+    dm.tag (datatype, lookup_id, [kw])

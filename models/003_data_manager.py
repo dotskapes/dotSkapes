@@ -35,6 +35,7 @@ class MongoWrapper:
     def public (self):
         result = {}
         result['id'] = str (self.cursor['_id'])
+        result['tags'] = self.cursor['tags']
         for key in self.model.public ():
             if self.cursor.has_key (key.name):
                 result[key.name] = self.cursor[key.name]
@@ -150,10 +151,18 @@ class DataManager:
 
     def global_load (self, datatype, kw = None):
         if not kw:
-            data = self.collections[datatype].find ()
+            data = self.collections[datatype].find ({
+                    'public': True
+                    })
         else:
             kw_regex = kw[0]
-            data = self.collections[datatype].find ({'name': {'$regex': kw_regex, '$options': 'i'}})
+            data = self.collections[datatype].find ({
+                    'public': True,
+                    '$or': [
+                        {'name': {'$regex': kw_regex, '$options': 'i'}},
+                        {'tags':  {'$regex': kw_regex, '$options': 'i'}}
+                        ]
+                                                     })
         return data
 
     def local_load (self, datatype, keywords = None):

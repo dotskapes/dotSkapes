@@ -7,6 +7,10 @@ hs.data = {
 		id: {
 		    visible: false,
 		},
+		tags: {
+		    visible: true,
+		    text: 'Tags',
+		},
 		{{ for field in model.public (): }}
 		{{= field.name }}: {
 		    {{ for k, v in field.display ().iteritems (): }}
