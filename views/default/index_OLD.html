@@ -1,0 +1,79 @@
+{{ extend 'layout_noext.html' }}
+	
+        <div id = 'content'>
+
+		<div id='index'>
+
+		    <div id='main'>
+		    
+			<div id='icons'>
+
+			    <div class='icon'>
+				<a href="{{=URL(r=request, c='wiki', f='tutorials')}}">
+			    	    <img src="{{=URL('static','images/tutorial.png')}}"/>
+			    	    <h3>Tutorials</h3>
+			    	</a>
+			    	<p>Resources for using the dotSkapes platform.</p>
+			    </div>
+
+			    
+			    <div class='icon'>
+				<a href="{{=URL(r=request, c='wiki', f='docs')}}">
+			    	    <img src="{{=URL('static','images/documents.png')}}"/>
+			    	    <h3>Documents</h3>
+			    	</a>
+			    	<p>Our nascent documentation system.</p>
+			    </div>
+			    
+			    <div class='icon'>
+			    	<a href="{{=URL(r=request, c='wiki', f='researcher')}}">
+			    	    <img src="{{=URL('static','images/researcher.png')}}"/>
+			    	    <h3>Researchers</h3>
+			    	</a>
+			    	<p>Resources for researchers interested in using dotSkapes.</p>
+			    </div>
+
+			    <div class='icon'>
+			    	<a href="{{=URL(r=request, c='wiki', f='dev')}}">
+			    	    <img src="{{=URL('static','images/developer.png')}}"/>
+			    	    <h3>Developers</h3>
+			    	</a>
+			    	<p>Resources for viewing source code and submitting tickets.</p>
+			    </div>
+			    
+			    <div class='icon'>
+			    	<a href="{{=URL(r=request, c='wiki', f='case')}}">
+
+			    	    <img src="{{=URL('static','images/casestudy.png')}}"/>
+			    	    <h3>Case Studies</h3>
+			    	</a>
+			    	<p>Examples of dotSkapes in action.</p>
+			    </div>
+			    
+			    <div class='icon'>
+				<a href="{{=URL(r=request, c='about')}}">
+				    <img src="{{=URL('static','images/about.png')}}"/>
+				    <h3>About Us</h3>
+				</a>
+				<p>Information on our development team and collaborators.</p>
+			    </div>
+			    
+			</div>
+		    
+		    </div>
+		    
+		    <aside>
+
+                      {{include 'default/sidebar.html'}}
+		    
+		    </aside>
+
+		</div>
+
+        </div>
+        
+        <div class='clear'></div>
+        
+        <footer>
+            {{include 'footer.html'}}
+        </footer>

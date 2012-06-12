@@ -1,0 +1,223 @@
+/* CSS Reset */
+* {  
+    margin: 0px;  
+    padding: 0px; 
+}
+
+header, footer, aside, nav, article {  
+    display: block;  
+}
+
+body {  
+    margin: 0 auto;  
+    margin-top: 10px;
+    width: 1000px;
+    font-family: 'Varela', sans-serif;
+    font-size: 16px;
+}
+
+h1{
+    font-size: 60px;
+    text-align: left;
+}
+
+h2 {  
+    font-size: 28px;  
+    line-height: 44px;  
+    padding: 22px 0;  
+}  
+
+h3 {  
+    font-size: 18px;  
+    line-height: 22px;  
+    padding: 5px 0;  
+}  
+
+a {
+    color:darkslategray;
+}
+
+p {  
+    padding-bottom: 5px;  
+} 
+
+header {
+    text-align:center;
+    border-bottom: 5px solid #ccc;
+}
+
+header a{
+    display:inline-block;
+}
+
+header .logo{
+    width:100px;
+    height:100px;
+}
+
+header h1{
+    padding-top:13px;
+    padding-left:10px;
+    display:inline-block;
+    vertical-align:top;
+}
+
+nav{
+    margin: 0 auto;
+    height: 43px;
+    border-bottom: 5px solid #ccc;
+    text-align:center;
+}
+
+nav .letter{
+    text-decoration: none;
+    font-size:25px;
+    font-weight:400;
+    width: 90px;
+    height: 30px;
+    display:inline-block;
+    /*    float: left;*/
+    margin: 5px 10px 5px 10px;
+    padding: 0;
+    line-height: 120%;
+    text-align: center;
+    
+    background: #FFFFFF;
+    border: 1px solid #8D9AB0;
+    position:relative;
+
+    -webkit-box-shadow: 3px 3px 8px #386699;        
+    -moz-box-shadow: 3px 3px 8px #386699;
+    box-shadow: 3px 3px 8px #386699;
+    -moz-border-radius-topleft: 20px;
+    -moz-border-radius-topright: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;    
+}
+
+nav a:hover {
+
+    -webkit-box-shadow: 5px 5px 10px #064169;        
+    -moz-box-shadow: 5px 5px 10px #064169;
+    box-shadow: 5px 5px 10px #064169;
+    -moz-border-radius-topleft: 20px;
+    -moz-border-radius-topright: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    
+}
+
+#content{
+    display:table;
+}
+
+#main {
+    display:table-cell;
+    vertical-align:top;
+    width: 680px;
+    padding-right: 20px; 
+}
+
+#main #icons {
+    height: 60%;
+}
+
+#main #icons .icon {
+    margin: 2px;
+    float: left;
+    width: 49%;
+    height: 32%;
+}
+
+#main #icons .icon p {
+    text-indent: 0px;
+    float: left;
+    margin: 10px;
+    width: 130px;
+    height: 110px;
+}
+
+#main #icons .icon a {
+    text-align:center;
+    text-decoration: none;
+    float: left;
+    height: 90%;
+    width: 40%;
+    margin: 10px 0;
+    margin-left: 10px;
+}
+
+#main #icons .icon img {
+    text-align:center;
+}
+
+aside {
+    display: table-cell;  
+    width: 278px;  
+    float: right;
+    padding-left: 20px;
+    height: 100%;
+    border-left: 2px solid #ddd;
+}
+
+aside #twitter{
+    height: 30%;
+    margin-left: 6px;
+}
+
+aside #status{
+    height: 30%;
+    margin-left: 6px;
+}
+
+aside #events{
+    height: 40%;
+    margin-left: 6px;
+}
+
+aside #blog {
+    height: 39%;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 6px;
+    overflow: auto;
+}
+
+aside #blog .title{
+
+}
+
+aside #blog ul {
+    list-style-type:none;
+    padding-left: 5px;
+}
+
+aside #blog li{
+        padding-top:8px;
+}
+
+aside #blog h3{
+    padding: 0px;
+}
+
+aside #blog p {
+    text-align: left;
+    line-height: 26px;
+}
+
+aside #blog .date{
+    font-size:12px;
+    color:gray;
+}
+
+footer {
+    border-top: 5px solid #ccc;
+    border-bottom: 5px solid #ccc;
+}

@@ -1,0 +1,38 @@
+<br />
+
+<div id='events'>
+  <div id="coin-slider">
+    <a href="#" target="_blank">
+      <img src="{{=URL('static','images/hs-screenshot1.png')}}" >
+      <span>
+	Ecohealth London 2010 (pre-alpha)
+      </span>
+    </a>
+    <a href="#" target="_blank">
+      <img src="{{=URL('static','images/hs-screenshot2.png')}}" >
+      <span>
+	Amazon analysis (alpha)
+      </span>
+    </a>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+  $('#coin-slider').coinslider({ width: 400, height: 255, hoverPause: true, links : false, effect: '', navigation: true, delay: 5000 });
+  });
+</script>
+
+
+<div id='blog'>
+  <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Recent blog posts</a></h3>
+  {{ pages = blog_list()}}
+  <ul>
+    {{for item in pages:}}
+    <li>
+      <a class="title" href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [item.slug, 'view'])}}">{{= item.title }}</a>
+      <p class="date">{{= item.date}}</p>
+    </li>
+    {{pass}}
+  </ul>
+</div>

@@ -1,0 +1,8 @@
+{{ extend 'layout_noext.html' }}
+	
+<div id='content'>
+  {{= form }}
+  {{ if request.args[0] == 'login': }}
+  <a href="{{= URL (r = request, args = ['register']) }}">Register</a>
+  {{ pass }}
+</div>

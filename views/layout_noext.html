@@ -6,34 +6,34 @@
 <!doctype html>  
 <html> 
   <head>
-
+    <title>The dotSkapes Project</title>
     <link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
 
+    {{ include 'web2py_ajax.html' }}
+    {{ include 'head.html' }}
 
-      {{ include 'web2py_ajax.html' }}
-      {{ include 'head.html' }}
+  </head>
 
-    </head>
-    <body>
-      <div class="flash">{{=response.flash or ''}}</div>
+  <body>
+    <div class="flash">{{=response.flash or ''}}</div>
 
-      <div id="main_panel">
+    <header>
+      {{include 'header.html'}}
+    </header>
 
-        <div id='home'>
-          
-          <div id='wrapper'>
-            
-            <div id = 'header'>
-              {{include 'header.html'}}
-	    </div>
+    <nav>
+      {{include 'nav.html'}}
+    </nav>
 
-            {{ include }}
+    {{include}}
 
-	  </div>
-        </div>
-      </div>
-    </body>
+    <footer>
+      {{include 'footer.html'}}
+    </footer> 
 
 
+  </body>
 
-  </html>
+
+
+</html>

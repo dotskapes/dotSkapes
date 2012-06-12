@@ -9,7 +9,7 @@ auth = Auth(globals(), db)
 auth.define_tables()                          
 
 auth.settings.create_user_groups = False
-auth.settings.actions_disabled = ['register', 'request_reset_password']
+auth.settings.actions_disabled = ['request_reset_password']
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.register_next = URL (a = request.application, c = 'default',  f = 'register')

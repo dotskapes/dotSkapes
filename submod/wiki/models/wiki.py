@@ -413,3 +413,17 @@ def newest_page_preview ():
         return split_page (pages[0], 75)
     else:
         return None
+
+def blog_list ():
+    cat = MongoWrapper (mongo.categories.find_one ({'blog': True}))
+    query = {
+        'public': True,
+        'categories': {
+            '$in': [cat._id]
+            }
+        }
+    pages = MongoCursorWrapper (mongo.blog.find (query).sort ('date', pymongo.DESCENDING))
+    if len (pages):
+        return pages[0:3]
+    else:
+        return None

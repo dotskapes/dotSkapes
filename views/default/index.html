@@ -1,153 +1,66 @@
 {{ extend 'layout_noext.html' }}
-	
-        <div id = 'content'>
 
-		<div id='index'>
+<section id="intro">  
+  <!-- Introduction -->  
+</section>  
 
-		    <div id='main'>
-		    
-			<div id='icons'>
+<section id="content">
+<section id="main">  		    
+  <div id='icons'>
 
-			    <div class='icon'>
-				<a href="{{=URL(r=request, c='wiki', f='tutorials')}}">
-			    	    <img src="{{=URL('static','images/tutorial.png')}}"/>
-			    	    <h3>Tutorials</h3>
-			    	</a>
-			    	<p>Resources for using the dotSkapes platform.</p>
-			    </div>
+    <div class='icon'>
+      <a href="{{=URL(r=request, c='wiki', f='tutorials')}}">
+	<img src="{{=URL('static','images/tutorial.png')}}"/>
+	<h3>Tutorials</h3>
+      </a>
+      <p>Resources for using the dotSkapes platform.</p>
+    </div>
 
-			    
-			    <div class='icon'>
-				<a href="{{=URL(r=request, c='wiki', f='docs')}}">
-			    	    <img src="{{=URL('static','images/documents.png')}}"/>
-			    	    <h3>Documents</h3>
-			    	</a>
-			    	<p>Our nascent documentation system.</p>
-			    </div>
-			    
-			    <div class='icon'>
-			    	<a href="{{=URL(r=request, c='wiki', f='researcher')}}">
-			    	    <img src="{{=URL('static','images/researcher.png')}}"/>
-			    	    <h3>Researchers</h3>
-			    	</a>
-			    	<p>Resources for researchers interested in using dotSkapes.</p>
-			    </div>
-
-			    <div class='icon'>
-			    	<a href="{{=URL(r=request, c='wiki', f='dev')}}">
-			    	    <img src="{{=URL('static','images/developer.png')}}"/>
-			    	    <h3>Developers</h3>
-			    	</a>
-			    	<p>Resources for viewing source code and submitting tickets.</p>
-			    </div>
-			    
-			    <div class='icon'>
-			    	<a href="{{=URL(r=request, c='wiki', f='case')}}">
-
-			    	    <img src="{{=URL('static','images/casestudy.png')}}"/>
-			    	    <h3>Case Studies</h3>
-			    	</a>
-			    	<p>Examples of dotSkapes in action.</p>
-			    </div>
-			    
-			    <div class='icon'>
-				<a href="{{=URL(r=request, c='about')}}">
-				    <img src="{{=URL('static','images/about.png')}}"/>
-				    <h3>About Us</h3>
-				</a>
-				<p>Information on our development team and collaborators.</p>
-			    </div>
-			    
-			</div>
-		    
-		    </div>
-		    
-		    <div id='sidebar'>
-
-			<div id='blog'>
-			  <h3><a href="{{=URL(r=request, c='wiki', f='blog')}}" style='text-decoration:none'>Recent blog posts</a></
-			    <p>
-			      {{ page = newest_page_preview () }}
-			      <h2 class="title">{{= page.title }}</h2>
-			      {{= plugin_wiki.render(page.body) }}
-			      {{ if page.more: }}<p style="text-align: right; margin-bottom: 20px;"><a href="{{= URL (r = request, c = 'wiki', f = 'blog', args = [page.slug, 'view'])}}">MORE &#187;</a></p>{{ pass }}
-			    </p>
-			</div>
-		    
-			<!-- <div id='twitter'> -->
-		
-			<!--     <script src="http://widgets.twimg.com/j/2/widget.js"></script> -->
-			<!--     <script> -->
-			<!--     new TWTR.Widget({ -->
-			<!--       version: 2, -->
-			<!--       type: 'profile', -->
-			<!--       rpp: 2, -->
-			<!--       interval: 6000, -->
-			<!--       width: 'auto', -->
-			<!--       height: 115, -->
-			<!--       theme: { -->
-			<!-- 	shell: { -->
-			<!-- 	  background: '#e0e0e0', -->
-			<!-- 	  color: '#75acff' -->
-			<!-- 	}, -->
-			<!-- 	tweets: { -->
-			<!-- 	  background: '#f5f5f5', -->
-			<!-- 	  color: '#000000', -->
-			<!-- 	  links: '#aea3ff' -->
-			<!-- 	} -->
-			<!--       }, -->
-			<!--       features: { -->
-			<!-- 	scrollbar: true, -->
-			<!-- 	loop: false, -->
-			<!-- 	live: false, -->
-			<!-- 	hashtags: true, -->
-			<!-- 	timestamp: true, -->
-			<!-- 	avatars: false, -->
-			<!-- 	behavior: 'all' -->
-			<!--       } -->
-			<!--     }).render().setUser('dotskapes').start(); -->
-			<!--     </script> -->
-			    
-			<!-- </div> -->
-		
-<br />
-		
-			<div id='events'>
-			    <div id="coin-slider">
-				<a href="#" target="_blank">
-				    <img src="{{=URL('static','images/hs-screenshot1.png')}}" >
-				    <span>
-				        Ecohealth London 2010 (pre-alpha)
-				    </span>
-				</a>
-				<a href="#" target="_blank">
-				    <img src="{{=URL('static','images/hs-screenshot2.png')}}" >
-				    <span>
-				        Amazon analysis (alpha)
-				    </span>
-				</a>
-			    </div>
-			</div>
-		
-			<script type="text/javascript">
-			    $(document).ready(function() {
-				$('#coin-slider').coinslider({ width: 400, height: 255, hoverPause: true, links : false, effect: '', navigation: true, delay: 5000 });
-			    });
-			</script>
-
-		
-		    
-		    </div>
-
-		</div>
-
-        </div>
-        
-        <div class='clear'></div>
-        
-        <div id = 'footer'>
-            {{include 'default/footer.html'}}
-        </div>
     
+    <div class='icon'>
+      <a href="{{=URL(r=request, c='wiki', f='docs')}}">
+	<img src="{{=URL('static','images/documents.png')}}"/>
+	<h3>Documents</h3>
+      </a>
+      <p>Our nascent documentation system.</p>
+    </div>
     
+    <div class='icon'>
+      <a href="{{=URL(r=request, c='wiki', f='researcher')}}">
+	<img src="{{=URL('static','images/researcher.png')}}"/>
+	<h3>Researchers</h3>
+      </a>
+      <p>Resources for researchers interested in using dotSkapes.</p>
+    </div>
 
+    <div class='icon'>
+      <a href="{{=URL(r=request, c='wiki', f='dev')}}">
+	<img src="{{=URL('static','images/developer.png')}}"/>
+	<h3>Developers</h3>
+      </a>
+      <p>Resources for viewing source code and submitting tickets.</p>
+    </div>
+    
+    <div class='icon'>
+      <a href="{{=URL(r=request, c='wiki', f='case')}}">
+
+	<img src="{{=URL('static','images/casestudy.png')}}"/>
+	<h3>Case Studies</h3>
+      </a>
+      <p>Examples of dotSkapes in action.</p>
+    </div>
+    
+    <div class='icon'>
+      <a href="{{=URL(r=request, c='about')}}">
+	<img src="{{=URL('static','images/about.png')}}"/>
+	<h3>About Us</h3>
+      </a>
+      <p>Information on our development team and collaborators.</p>
+    </div>
+    
+</section>
+
+<aside>  
+  {{include 'default/sidebar.html'}}
+</aside>  
+</section>
