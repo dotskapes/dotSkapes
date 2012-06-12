@@ -2,17 +2,13 @@
 {{ if not globals ().has_key ('hs_component'): }}
 {{ hs_component = None }}
 {{ pass }}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<!doctype html>  
+<html> 
   <head>
-    <style>div#head_panel a {padding: 5px;}</style>
 
     <link rel="shortcut icon" href="{{=URL('static','favicon.ico')}}" type="image/x-icon">
 
-      {{response.files.append(URL('static','css/base.css'))}}
-      {{response.files.append(URL('static','css/layout.css'))}}
-      {{response.files.append(URL('static','css/superfish.css'))}}
-      {{response.files.append(URL('static','js/superfish.js'))}}
 
       {{ include 'web2py_ajax.html' }}
       {{ include 'head.html' }}

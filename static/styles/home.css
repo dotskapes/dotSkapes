@@ -12,6 +12,8 @@
 
 /* header.html section */
 
+div#head_panel a {padding: 5px;}
+
 #home #header {
     margin: 0 auto;
     height: 120px;
@@ -70,7 +72,6 @@
 /*    font-family: 'IM Fell DW Pica SC', serif; */
     width: 700px;
     height: 30px;
-    float: left;
     margin: 10px 45px 60px 0;
     padding: 0;
     line-height: 120%;
