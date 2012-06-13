@@ -213,7 +213,7 @@ aside #blog h3{
 
 aside #blog p {
     text-align: left;
-    line-height: 26px;
+    padding-bottom: 5px;
 }
 
 aside #blog .date{

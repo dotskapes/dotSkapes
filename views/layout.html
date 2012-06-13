@@ -132,7 +132,7 @@
         {{ if not vars.side_bar: }}{
         xtype: 'panel',
 
-        html: '<div style="text-align: center;"><!--<a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or--><a href="{{=URL (scheme='http', a=request.application, c='default', f='user', args=['login'])}}">Login</a> with Gmail to activate your sidebar</div>',
+        html: '<div style="text-align: center;"><!--<a href="{{=URL (a=request.application, c='default', f='user', args=['register'])}}">Register</a> or--><a href="{{=URL (scheme='http', a=request.application, c='default', f='user', args=['login'])}}">Login</a> to activate your sidebar</div>',
 
         border: false,
         padding: 10,
@@ -152,7 +152,7 @@
         ],
     });
     win = new Ext.Viewport ({
-        title: 'skapes v0.4.2',
+        title: 'skapes v0.5',
         //layoutOnChange: true,
         //collapsible: false,
         //maximizable: true,
@@ -162,7 +162,7 @@
         id: 'main_window',
         items:  [
         {
-        title: 'Skapes v0.4.2',
+        title: 'Skapes v0.5',
         height: 'autoHeight',
         region: 'north',
         border: false,
