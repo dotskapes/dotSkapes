@@ -5,6 +5,8 @@
 *~
 #*
 *.bak
+models/002_auth.py
+static/dash/webgl_maps
 cache/*
 cron/crontab
 databases/*
