@@ -116,3 +116,11 @@ def describe_tmp():
     lookup_id = request.vars.get ('id')
     data = dm.get ('maps', lookup_id)
     return urlopen (data.src + '?service=WFS&request=DescribeFeatureType&typename=' + data.prefix + ':' + data.filename + '&version=1.1.0').read ()
+
+def export():
+    import base64
+    raw_data = request.body.read ()
+    data = raw_data[raw_data.index (','):]
+    response.headers['Content-type'] ='image/png'
+    #response.headers['Content-Disposition'] = 'attachment; filename="webgl_map.png"'
+    return base64.decodestring (data)

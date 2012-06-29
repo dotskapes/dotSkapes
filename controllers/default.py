@@ -5,6 +5,15 @@ def index():
 def about():
     return dict()
 
+def privacy():
+    return dict()
+
+def terms():
+    return dict()
+
+def register():
+    redirect (URL (r = request, c = 'default', f = 'index'))
+
 def user():
     """
     exposes:
@@ -19,8 +28,6 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
-    return dict(form=auth())
-
     from uuid import uuid4
     if deployment_settings.dev_mode.enabled:
         psswd = uuid4 ().hex

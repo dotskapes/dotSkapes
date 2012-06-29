@@ -12,36 +12,15 @@ def load():
         if not rec:
             return '{data: ' + dm.global_load (datatype, [kw]).json () + '}'
         else:
-            result = db.executesql ('''
-            SELECT keyword.kw, counts.counts 
-            FROM (SELECT keycount.kw_id, keycount.counts 
-               FROM (SELECT id 
-                  FROM disease 
-                  WHERE d = '%s') AS diseases
-               INNER JOIN keycount
-               ON keycount.d_id = diseases.id) AS counts
-            INNER JOIN keyword
-            ON keyword.id = counts.kw_id;
-            ''' % (kw,))
-
-            lookup = set ()
-            def reducer (item):
-                if item['id'] in lookup:
-                    return False
-                else:
-                    lookup.add (item['id'])
-                    return True
-
-            rList = dm.load_keyworded (datatype, kw)
-            for item in rList:
-                lookup.add (item['id'])
-
-            for r in result:
-                val = r[0]
-                next = dm.load_keyworded (datatype, val)
-                filtered = filter (reducer, next)
-                rList += filtered
-            return '{data:' + rList.json () + '}'
+            result = mongo.words.find ({'word': kw})
+            if not result.count ():
+                return '{data:[]}'
+            keys = result[0]['kw'].items ()
+            keys.sort (key = lambda x: x[1])
+            keys.reverse ()
+            top = len (keys) / 4
+            words = map (lambda x: x[0], keys[0:top])
+            return '{data: ' + dm.global_load (datatype, words).json () + '}'
     else:
         return '{data: ' + dm.global_load (datatype).json () + '}'
 
