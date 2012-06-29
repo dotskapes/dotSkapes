@@ -155,16 +155,16 @@ class DataManager:
                     'public': True
                     })
         else:
-            kw_regex = kw[0]
+            query = []
+            for kw_regex in kw:
+                query.append ({'name': {'$regex': kw_regex, '$options': 'i'}})
+                query.append ({'tags':  {'$regex': kw_regex, '$options': 'i'}})
             data = self.collections[datatype].find ({
                     'public': True,
-                    '$or': [
-                        {'name': {'$regex': kw_regex, '$options': 'i'}},
-                        {'tags':  {'$regex': kw_regex, '$options': 'i'}}
-                        ]
-                                                     })
+                    '$or': query
+                    })
         return data
-
+    
     def local_load (self, datatype, keywords = None):
         user = dm.user ()
         if not user.has_key (datatype):
