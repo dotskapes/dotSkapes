@@ -5,6 +5,9 @@
 *~
 #*
 *.bak
+static/dash
+views/dash
+controllers/dash
 models/002_auth.py
 static/dash/webgl_maps
 cache/*
